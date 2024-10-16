@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ValidateMeter"
+    android:padding="20dp"
+    android:background="@color/white">
+
+    <RelativeLayout
+        android:id="@+id/backRelative"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/backImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/_arrow_left_24"
+            android:contentDescription="@string/back_arrow" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/back"
+            android:textAppearance="@style/back"
+            android:layout_toEndOf="@id/backImage"
+            android:layout_centerVertical="true"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/verifyRelative"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/backRelative"
+        android:layout_marginTop="30dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true">
+
+        <TextView
+            android:id="@+id/verify_your"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/verify_your"
+            android:textStyle="bold"
+            android:textSize="22sp"
+            android:textColor="@color/black"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/provide_meter_verify"
+            android:layout_below="@id/verify_your"
+            android:textSize="15sp"
+            android:textColor="@color/someText"
+            android:translationY="-2.53sp"
+            android:layout_marginTop="5dp"/>
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/meterText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/meter_number"
+        android:layout_below="@id/verifyRelative"
+        android:textSize="15sp"
+        android:textColor="@color/edit"
+        android:layout_marginTop="28sp"
+        android:textStyle="bold"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/inputLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/meterText"
+        app:errorTextColor="@color/red"
+        app:errorIconTint="@color/red"
+        app:errorIconDrawable="@drawable/baseline_error_outline_24">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/meterInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/enter_your_meter_number"
+            android:background="@drawable/gray_background"
+            android:inputType="number"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:id="@+id/validatedButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/inputLayout"
+        android:backgroundTint="@color/primary"
+        android:text="@string/submit"
+        android:layout_marginTop="24dp"/>
+
+</RelativeLayout>
