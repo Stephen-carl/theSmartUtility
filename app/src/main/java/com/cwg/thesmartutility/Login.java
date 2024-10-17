@@ -12,6 +12,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.android.volley.RequestQueue;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -27,6 +28,7 @@ public class Login extends AppCompatActivity {
     TextInputEditText emailPhoneInput, passwordInputText;
     TextInputLayout emailPhoneLayout, passwordLayout;
     String EmailPhone, Pass;
+    RequestQueue requestQueue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,8 +50,11 @@ public class Login extends AppCompatActivity {
         emailPhoneLayout = findViewById(R.id.loginEmailInputLayout);
         passwordLayout = findViewById(R.id.loginPasswordInputLayout);
 
-        forgotPassword.setOnClickListener(v -> {
+        requestQueue = VolleySingleton.getmInstance(getApplicationContext()).getRequestQueue();
 
+        forgotPassword.setOnClickListener(v -> {
+            Intent intent = new Intent(this, ForgotPassword.class);
+            startActivity(intent);
         });
 
         signUpText.setOnClickListener(v -> {

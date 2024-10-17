@@ -2,53 +2,39 @@ package com.cwg.thesmartutility;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.ContactsContract;
-import android.widget.Button;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-import androidx.recyclerview.widget.RecyclerView;
 
-import com.android.volley.RequestQueue;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
 
-public class UserDashboard extends AppCompatActivity {
-
-    RelativeLayout historyRelative;
-    RecyclerView historyRecycler;
-    TextInputEditText tokenAmountInput;
-    TextInputLayout tokenInputLayout;
-    Button purchaseButton;
-    TextView meterText;
-    RequestQueue requestQueue;
-    BottomNavigationView bottomNavigationView;
+public class UserProfile extends AppCompatActivity {
+    BottomNavigationView userProfileBottom;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.user_dashboard);
+        setContentView(R.layout.user_profile);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
 
-        // ids
-        bottomNavigationView = findViewById(R.id.userDashNav);
-        bottomNavigationView.setSelectedItemId(R.id.homeIcon);
+        userProfileBottom = findViewById(R.id.userProfileNav);
+        userProfileBottom.setSelectedItemId(R.id.profileIcon);
 
-        bottomNavigationView.setOnItemSelectedListener(item -> {
+        userProfileBottom.setOnItemSelectedListener(item -> {
             int itemID = item.getItemId();
 
             if (itemID == R.id.homeIcon){
+                startActivity(new Intent(this, UserDashboard.class));
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                finish();
                 return true;
             } else if (itemID == R.id.historyIcon) {
                 startActivity(new Intent(this, History.class));
@@ -56,9 +42,6 @@ public class UserDashboard extends AppCompatActivity {
                 finish();
                 return true;
             } else if (itemID == R.id.profileIcon) {
-                startActivity(new Intent(this, UserProfile.class));
-                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-                finish();
                 return true;
             }
             return false;

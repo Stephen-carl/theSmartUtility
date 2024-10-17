@@ -10,12 +10,17 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 public class ValidateMeter extends AppCompatActivity {
@@ -24,6 +29,8 @@ public class ValidateMeter extends AppCompatActivity {
     TextInputLayout inputLayout;
     String MeterInput;
     Button validateButton;
+    RequestQueue requestQueue;
+    String token;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +48,8 @@ public class ValidateMeter extends AppCompatActivity {
         validateButton = findViewById(R.id.validatedButton);
         inputLayout = findViewById(R.id.inputLayout);
 
+        requestQueue = VolleySingleton.getmInstance(getApplicationContext()).getRequestQueue();
+
         validateButton.setOnClickListener(v -> {
             // check empty input
             MeterInput = Objects.requireNonNull(meterInput.getText()).toString().trim();
@@ -57,10 +66,32 @@ public class ValidateMeter extends AppCompatActivity {
 
     private void validate(String meterNumber) {
         String validate_url = "";
-        JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("meterID", meterNumber);
-        }catch (JSONException e){
+
+
+            JSONObject jsonObjRequest = new JSONObject();
+            try {
+                jsonObjRequest.put("meterID", meterNumber);
+
+            } catch (JSONException e) {
+                Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+            JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.POST, validate_url, jsonObjRequest, response -> {
+
+            }, error -> {
+
+            })
+                // this will be used mainly in the screens that are calling protected api
+            {
+                @Override
+                public Map<String, String> getHeaders() {
+                    Map<String, String> headers = new HashMap<>();
+                    headers.put("Authorization", "Bearer " + token);  // Send JWT in Authorization header
+                    return headers;
+                }
+            };
+            requestQueue.add(jsonRequest);
+        } catch (Exception e){
             Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
 

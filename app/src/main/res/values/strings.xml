@@ -25,5 +25,9 @@
     <string name="token_amount">Token Amount</string>
     <string name="history">History</string>
     <string name="view_all">View All</string>
+    <string name="no_history">No History</string>
+    <string name="check_back_later">Check back later.</string>
+    <string name="home">Home</string>
+    <string name="profile">Profile</string>
 
 </resources>

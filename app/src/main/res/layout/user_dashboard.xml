@@ -187,13 +187,13 @@
             android:layout_height="wrap_content"
             android:background="@drawable/charging_meter"
             android:contentDescription="empty logo"
-            android:layout_centerInParent="true"/>
+            android:layout_centerInParent="true" />
 
         <TextView
             android:id="@+id/noHistory"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="No History"
+            android:text="@string/no_history"
             android:textStyle="bold"
             android:textColor="@color/black"
             android:textSize="16sp"
@@ -203,7 +203,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Check back later."
+            android:text="@string/check_back_later"
             android:textColor="@color/someText"
             android:textSize="16sp"
             android:layout_below="@id/noHistory"
@@ -211,5 +211,27 @@
             />
 
     </RelativeLayout>
+
+<!--    <com.google.android.material.bottomnavigation.BottomNavigationView-->
+<!--        android:id="@+id/dashNav"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_alignParentBottom="true"-->
+<!--        android:background="@color/white"-->
+<!--        android:elevation="2dp"-->
+<!--        app:menu="@menu/bottom_menu"-->
+<!--        style="@style/Widget.MaterialComponents.BottomNavigationView"-->
+
+<!--        />-->
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/userDashNav"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        app:menu="@menu/bottom_menu"
+        android:background="@color/white"
+        android:elevation="2dp"
+        app:itemIconTint="@drawable/item_selector"
+        style="@style/Widget.MaterialComponents.BottomNavigationView"/>
 
 </RelativeLayout>

@@ -10,6 +10,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.android.volley.RequestQueue;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -24,6 +25,7 @@ public class ForgotPassword extends AppCompatActivity {
     TextInputEditText emailEditText;
     Button forgotButton;
     private String Email;
+    RequestQueue requestQueue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +42,8 @@ public class ForgotPassword extends AppCompatActivity {
         textInputLayout = findViewById(R.id.forgotEmailInputLayout);
         emailEditText = findViewById(R.id.forgotEmailInput);
         forgotButton = findViewById(R.id.forgotButton);
+
+        requestQueue = VolleySingleton.getmInstance(getApplicationContext()).getRequestQueue();
 
         forgotButton.setOnClickListener(v -> {
             Email = Objects.requireNonNull(emailEditText.getText()).toString().trim();

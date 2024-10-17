@@ -10,6 +10,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.android.volley.RequestQueue;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -24,6 +25,7 @@ public class ChangePassword extends AppCompatActivity {
     TextInputLayout newPassLayout, conPassLayout;
     Button changeButton;
     String NewPass, ConNewPassword;
+    RequestQueue requestQueue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +44,7 @@ public class ChangePassword extends AppCompatActivity {
         newPassLayout = findViewById(R.id.changePasswordInputLayout);
         conPassLayout = findViewById(R.id.changeConfirmInputLayout);
         changeButton = findViewById(R.id.chnageButton);
+        requestQueue = VolleySingleton.getmInstance(getApplicationContext()).getRequestQueue();
 
         changeButton.setOnClickListener(v -> {
             init();

@@ -12,6 +12,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.android.volley.RequestQueue;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -27,6 +28,7 @@ public class Register extends AppCompatActivity {
     String EmailText, PhoneText, PasswordText, ConfirmText;
     Button registerButton;
     TextView loginText;
+    RequestQueue requestQueue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +52,8 @@ public class Register extends AppCompatActivity {
         confirmInput = findViewById(R.id.confirmInput);
         registerButton = findViewById(R.id.createButton);
         loginText = findViewById(R.id.signText);
+
+        requestQueue = VolleySingleton.getmInstance(getApplicationContext()).getRequestQueue();
 
         loginText.setOnClickListener(v -> {
             Intent intent = new Intent(Register.this, Login.class);
