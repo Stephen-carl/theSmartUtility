@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Register"
-    android:padding="20dp"
-    android:background="@color/white">
+    tools:context=".auth.Register"
+    >
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="20dp"
+        android:background="@color/white">
 
     <RelativeLayout
         android:id="@+id/verifyRelative"
@@ -76,7 +80,39 @@
                 android:hint="Enter Your email address"
                 android:background="@drawable/gray_background"
                 android:inputType="textEmailAddress"
-                android:textColorHint="@color/hintColor"/>
+                android:textColorHint="@color/hintColor"
+                android:textColor="@color/black"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/nameText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Name"
+            android:textSize="15sp"
+            android:textColor="@color/edit"
+            android:textStyle="bold"
+            android:layout_below="@id/mailInputLayout"
+            android:layout_marginTop="10dp"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/nameInputLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/nameText"
+            app:hintTextColor="@color/hintColor"
+            app:errorTextColor="@color/red"
+            app:errorIconTint="@color/red"
+            app:errorIconDrawable="@drawable/baseline_error_outline_24">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/nameInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter Your Name"
+                android:background="@drawable/gray_background"
+                android:inputType="text"
+                android:textColorHint="@color/hintColor"
+                android:textColor="@color/black"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
@@ -87,8 +123,8 @@
             android:textSize="15sp"
             android:textColor="@color/edit"
             android:textStyle="bold"
-            android:layout_below="@id/mailInputLayout"
-            android:layout_marginTop="24dp"/>
+            android:layout_below="@id/nameInputLayout"
+            android:layout_marginTop="10dp"/>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/phoneInputLayout"
@@ -107,6 +143,7 @@
                 android:background="@drawable/gray_background"
                 android:inputType="number"
                 android:textColorHint="@color/hintColor"
+                android:textColor="@color/black"
                 android:maxLength="11"/>
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -119,7 +156,7 @@
             android:textColor="@color/edit"
             android:textStyle="bold"
             android:layout_below="@id/phoneInputLayout"
-            android:layout_marginTop="24dp"/>
+            android:layout_marginTop="10dp"/>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/passwordInputLayout"
@@ -130,14 +167,17 @@
             app:passwordToggleEnabled="true"
             app:errorTextColor="@color/red"
             app:errorIconTint="@color/red"
-            app:errorIconDrawable="@drawable/baseline_error_outline_24">
+            app:errorIconDrawable="@drawable/baseline_error_outline_24"
+            app:passwordToggleTint="@color/passwordTint">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/passwordInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Create new password"
                 android:background="@drawable/gray_background"
-                android:textColorHint="@color/hintColor"/>
+                android:textColorHint="@color/hintColor"
+                android:textColor="@color/black"
+                android:inputType="textPassword"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
@@ -149,7 +189,7 @@
             android:textColor="@color/edit"
             android:textStyle="bold"
             android:layout_below="@id/passwordInputLayout"
-            android:layout_marginTop="24dp"/>
+            android:layout_marginTop="10dp"/>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/confirmInputLayout"
@@ -160,15 +200,17 @@
             app:errorTextColor="@color/red"
             app:errorIconTint="@color/red"
             app:errorIconDrawable="@drawable/baseline_error_outline_24"
-            app:passwordToggleEnabled="true">
+            app:passwordToggleEnabled="true"
+            app:passwordToggleTint="@color/passwordTint">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/confirmInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Confirm new password"
                 android:background="@drawable/gray_background"
-                android:inputType="number"
-                android:textColorHint="@color/hintColor"/>
+                android:inputType="textPassword"
+                android:textColorHint="@color/hintColor"
+                android:textColor="@color/black" />
         </com.google.android.material.textfield.TextInputLayout>
 
     </RelativeLayout>
@@ -180,7 +222,8 @@
         android:layout_below="@id/inputRelative"
         android:backgroundTint="@color/primary"
         android:text="@string/create_account"
-        android:layout_marginTop="24dp"/>
+        android:textColor="@color/white"
+        android:layout_marginTop="15dp"/>
 
     <RelativeLayout
         android:id="@+id/signRelative"
@@ -209,5 +252,5 @@
             android:layout_marginStart="5dp"/>
 
     </RelativeLayout>
-
-</RelativeLayout>
+    </RelativeLayout>
+</ScrollView>

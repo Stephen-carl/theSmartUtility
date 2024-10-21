@@ -1,4 +1,4 @@
-package com.cwg.thesmartutility;
+package com.cwg.thesmartutility.auth;
 
 import android.os.Bundle;
 import android.widget.Button;
@@ -11,6 +11,8 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.android.volley.RequestQueue;
+import com.cwg.thesmartutility.R;
+import com.cwg.thesmartutility.VolleySingleton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -44,7 +46,7 @@ public class ChangePassword extends AppCompatActivity {
         newPassLayout = findViewById(R.id.changePasswordInputLayout);
         conPassLayout = findViewById(R.id.changeConfirmInputLayout);
         changeButton = findViewById(R.id.chnageButton);
-        requestQueue = VolleySingleton.getmInstance(getApplicationContext()).getRequestQueue();
+        //requestQueue = VolleySingleton.getmInstance(getApplicationContext()).getRequestQueue();
 
         changeButton.setOnClickListener(v -> {
             init();

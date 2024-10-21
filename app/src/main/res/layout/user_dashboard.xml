@@ -6,8 +6,9 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".UserDashboard"
-    android:background="@color/white">
+    tools:context=".user.UserDashboard"
+    android:background="@color/white"
+    android:fitsSystemWindows="true">
 
     <RelativeLayout
         android:id="@+id/headerBackground"
@@ -27,23 +28,15 @@
             android:id="@+id/smart"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Smart"
+            android:text="SMART \nUTILITY"
             android:textSize="16sp"
             android:textColor="@color/white"
             android:textStyle="bold"
             android:layout_toEndOf="@id/imagelogo"
-            android:layout_marginStart="5dp"/>
-        <TextView
-            android:id="@+id/utility"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Utility"
-            android:textSize="16sp"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            android:layout_below="@id/smart"
-            android:layout_toEndOf="@id/imagelogo"
-            android:layout_marginStart="5dp"/>
+            android:layout_marginStart="5dp"
+            android:layout_alignTop="@id/imagelogo"
+            android:layout_alignBottom="@id/imagelogo"
+            android:gravity="center_vertical"/>
 
         <TextView
             android:id="@+id/meterText"
@@ -56,15 +49,31 @@
             android:layout_below="@id/imagelogo"
             android:layout_marginTop="16dp"/>
 
-        <TextView
-            android:id="@+id/meterNumberText"
+        <RelativeLayout
+            android:id="@+id/copyRelative"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Meter Number"
-            android:textSize="15sp"
-            android:textColor="@color/white"
             android:layout_below="@id/meterText"
-            android:layout_marginTop="5dp"/>
+            android:layout_marginTop="5dp"
+            android:paddingVertical="5dp"
+            android:paddingHorizontal="10dp"
+            android:background="@drawable/border_lining">
+            <TextView
+                android:id="@+id/meterNumberText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/text_example"
+                android:textSize="15sp"
+                android:textColor="@color/white"
+                android:textIsSelectable="true" />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/copy_white_icon"
+                android:layout_toEndOf="@id/meterNumberText"
+                android:contentDescription="copy icon"
+                android:layout_marginStart="3dp"/>
+        </RelativeLayout>
 
     </RelativeLayout>
 
@@ -73,7 +82,7 @@
         android:id="@+id/tokenCard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="-80dp"
+        android:layout_marginTop="-90dp"
         android:layout_below="@id/headerBackground"
         android:background="@color/white"
         android:layout_marginHorizontal="20dp"
@@ -83,7 +92,9 @@
             android:id="@+id/tokenRelative"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="20dp">
+            android:paddingHorizontal="15dp"
+            android:paddingVertical="10dp"
+            android:background="@color/white">
         <RelativeLayout
             android:id="@+id/emailRelative"
             android:layout_width="match_parent"
@@ -113,7 +124,9 @@
                 android:layout_height="wrap_content"
                 android:hint="Enter amount"
                 android:background="@drawable/gray_background"
-                android:textColorHint="@color/hintColor"/>
+                android:textColorHint="@color/hintColor"
+                android:inputType="number"
+                android:textColor="@color/black"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
@@ -123,7 +136,8 @@
             android:layout_below="@id/tokenInputLayout"
             android:backgroundTint="@color/primary"
             android:text="Purchase"
-            android:layout_marginTop="24dp"/>
+            android:textColor="@color/white"
+            android:layout_marginTop="15dp"/>
 
         </RelativeLayout>
 
@@ -135,7 +149,8 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:layout_below="@id/tokenCard"
-        android:layout_margin="20dp">
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginVertical="10dp">
 
         <TextView
             android:id="@+id/history"
@@ -169,36 +184,38 @@
     </RelativeLayout>
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/tokenRecycler"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/tokenHistory"
-        android:layout_marginHorizontal="20dp"/>
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginBottom="20dp"/>
 
-    <RelativeLayout
+    <LinearLayout
+        android:id="@+id/dashHistoryLinear"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/tokenHistory"
         android:padding="20dp"
-        android:layout_margin="20dp">
+        android:layout_margin="20dp"
+        android:orientation="vertical">
 
         <ImageView
-            android:id="@+id/emptylogo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/charging_meter"
             android:contentDescription="empty logo"
-            android:layout_centerInParent="true" />
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="7dp"/>
 
         <TextView
-            android:id="@+id/noHistory"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/no_history"
             android:textStyle="bold"
             android:textColor="@color/black"
             android:textSize="16sp"
-            android:layout_below="@id/emptylogo"
-            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal"
             />
         <TextView
             android:layout_width="wrap_content"
@@ -206,23 +223,10 @@
             android:text="@string/check_back_later"
             android:textColor="@color/someText"
             android:textSize="16sp"
-            android:layout_below="@id/noHistory"
-            android:layout_centerHorizontal="true"
-            />
+            android:layout_gravity="center_horizontal" />
 
-    </RelativeLayout>
+    </LinearLayout>
 
-<!--    <com.google.android.material.bottomnavigation.BottomNavigationView-->
-<!--        android:id="@+id/dashNav"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_alignParentBottom="true"-->
-<!--        android:background="@color/white"-->
-<!--        android:elevation="2dp"-->
-<!--        app:menu="@menu/bottom_menu"-->
-<!--        style="@style/Widget.MaterialComponents.BottomNavigationView"-->
-
-<!--        />-->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/userDashNav"
         android:layout_width="match_parent"

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/transactionCard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/gray_background"
+        app:cardCornerRadius="10dp"
+        android:elevation="2dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/gray_background"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/meterNumberText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Meter Number"
+                android:textSize="15sp"
+                android:textColor="@color/black"/>
+            <TextView
+                android:id="@+id/meterNameText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Meter Name"
+                android:layout_below="@id/meterNumberText"
+                android:textSize="15sp"
+                android:textColor="@color/someText"
+                android:layout_alignBottom="@id/viewButton"
+                android:gravity="bottom"/>
+            <Button
+                android:id="@+id/viewButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:backgroundTint="@color/meterBut"
+                android:drawableLeft="@drawable/eye_icon"
+                android:drawableTint="@color/primary"
+                android:text="View"
+                android:textSize="18sp"
+                android:textColor="@color/primary"
+                android:layout_centerVertical="true"
+                android:elevation="5dp" />
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</RelativeLayout>

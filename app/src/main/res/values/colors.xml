@@ -9,4 +9,10 @@
     <color name="justThere">#343434</color>
     <color name="red">#FF0000</color>
     <color name="darker">#00001E</color>
+    <color name="transparent">#00000000</color>
+    <color name="passwordTint">#A2A2A4</color>
+    <color name="meterBut">#CCCDE8</color>
+    <color name="success">#14ba6d</color>
+    <color name="successBackground">#ecfdf3</color>
+    <color name="line_color">#EDEDED</color>
 </resources>

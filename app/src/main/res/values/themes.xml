@@ -3,6 +3,9 @@
     <style name="Base.Theme.TheSmartUtility" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="android:windowBackground">@color/white</item>
+        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="android:statusBarColor">@color/transparent</item>
     </style>
 
     <style name="Theme.TheSmartUtility" parent="Base.Theme.TheSmartUtility" />
@@ -15,6 +18,28 @@
     <style name="SlideActivityAnimation" parent="@android:style/Animation.Activity">
         <item name="android:activityOpenEnterAnimation">@anim/slide_in_right</item>
         <item name="android:activityOpenExitAnimation">@anim/slide_out_left</item>
+    </style>
+
+    <style name="CustomAlertDialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <!-- Background color for the AlertDialog -->
+        <item name="android:background">#FFEBEE</item> <!-- Custom background color -->
+
+        <!-- Title text color -->
+        <item name="android:textColorPrimary">#D32F2F</item> <!-- Title color -->
+
+        <!-- Message text color -->
+        <item name="android:textColor">@color/black</item> <!-- Message color -->
+
+        <!-- Button text appearance -->
+        <item name="buttonBarPositiveButtonStyle">@style/CustomAlertDialogButton</item>
+        <item name="buttonBarNegativeButtonStyle">@style/CustomAlertDialogButton</item>
+    </style>
+
+    <style name="CustomAlertDialogButton" parent="Widget.AppCompat.Button.Borderless">
+        <!-- Button text color -->
+        <item name="android:textColor">#FFFFFF</item>
+        <!-- Button background color -->
+        <item name="android:background">@color/primary</item> <!-- Custom background color -->
     </style>
 
 </resources>

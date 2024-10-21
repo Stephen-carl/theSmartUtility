@@ -6,8 +6,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Login"
-    android:padding="20dp"
+    tools:context=".auth.Login"
     android:background="@color/white">
 
     <RelativeLayout
@@ -16,7 +15,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true">
+        android:layout_alignParentEnd="true"
+        android:layout_marginHorizontal="20dp">
 
         <TextView
             android:id="@+id/getStarted"
@@ -45,6 +45,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/verifyRelative"
         android:layout_marginTop="28dp"
+        android:layout_marginHorizontal="20dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentStart="true">
 
@@ -79,7 +80,8 @@
                 android:hint="Email/Phone Number"
                 android:background="@drawable/gray_background"
                 android:inputType="textEmailAddress"
-                android:textColorHint="@color/hintColor"/>
+                android:textColorHint="@color/hintColor"
+                android:textColor="@color/black"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
@@ -107,9 +109,12 @@
                 android:id="@+id/loginPasswordInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="**********"
+                android:hint="password"
                 android:background="@drawable/gray_background"
-                android:textColorHint="@color/hintColor"/>
+                android:textColorHint="@color/hintColor"
+                android:inputType="textPassword"
+                android:textColor="@color/black"
+                app:passwordToggleTint="@color/passwordTint"/>
         </com.google.android.material.textfield.TextInputLayout>
         <TextView
             android:id="@+id/forgotText"
@@ -131,7 +136,9 @@
         android:backgroundTint="@color/primary"
         android:text="@string/sign_in"
         android:layout_below="@id/loginInputRelative"
-        android:layout_marginTop="25dp"/>
+        android:textColor="@color/white"
+        android:layout_marginTop="25dp"
+        android:layout_marginHorizontal="20dp"/>
 
     <RelativeLayout
         android:id="@+id/signRelative"

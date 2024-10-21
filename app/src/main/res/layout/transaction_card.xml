@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginBottom="10dp"
+    android:background="@color/white">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/transactionCard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/gray_background"
+        app:cardCornerRadius="10dp"
+        android:elevation="2dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/gray_background"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/tokenText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Token"
+                android:textSize="15sp"
+                android:textColor="@color/someText"/>
+            <TextView
+                android:id="@+id/transToken"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1234 5678 9012 3456 7890"
+                android:textSize="15sp"
+                android:textColor="@color/black"
+                android:layout_alignParentEnd="true"
+                android:textIsSelectable="true"/>
+
+            <TextView
+                android:id="@+id/unitText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Units"
+                android:textSize="15sp"
+                android:textColor="@color/someText"
+                android:layout_marginTop="5dp"
+                android:layout_below="@id/tokenText"/>
+            <TextView
+                android:id="@+id/transUnit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Units"
+                android:textSize="15sp"
+                android:textColor="@color/black"
+                android:layout_marginTop="5dp"
+                android:layout_below="@id/tokenText"
+                android:layout_alignParentEnd="true"/>
+
+            <TextView
+                android:id="@+id/amountText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/amount"
+                android:textSize="15sp"
+                android:textColor="@color/someText"
+                android:layout_marginTop="5dp"
+                android:layout_below="@id/unitText"/>
+            <TextView
+                android:id="@+id/transAmount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Amount"
+                android:textSize="15sp"
+                android:textColor="@color/black"
+                android:layout_marginTop="5dp"
+                android:layout_below="@id/unitText"
+                android:layout_alignParentEnd="true"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/dateText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Date"
+                android:textSize="15sp"
+                android:textColor="@color/someText"
+                android:layout_marginTop="5dp"
+                android:layout_below="@id/amountText"/>
+            <TextView
+                android:id="@+id/transDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Date"
+                android:textSize="15sp"
+                android:textColor="@color/black"
+                android:layout_marginTop="5dp"
+                android:layout_below="@id/amountText"
+                android:layout_alignParentEnd="true"/>
+
+            <TextView
+                android:id="@+id/statusText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Status"
+                android:textSize="15sp"
+                android:textColor="@color/someText"
+                android:layout_marginTop="5dp"
+                android:layout_below="@id/dateText"/>
+            <TextView
+                android:id="@+id/transStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Successful"
+                android:textSize="15sp"
+                android:textColor="@color/success"
+                android:layout_marginTop="5dp"
+                android:layout_below="@id/dateText"
+                android:layout_alignParentEnd="true"
+                android:background="@drawable/text_background"
+                android:drawableLeft="@drawable/dot_icon"
+                android:padding="3dp"
+                android:drawablePadding="8dp"/>
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</RelativeLayout>

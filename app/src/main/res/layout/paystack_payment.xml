@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".PaystackPayment"
+    android:background="@color/white">
+
+    <TextView
+        android:id="@+id/unloadPayStack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/loading_paystack"
+        android:layout_centerInParent="true"/>
+
+    <WebView
+        android:id="@+id/loadPayStackWeb"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:backgroundTint="@color/white"/>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        style="?android:attr/progressBarStyleLarge"
+        android:backgroundTint="@color/primary"
+        android:visibility="gone"
+        android:indeterminate="true"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/paymentProceedButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/primary"
+        android:layout_alignParentBottom="true"
+        android:layout_centerVertical="true"
+        android:layout_alignParentEnd="true"
+        android:lineSpacingExtra="3sp"
+        android:maxLines="2"
+        android:layout_margin="20dp"
+        android:textColor="@color/white"
+        app:cornerRadius="10dp"
+        android:text="Proceed After \nPayment"/>
+
+
+</RelativeLayout>

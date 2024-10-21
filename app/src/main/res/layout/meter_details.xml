@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainRelative"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".estateAdmin.MeterDetails"
+    android:background="@color/white">
+
+    <RelativeLayout
+        android:id="@+id/backRelative"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginVertical="30dp">
+
+        <ImageView
+            android:id="@+id/backImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/_arrow_left_24"
+            android:contentDescription="@string/back_arrow" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/back"
+            android:textAppearance="@style/back"
+            android:layout_toEndOf="@id/backImage"
+            android:layout_centerVertical="true"/>
+    </RelativeLayout>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/detailsCard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_below="@id/backRelative"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="5dp"
+        android:background="@color/white">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp">
+
+            <RelativeLayout
+                android:id="@+id/detailsHeader"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="15dp"
+                android:background="@drawable/view_details_background">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Meter Details"
+                    android:layout_centerHorizontal="true"
+                    android:textStyle="bold"
+                    android:textColor="@color/primary"
+                    android:textSize="20dp"/>
+
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Meter Number"
+                android:layout_below="@id/detailsHeader"
+                android:layout_marginTop="15dp"
+                android:textSize="15sp"
+                android:textColor="@color/someText"
+                />
+            <TextView
+                android:id="@+id/detailsMeterNum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="123456789012345"
+                android:layout_below="@id/detailsHeader"
+                android:layout_marginTop="15dp"
+                android:textSize="15sp"
+                android:textColor="@color/black"
+                android:layout_alignParentEnd="true"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Meter Name"
+                android:layout_below="@id/detailsMeterNum"
+                android:layout_marginTop="15dp"
+                android:textSize="15sp"
+                android:textColor="@color/someText"
+                />
+            <TextView
+                android:id="@+id/detailsMeterName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Toluwani Ojo"
+                android:layout_below="@id/detailsMeterNum"
+                android:layout_marginTop="15dp"
+                android:textSize="15sp"
+                android:textColor="@color/black"
+                android:layout_alignParentEnd="true"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Email Address"
+                android:layout_below="@id/detailsMeterName"
+                android:layout_marginTop="15dp"
+                android:textSize="15sp"
+                android:textColor="@color/someText"
+                />
+            <TextView
+                android:id="@+id/detailsMeterEmail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="tolu046@gmail.com"
+                android:layout_below="@id/detailsMeterName"
+                android:layout_marginTop="15dp"
+                android:textSize="15sp"
+                android:textColor="@color/black"
+                android:layout_alignParentEnd="true"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Last Purchase"
+                android:layout_below="@id/detailsMeterEmail"
+                android:layout_marginTop="15dp"
+                android:textSize="15sp"
+                android:textColor="@color/someText"
+                />
+            <TextView
+                android:id="@+id/detailsMeterLast"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tue Oct 10 2024"
+                android:layout_below="@id/detailsMeterEmail"
+                android:layout_marginTop="15dp"
+                android:textSize="15sp"
+                android:textColor="@color/black"
+                android:layout_alignParentEnd="true"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Total Units Purchased"
+                android:layout_below="@id/detailsMeterLast"
+                android:layout_marginTop="15dp"
+                android:textSize="15sp"
+                android:textColor="@color/someText"
+                />
+            <TextView
+                android:id="@+id/detailsMeterUnits"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="320.56 kWh"
+                android:layout_below="@id/detailsMeterLast"
+                android:layout_marginTop="15dp"
+                android:textSize="15sp"
+                android:textColor="@color/black"
+                android:layout_alignParentEnd="true"/>
+
+            <View
+                android:id="@+id/dashedLine"
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:layout_below="@id/detailsMeterUnits"
+                android:layout_marginVertical="15dp"
+                android:background="@drawable/dash_line"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Amount Spent"
+                android:layout_below="@id/dashedLine"
+                android:textSize="15sp"
+                android:textColor="@color/someText"
+                />
+            <TextView
+                android:id="@+id/detailsMeterAmount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="320.56 kWh"
+                android:layout_below="@id/dashedLine"
+                android:textSize="15sp"
+                android:textColor="@color/black"
+                android:layout_alignParentEnd="true"/>
+
+            <TextView
+                android:id="@+id/statusText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Status"
+                android:textSize="15sp"
+                android:textColor="@color/someText"
+                android:layout_marginTop="15dp"
+                android:layout_below="@id/detailsMeterAmount"/>
+            <TextView
+                android:id="@+id/transStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Enabled"
+                android:textSize="15sp"
+                android:textColor="@color/success"
+                android:layout_marginTop="15dp"
+                android:layout_below="@id/detailsMeterAmount"
+                android:layout_alignParentEnd="true"
+                android:background="@drawable/text_background"
+                android:backgroundTint="@color/successBackground"
+                android:paddingVertical="3dp"
+                android:paddingHorizontal="8dp"/>
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/statusCard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:layout_below="@id/detailsCard"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="5dp"
+        android:background="@color/white">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginVertical="10dp">
+
+            <TextView
+                android:id="@+id/detailsStatusLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Enabled/Disable"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/primary"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Quick access to meter controls"
+                android:layout_below="@id/detailsStatusLabel"
+                android:layout_marginTop="7dp"
+                android:textSize="12sp"
+                android:textColor="@color/black"/>
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/detailsSwitch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                app:trackTint="@color/primary"
+                app:thumbTint="@color/white"
+                android:visibility="visible"/>
+
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+
+    <Button
+        android:id="@+id/detailsGenerate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginVertical="10dp"
+        android:layout_below="@id/statusCard"
+        android:backgroundTint="@color/primary"
+        android:textColor="@color/white"
+        android:text="Generate Token For User"/>
+
+</RelativeLayout>

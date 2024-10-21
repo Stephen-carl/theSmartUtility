@@ -29,5 +29,11 @@
     <string name="check_back_later">Check back later.</string>
     <string name="home">Home</string>
     <string name="profile">Profile</string>
+    <string name="amount">Amount (₦)</string>
+    <string name="text_example">1234567890123</string>
+    <string name="loading_paystack">Loading PayStack</string>
+    <string name="date_time"><![CDATA[Date & Time]]></string>
+    <string name="dateTime">2024-10-02, 12:00:00</string>
+    <string name="mount">100.00</string>
 
 </resources>
