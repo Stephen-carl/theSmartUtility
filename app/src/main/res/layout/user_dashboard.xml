@@ -7,47 +7,95 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".user.UserDashboard"
-    android:background="@color/white"
+    android:background="@color/globalBackground"
     android:fitsSystemWindows="true">
+
+    <RelativeLayout
+        android:id="@+id/dashboardHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:paddingVertical="10dp"
+        android:layout_marginTop="20dp">
+        <ImageView
+            android:id="@+id/profileImage"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:background="@drawable/profile_image"
+            android:contentDescription="@string/logo"
+            android:layout_centerVertical="true"/>
+        <TextView
+            android:id="@+id/welcomeHead"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Welcome Back"
+            android:textSize="12sp"
+            android:textColor="@color/welcomeHead"
+            android:layout_toEndOf="@id/profileImage"
+            android:layout_marginStart="12dp"
+            android:fontFamily="@font/bricolage_grotesque_regular"/>
+        <TextView
+            android:id="@+id/userDashName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="okafor stephen"
+            android:textSize="16sp"
+            android:textColor="@color/welcomeName"
+            android:layout_toEndOf="@id/profileImage"
+            android:layout_below="@id/welcomeHead"
+            android:layout_marginStart="12dp"
+            android:fontFamily="@font/bricolage_grotesque_semi_bold"/>
+    </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/headerBackground"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:padding="20dp"
-        android:background="@drawable/userback">
-
-        <ImageView
-            android:id="@+id/imagelogo"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@drawable/userback"
-            android:contentDescription="@string/logo"/>
+        android:layout_height="180dp"
+        android:paddingVertical="20dp"
+        android:paddingHorizontal="30dp"
+        android:background="@drawable/header_card_background"
+        android:layout_below="@id/dashboardHeader">
 
         <TextView
-            android:id="@+id/smart"
+            android:id="@+id/userDashAmountText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="SMART \nUTILITY"
-            android:textSize="16sp"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            android:layout_toEndOf="@id/imagelogo"
-            android:layout_marginStart="5dp"
-            android:layout_alignTop="@id/imagelogo"
-            android:layout_alignBottom="@id/imagelogo"
-            android:gravity="center_vertical"/>
+            android:text="@string/total_amount_spent"
+            android:textColor="@color/dashAmountColour"
+            android:textSize="14sp"
+            android:fontFamily="@font/bricolage_grotesque_regular"/>
+
+        <TextView
+            android:id="@+id/userDashAmountYear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textColor="@color/dashAmountColour"
+            android:layout_toEndOf="@id/userDashAmountText"
+            android:textSize="14sp"
+            android:layout_marginStart="2dp"
+            android:fontFamily="@font/bricolage_grotesque_regular"/>
+
+        <TextView
+            android:id="@+id/userDashAmount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="N 0.0"
+            android:textColor="@color/dashAmountColour"
+            android:textSize="28sp"
+            android:fontFamily="@font/bricolage_grotesque_semi_bold"
+            android:layout_below="@id/userDashAmountText"/>
 
         <TextView
             android:id="@+id/meterText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Meter Number"
-            android:textSize="16sp"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            android:layout_below="@id/imagelogo"
-            android:layout_marginTop="16dp"/>
+            android:textSize="12sp"
+            android:textColor="@color/primary"
+            android:layout_marginTop="19dp"
+            android:fontFamily="@font/bricolage_grotesque_semi_bold"
+            android:layout_below="@+id/userDashAmount"/>
 
         <RelativeLayout
             android:id="@+id/copyRelative"
@@ -57,100 +105,127 @@
             android:layout_marginTop="5dp"
             android:paddingVertical="5dp"
             android:paddingHorizontal="10dp"
-            android:background="@drawable/border_lining">
+            android:background="@drawable/border_lining"
+            android:layout_marginBottom="5dp">
             <TextView
                 android:id="@+id/meterNumberText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/text_example"
-                android:textSize="15sp"
-                android:textColor="@color/white"
-                android:textIsSelectable="true" />
+                android:textSize="12sp"
+                android:textColor="@color/welcomeHead"
+                android:textIsSelectable="true"
+                android:fontFamily="@font/bricolage_grotesque_regular"/>
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/copy_white_icon"
+                android:backgroundTint="@color/primary"
                 android:layout_toEndOf="@id/meterNumberText"
                 android:contentDescription="copy icon"
-                android:layout_marginStart="3dp"/>
+                android:layout_marginStart="3dp" />
         </RelativeLayout>
 
     </RelativeLayout>
 
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/tokenCard"
-        android:layout_width="match_parent"
+    <RelativeLayout
+        android:id="@+id/actionsRelative"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="-90dp"
-        android:layout_below="@id/headerBackground"
-        android:background="@color/white"
+        android:layout_marginTop="10dp"
         android:layout_marginHorizontal="20dp"
-        app:cardCornerRadius="10dp">
+        android:layout_below="@id/headerBackground">
+
+        <TextView
+            android:id="@+id/actionText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Actions"
+            android:textColor="@color/primary"
+            android:textSize="18sp"
+            android:fontFamily="@font/bricolage_grotesque_semi_bold"/>
 
         <RelativeLayout
-            android:id="@+id/tokenRelative"
-            android:layout_width="match_parent"
+            android:id="@+id/tokenButton"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingHorizontal="15dp"
-            android:paddingVertical="10dp"
-            android:background="@color/white">
-        <RelativeLayout
-            android:id="@+id/emailRelative"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <TextView
-                android:id="@+id/tokenText"
+            android:padding="20dp"
+            android:background="@drawable/action_background"
+            android:layout_below="@id/actionText">
+            <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/token_amount"
-                android:textSize="15sp"
-                android:textColor="@color/edit"
-                android:textStyle="bold"/>
+                android:background="@drawable/add_circle_24"/>
         </RelativeLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tokenInputLayout"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/actionPurchase"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/emailRelative"
-            app:hintTextColor="@color/hintColor"
-            app:errorTextColor="@color/red"
-            app:errorIconTint="@color/red"
-            app:errorIconDrawable="@drawable/baseline_error_outline_24">
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/tokenInput"
-                android:layout_width="match_parent"
+            android:text="Token"
+            android:layout_below="@id/tokenButton"
+            android:textSize="15sp"
+            android:textColor="@color/welcomeHead"
+            android:fontFamily="@font/bricolage_grotesque_regular"
+            android:layout_marginTop="4dp"
+            android:layout_marginHorizontal="13sp"/>
+
+        <RelativeLayout
+            android:id="@+id/serviceRelative"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/tokenButton"
+            android:layout_below="@id/actionText"
+            android:layout_marginHorizontal="10dp">
+
+            <RelativeLayout
+                android:id="@+id/payServiceButton"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="Enter amount"
-                android:background="@drawable/gray_background"
-                android:textColorHint="@color/hintColor"
-                android:inputType="number"
-                android:textColor="@color/black"/>
-        </com.google.android.material.textfield.TextInputLayout>
+                android:padding="20dp"
+                android:background="@drawable/action_background"
+                android:layout_centerHorizontal="true">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/add_circle_24"/>
+            </RelativeLayout>
 
-        <Button
-            android:id="@+id/tokenButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/tokenInputLayout"
-            android:backgroundTint="@color/primary"
-            android:text="Purchase"
-            android:textColor="@color/white"
-            android:layout_marginTop="15dp"/>
-
+            <TextView
+                android:id="@+id/servicePurchase"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Service Charge"
+                android:layout_below="@id/payServiceButton"
+                android:textSize="15sp"
+                android:textColor="@color/welcomeHead"
+                android:fontFamily="@font/bricolage_grotesque_regular"
+                android:layout_marginTop="4dp"/>
         </RelativeLayout>
 
-    </androidx.cardview.widget.CardView>
+
+
+    </RelativeLayout>
+
+<!--    <Button-->
+<!--        android:id="@+id/tokenButton"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_below="@id/actionsRelative"-->
+<!--        android:backgroundTint="@color/primary"-->
+<!--        android:text="Purchase"-->
+<!--        android:textColor="@color/white"-->
+<!--        android:layout_marginTop="15dp"-->
+<!--        android:layout_marginHorizontal="20dp"/>-->
 
     <RelativeLayout
         android:id="@+id/tokenHistory"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:layout_below="@id/tokenCard"
+        android:layout_below="@id/actionsRelative"
         android:layout_marginHorizontal="20dp"
-        android:layout_marginVertical="10dp">
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="20dp">
 
         <TextView
             android:id="@+id/history"
@@ -159,7 +234,8 @@
             android:text="@string/history"
             android:textSize="15sp"
             android:textColor="@color/primary"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            android:fontFamily="@font/bricolage_grotesque_semi_bold"/>
 
         <TextView
             android:id="@+id/viewHistory"
@@ -167,11 +243,12 @@
             android:layout_height="wrap_content"
             android:text="@string/view_all"
             android:textSize="15sp"
-            android:textColor="@color/someText"
+            android:textColor="#303030"
             android:textStyle="bold"
             android:layout_toStartOf="@id/viewAll"
             android:layout_centerVertical="true"
-            android:layout_marginEnd="8dp"/>
+            android:layout_marginEnd="8dp"
+            android:fontFamily="@font/bricolage_grotesque_regular"/>
 
         <ImageView
             android:id="@+id/viewAll"
@@ -186,24 +263,24 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/tokenRecycler"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/tokenHistory"
+        android:layout_height="match_parent"
         android:layout_marginHorizontal="20dp"
-        android:layout_marginBottom="20dp"/>
+        android:layout_below="@id/tokenHistory"
+        android:layout_marginBottom="60dp"/>
 
     <LinearLayout
         android:id="@+id/dashHistoryLinear"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tokenHistory"
         android:padding="20dp"
         android:layout_margin="20dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_below="@id/tokenHistory">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/charging_meter"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:background="@drawable/empty_state"
             android:contentDescription="empty logo"
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="7dp"/>
@@ -212,10 +289,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/no_history"
-            android:textStyle="bold"
             android:textColor="@color/black"
             android:textSize="16sp"
             android:layout_gravity="center_horizontal"
+            android:fontFamily="@font/bricolage_grotesque_semi_bold"
             />
         <TextView
             android:layout_width="wrap_content"
@@ -223,7 +300,8 @@
             android:text="@string/check_back_later"
             android:textColor="@color/someText"
             android:textSize="16sp"
-            android:layout_gravity="center_horizontal" />
+            android:layout_gravity="center_horizontal"
+            android:fontFamily="@font/bricolage_grotesque_regular"/>
 
     </LinearLayout>
 
@@ -233,9 +311,12 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         app:menu="@menu/bottom_menu"
-        android:background="@color/white"
         android:elevation="2dp"
         app:itemIconTint="@drawable/item_selector"
+        app:itemTextColor="@drawable/item_selector"
+        app:itemTextAppearanceInactive="@style/CustomNavItemText"
+        app:itemTextAppearanceActive="@style/CustomNavItemText"
+        android:background="@color/navBar"
         style="@style/Widget.MaterialComponents.BottomNavigationView"/>
 
 </RelativeLayout>

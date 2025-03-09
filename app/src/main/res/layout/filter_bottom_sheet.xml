@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bottom_sheet_background"
+    android:elevation="5dp">
+
+    <RelativeLayout
+        android:id="@+id/filterHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:textColor="#000207"
+            android:text="History Filter"
+            android:textSize="18sp"
+            android:fontFamily="@font/bricolage_grotesque_semi_bold"/>
+        <TextView
+            android:id="@+id/estateResetAll"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:textColor="#a8a8a8"
+            android:text="Reset All"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:layout_centerVertical="true"
+            android:fontFamily="@font/bricolage_grotesque_regular"/>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/filterDateHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginHorizontal="20dp"
+        android:layout_below="@id/filterHeader">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Start Date"
+                android:textSize="14sp"
+                android:textColor="@color/filterHeaders"
+                android:fontFamily="@font/bricolage_grotesque_semi_bold"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="End Date"
+                android:textSize="14sp"
+                android:textColor="@color/filterHeaders"
+                android:layout_marginStart="10dp"
+                android:fontFamily="@font/bricolage_grotesque_semi_bold"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/filterStartLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:hintTextColor="@color/hintColor"
+                app:hintEnabled="false"
+                android:focusable="false"
+                android:layout_weight="1"
+                android:layout_marginEnd="10dp">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/filterStartDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Select Date"
+                    android:background="@drawable/gray_background"
+                    android:textColorHint="@color/hintColor"
+                    android:textColor="@color/black"
+                    android:drawableEnd="@drawable/date_icon"
+                    android:fontFamily="@font/bricolage_grotesque_regular"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/filterEndLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:hintTextColor="@color/hintColor"
+                app:hintEnabled="false"
+                android:layout_weight="1">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/filterEndDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Select Date"
+                    android:background="@drawable/gray_background"
+                    android:textColorHint="@color/hintColor"
+                    android:inputType="number"
+                    android:textColor="@color/black"
+                    android:drawableEnd="@drawable/date_icon"
+                    android:fontFamily="@font/bricolage_grotesque_regular"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/filterCustomerName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Customer Name"
+        android:textSize="14sp"
+        android:layout_marginBottom="8dp"
+        android:textColor="@color/filterHeaders"
+        android:layout_below="@id/filterDateHeader"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginVertical="10dp"
+        android:fontFamily="@font/bricolage_grotesque_semi_bold"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/filterNameLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:hintTextColor="@color/hintColor"
+        android:layout_below="@id/filterCustomerName"
+        android:layout_marginHorizontal="20dp"
+        app:hintEnabled="false">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/filterNameInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter Customer Name"
+            android:background="@drawable/gray_background"
+            android:textColorHint="@color/hintColor"
+            android:inputType="number"
+            android:textColor="@color/black"
+            android:fontFamily="@font/bricolage_grotesque_regular"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/filterCustomerMeter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/meter_number"
+        android:textSize="14sp"
+        android:layout_marginBottom="8dp"
+        android:textColor="@color/filterHeaders"
+        android:layout_below="@id/filterNameLayout"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginVertical="10dp"
+        android:fontFamily="@font/bricolage_grotesque_semi_bold"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/filterMeterLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:hintTextColor="@color/hintColor"
+        android:layout_below="@id/filterCustomerMeter"
+        android:layout_marginHorizontal="20dp"
+        app:hintEnabled="false">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/filterMeterInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter MeterNo, BlockNo. or FlatNo."
+            android:background="@drawable/gray_background"
+            android:textColorHint="@color/hintColor"
+            android:inputType="number"
+            android:textColor="@color/black"
+            android:fontFamily="@font/bricolage_grotesque_regular"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:id="@+id/filterButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_below="@id/filterMeterLayout"
+        android:backgroundTint="@color/primary"
+        android:textColor="@color/white"
+        android:text="Apply"
+        android:fontFamily="@font/bricolage_grotesque_semi_bold"
+        android:padding="12dp"/>
+
+</RelativeLayout>

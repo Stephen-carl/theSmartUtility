@@ -6,7 +6,7 @@ import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -49,7 +49,7 @@ public class EstateMeterAdapter extends RecyclerView.Adapter<EstateMeterAdapter.
         EstateMeterModel estateMeterModel = estateMeterList.get(position);
         holder.setMeterID(estateMeterModel.getMeterID());
         holder.setMeterName(estateMeterModel.getUserName());
-        holder.mButton.setOnClickListener(v -> SearchForMeter(estateMeterModel.getMeterID(), estateMeterModel.getEstateID()));
+        holder.mButton.setOnClickListener(v -> SearchForMeter(estateMeterModel.getMeterID(), estateMeterModel.getEstateID(), estateMeterModel.getEmail()));
     }
 
     @Override
@@ -57,11 +57,10 @@ public class EstateMeterAdapter extends RecyclerView.Adapter<EstateMeterAdapter.
         return estateMeterList.size();
     }
 
-
     public static class PostHolder extends RecyclerView.ViewHolder {
         //the textViews to use
         TextView mMeter, mName;
-        Button mButton;
+        RelativeLayout mButton;
         View view;
 
         public PostHolder( View itemView) {
@@ -83,19 +82,30 @@ public class EstateMeterAdapter extends RecyclerView.Adapter<EstateMeterAdapter.
         }
     }
 
-    private void SearchForMeter(String meterIn, int EstateID) {
+    private void SearchForMeter(String meterIn, int EstateID, String userEmail) {
+
         SharedPreferences validSharedPref = context.getSharedPreferences("estateVendPref", Context.MODE_PRIVATE);
         SharedPreferences SharedPref = context.getSharedPreferences("UtilityPref", Context.MODE_PRIVATE);
         SharedPreferences.Editor prefEditor= validSharedPref.edit();
         String token = SharedPref.getString("token", null);
         int estate = SharedPref.getInt("estateID", 0);
 
-        String userUrl = "http://192.168.246.60:5050/estate/meterDetails";
+        int estateID;
+        if (EstateID == 0){
+            estateID = estate;
+        } else {
+            estateID = EstateID;
+        }
+
+        String baseUrl = context.getString(R.string.managementBaseURL);
+        String userUrl = baseUrl+"/estate/meterDetails";
+        //String userUrl = "http://41.78.157.215:4173/estate/meterDetails";
         try {
             JSONObject jsonRequest = new JSONObject();
             try {
                 jsonRequest.put("meterID", meterIn);
-                jsonRequest.put("estateID", estate);
+                jsonRequest.put("estateID", estateID);
+                jsonRequest.put("email", userEmail);
             } catch (JSONException e) {
                 Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
             }
@@ -111,10 +121,9 @@ public class EstateMeterAdapter extends RecyclerView.Adapter<EstateMeterAdapter.
                             String customerID = dataObject.getString("customerID");
                             String meterName = dataObject.getString("userName");
                             String email = dataObject.getString("email");
-                            String lastPurchase = dataObject.getString("last_transaction_Date");
-                            String totalUnit = dataObject.getString("totalUnits");
-                            String amount = dataObject.getString("totalAmount");
                             String phone = dataObject.getString("phone");
+                            String blockNo = dataObject.getString("blockNo");
+                            String flatNo = dataObject.getString("flatNo");
                             // FOR USER
                             String vendStatus = dataObject.getString("vendStatus");
                             String tariff = dataObject.getString("tariff");
@@ -122,6 +131,12 @@ public class EstateMeterAdapter extends RecyclerView.Adapter<EstateMeterAdapter.
                             // NEED TO KNOW IF THE ADMIN HAS PRIVILEGE TO USE THE GATEWAY AND VEND
                             String estateVendStatus = dataObject.getString("eVendStatus");
                             String estateGatewayStatus = dataObject.getString("gatewayStatus");
+                            String hasPayAcct = dataObject.getString("hasPayAcct");
+
+                            JSONObject totalObject = response.getJSONObject("theTotals");
+                            String lastPurchase = totalObject.getString("last_transaction_Date");
+                            String totalUnit = totalObject.getString("totalUnits");
+                            String amount = totalObject.getString("totalAmount");
 
                             prefEditor.putString("meterID", meterNum);
                             prefEditor.putString("meterName", meterName);
@@ -136,6 +151,9 @@ public class EstateMeterAdapter extends RecyclerView.Adapter<EstateMeterAdapter.
                             prefEditor.putString("estateVendStatus", estateVendStatus);
                             prefEditor.putString("estateGatewayStatus", estateGatewayStatus);
                             prefEditor.putString("brand", brand);
+                            prefEditor.putString("blockNo", blockNo);
+                            prefEditor.putString("flatNo", flatNo);
+                            prefEditor.putString("hasPayAcct", hasPayAcct);
 
                             prefEditor.apply();
 

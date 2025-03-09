@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">The Smart Utility</string>
+    <string name="app_name">Smart Metrify</string>
 
     <string name="back">Back</string>
     <string name="verify_your">Verify Your Meter</string>
@@ -35,5 +35,17 @@
     <string name="date_time"><![CDATA[Date & Time]]></string>
     <string name="dateTime">2024-10-02, 12:00:00</string>
     <string name="mount">100.00</string>
+    <string name="settings">Settings</string>
+    <string name="previous">Previous</string>
+    <string name="welcomeOne">Easily manage tariffs, transactions, and customer accounts. Secure access ensures smooth \noperations from login to completion.</string>
+    <string name="welcome_two">Update and control tariffs efficiently. Ensure accurate billing and real-time adjustments, all from a user-friendly dashboar</string>
+    <string name="get_started">Get Started</string>
+    <string name="total_amount_spent">Total Amount Spent: </string>
+
+
+    <string name="managementBaseURL">https://smartmetering.kuleanpay.com</string>
+<!--    <string name="managementBaseURL">http://192.168.39.161:5050</string>-->
+    <string name="payBaskURL">https://smartmetering.kuleanpay.com</string>
+    <string name="service_fee_history">Service Fee History</string>
 
 </resources>

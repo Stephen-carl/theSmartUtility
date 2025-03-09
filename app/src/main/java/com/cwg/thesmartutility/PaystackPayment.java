@@ -10,8 +10,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,10 +20,11 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
+import com.android.volley.RetryPolicy;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.cwg.thesmartutility.estateAdmin.MeterDetails;
-import com.cwg.thesmartutility.user.UserDashboard;
+import com.cwg.thesmartutility.utils.PreloaderLogo;
 import com.google.android.material.button.MaterialButton;
 
 import org.json.JSONException;
@@ -37,21 +36,25 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.TimeZone;
 
 public class PaystackPayment extends AppCompatActivity {
     WebView payWebView;
     MaterialButton proceedButton;
     TextView noLinkText;
-    String payLink, refID, role, meterID, paymentAmount, brand, token, vat, perCharge, theCustomerID, thePassword, theUsername, meterTariff, theEmail;
+    String payLink, refID, role, meterID, paymentAmount, brand, token, vat, perCharge, theCustomerID, thePassword, theUsername, meterTariff, theEmail, customerName, HasPayAcct, baseUrl, payBaseUrl;
     int estateID;
-    private ProgressBar progressBar;
-    SharedPreferences validSharedPref;
+    private PreloaderLogo preloaderLogo;
+    SharedPreferences validSharedPref, estatePref;
     DecimalFormat decimalFormat = new DecimalFormat("#.0000");
     private int retryCount = 0;
+    double TokenAmount, CWGChargeAmount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,19 +63,58 @@ public class PaystackPayment extends AppCompatActivity {
         setContentView(R.layout.paystack_payment);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(0, systemBars.top, 0,0);
+            v.setPadding(0, systemBars.top, 0,systemBars.bottom);
             return insets;
         });
+
+        baseUrl = this.getString(R.string.managementBaseURL);
+        payBaseUrl = this.getString(R.string.payBaskURL);
 
         // ids
         payWebView = findViewById(R.id.loadPayStackWeb);
         noLinkText = findViewById(R.id.unloadPayStack);
         proceedButton = findViewById(R.id.paymentProceedButton);
-        progressBar = findViewById(R.id.progressBar);
+        preloaderLogo = new PreloaderLogo(this);
+
+        // get the link and ref
+        Intent intent = getIntent();
+        payLink = intent.getStringExtra("link");
+        //Log.d("Link", payLink);
+        refID = intent.getStringExtra("transRef");
+        estateID = intent.getIntExtra("estateID", 0);
+        //paymentAmount = intent.getStringExtra("purAmount");
+
+        estatePref = getSharedPreferences("estateVendPref", Context.MODE_PRIVATE);
+        // this would work if it's coming from the estate side
+        paymentAmount = intent.getStringExtra("purAmount");
+
+        if (paymentAmount == null || paymentAmount.isEmpty()) {{
+            // the amount comes from the user side
+            paymentAmount = estatePref.getString("paymentAmount", "");
+        }}
+        Log.d("Payment Amount", paymentAmount);
+
 
         validSharedPref = getSharedPreferences("UtilityPref", Context.MODE_PRIVATE);
+
+        // HasPayAcct can come from either the validSharedPref or the estatePref
+        // complete code in the remove charges
+        HasPayAcct = validSharedPref.getString("hasPayAcct", null);
+        if (HasPayAcct == null || HasPayAcct.isEmpty()) {
+            HasPayAcct = estatePref.getString("hasPayAcct", null);
+        }
+
         role = validSharedPref.getString("role", null);
         meterID = validSharedPref.getString("meterID", null);
+        // if meterID from the sharedPref is null or empty then assign it to the one coming from the intent
+        if (meterID == null || meterID.isEmpty()) {
+            meterID = intent.getStringExtra("meterID");
+        }
+        // get the customer name (userName) from the pref, then check if it is null or empty then assign it to the one coming from the intent
+        customerName = validSharedPref.getString("username", null);
+        if (customerName == null || customerName.isEmpty()) {
+            customerName = intent.getStringExtra("customerName");
+        }
         brand = validSharedPref.getString("brand", null);
         token = validSharedPref.getString("token", null);
         vat = validSharedPref.getString("vat", null);
@@ -80,13 +122,6 @@ public class PaystackPayment extends AppCompatActivity {
         theUsername = validSharedPref.getString("chintUsername", null);
         thePassword = validSharedPref.getString("chintPassword", null);
         meterTariff = validSharedPref.getString("tariff", null);
-
-        // get the link and ref
-        Intent intent = new Intent();
-        payLink = intent.getStringExtra("link");
-        refID = intent.getStringExtra("transRef");
-        estateID = intent.getIntExtra("estateID", 0);
-        paymentAmount = intent.getStringExtra("purAmount");
 
         // load the link in the webView
         startTransaction();
@@ -101,10 +136,7 @@ public class PaystackPayment extends AppCompatActivity {
                 new AlertDialog.Builder(PaystackPayment.this, R.style.CustomAlertDialogTheme)
                         .setTitle("Warning!!!")
                         .setMessage("Do you want to stop payment?")
-                        .setPositiveButton("Yes", (dialog, which) -> {
-                            verifyTransaction(refID);
-                            finish();
-                        })
+                        .setPositiveButton("Yes", (dialog, which) -> verifyTransaction(refID))
                         .setNegativeButton("No", (dialog, which) -> dialog.dismiss())
                         .setCancelable(true)
                         .show();
@@ -115,11 +147,13 @@ public class PaystackPayment extends AppCompatActivity {
 
     }
 
+    // Start paystack screen
     private void startTransaction() {
         try {
             if (payLink != null) {
                 noLinkText.setVisibility(View.GONE);
-                payWebView.setWebViewClient(new WebViewClient());
+                payWebView.setVisibility(View.VISIBLE);
+                //payWebView.setWebViewClient(new WebViewClient());
                 payWebView.getSettings().setJavaScriptEnabled(true);
                 payWebView.getSettings().setDomStorageEnabled(true);
                 payWebView.setInitialScale(1);
@@ -132,39 +166,49 @@ public class PaystackPayment extends AppCompatActivity {
                 Toast.makeText(PaystackPayment.this, "No payment link", Toast.LENGTH_SHORT).show();
             }
         } catch (Exception e) {
-            Toast.makeText(PaystackPayment.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(PaystackPayment.this, "Error: " +e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 
     // verify transaction
     private void verifyTransaction(String refID){
-        progressBar.setVisibility(View.VISIBLE);
-        String apiURL = "http://192.168.246.74:3030/generateCheckoutSession";
+        preloaderLogo.show();
+        //String apiURL = "http://192.168.61.64:3030/verifyTransCallback";
+        String apiURL = payBaseUrl+"/g/verPaystack";
         try {
             JSONObject requestData = new JSONObject();
             //i can also add the meterNumber in the code to see if it works
             requestData.put("estateID", estateID);
+            requestData.put("hasPayAcct", HasPayAcct);
             requestData.put("reference", refID);
             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, apiURL, requestData, response -> {
                 //get the authorization_URL and point to the checkoutPage
                 try {
                     //get the status of the result
-                    boolean status = response.getBoolean("status");
-                    JSONObject jsonObject = response.getJSONObject("data");
+                    JSONObject theData = response.getJSONObject("theData");
+                    boolean status = theData.getBoolean("status");
+                    JSONObject jsonObject = theData.getJSONObject("data");
                     String successStatus = jsonObject.getString("status");
+
+
                     String success = "success";
 
                     //check what the status says
                     if (status && successStatus.equals(success)) {
                         //then retrieve all the details from the verification
-                        JSONObject dataObjects = response.getJSONObject("data");
+                        JSONObject dataObjects = theData.getJSONObject("data");
                         String refer = dataObjects.getString("reference");
+                        double tokenAmount = response.getDouble("tokenAmount");
+                        double chargeAmount = response.getDouble("cwgAmount");
                         String paidAt = dataObjects.getString("paid_at");
+                        TokenAmount = tokenAmount;
+                        CWGChargeAmount = chargeAmount;
 
                         // get the percentage charge
                         JSONObject dataSubAccount = dataObjects.getJSONObject("subaccount");
                         //this is the cut that goes to the estate account that will be used to get the token
                         perCharge = dataSubAccount.getString("percentage_charge");
+                        Log.d("Charge", perCharge);
 
                         // get the email
                         JSONObject dataCusAccount = dataObjects.getJSONObject("customer");
@@ -179,39 +223,30 @@ public class PaystackPayment extends AppCompatActivity {
                     } else  {
                         Toast.makeText(PaystackPayment.this, "Purchase failed", Toast.LENGTH_LONG).show();
                         // check for role before send the user
-                        if (Objects.equals(role, "user")){
-                            Intent in = new Intent(PaystackPayment.this, UserDashboard.class);
-                            startActivity(in);
-                            finish();
-                            progressBar.setVisibility(View.GONE);
-                        } else if (Objects.equals(role, "admin")) {
-                            Intent in = new Intent(PaystackPayment.this, MeterDetails.class);
-                            startActivity(in);
-                            finish();
-                            progressBar.setVisibility(View.GONE);
-                        }
+                        finish();
+                        preloaderLogo.dismiss();
 
                     }
 
                 } catch (JSONException e) {
-                    Toast.makeText(PaystackPayment.this, e.getMessage(), Toast.LENGTH_LONG).show();
-                    progressBar.setVisibility(View.GONE);
+                    Toast.makeText(PaystackPayment.this, "Error: " +e.getMessage(), Toast.LENGTH_LONG).show();
+                    preloaderLogo.dismiss();
                 }
             }, error -> {
                 Toast.makeText(PaystackPayment.this, "Please Try Again", Toast.LENGTH_LONG).show();
-                progressBar.setVisibility(View.GONE);
+                preloaderLogo.dismiss();
             });
 
             VolleySingleton.getInstance(this).addToRequestQueue(jsonObjectRequest);
         } catch (JSONException e) {
-            progressBar.setVisibility(View.GONE);
-            Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
+            preloaderLogo.dismiss();
+            Toast.makeText(this, "Error: " +e.getMessage(), Toast.LENGTH_LONG).show();
         }
     }
 
     // save payment
     private void savePayment(String refer) {
-        String saveURL = "http://192.168.246.60:3030/savePayment";
+        String saveURL = baseUrl+"/g/savePayment";
         try {
             JSONObject jsonRequest = new JSONObject();
             try {
@@ -220,6 +255,9 @@ public class PaystackPayment extends AppCompatActivity {
                 jsonRequest.put("refID", refer);
                 jsonRequest.put("amount", paymentAmount);
                 jsonRequest.put("role", role);
+                // and time
+                jsonRequest.put("time", getCurrentTime());
+
             } catch (JSONException e) {
                 Log.e("Error with json object data", Objects.requireNonNull(e.getMessage()));
             }
@@ -241,13 +279,13 @@ public class PaystackPayment extends AppCompatActivity {
                             }
 
                         } catch (JSONException e) {
-                            progressBar.setVisibility(View.GONE);
+                            preloaderLogo.dismiss();
                             Toast.makeText(PaystackPayment.this, "Could not read response. Contact Admin", Toast.LENGTH_SHORT).show();
                         }
                     },
                     error -> {
                         Log.e("Payment", "Error: " + error.toString());
-                        progressBar.setVisibility(View.GONE);
+                        preloaderLogo.dismiss();
                     }){
                 @Override
                 public Map<String, String> getHeaders() {
@@ -258,8 +296,8 @@ public class PaystackPayment extends AppCompatActivity {
             };
             VolleySingleton.getInstance(this).addToRequestQueue(request);
         }catch ( Exception e) {
-            Toast.makeText(PaystackPayment.this, e.getMessage(), Toast.LENGTH_LONG).show();
-            progressBar.setVisibility(View.GONE);
+            Toast.makeText(PaystackPayment.this, "Error: " +e.getMessage(), Toast.LENGTH_LONG).show();
+            preloaderLogo.dismiss();
         }
     }
 
@@ -274,39 +312,57 @@ public class PaystackPayment extends AppCompatActivity {
                 genKelinLoginToken();
             } else {
                 Toast.makeText(PaystackPayment.this, "Your meter brand does not exist", Toast.LENGTH_SHORT).show();
-                progressBar.setVisibility(View.GONE);
+                preloaderLogo.dismiss();
             }
         } catch (Exception e) {
-            Toast.makeText(PaystackPayment.this, e.getMessage(), Toast.LENGTH_LONG).show();
-            progressBar.setVisibility(View.GONE);
+            Toast.makeText(PaystackPayment.this, "Error: " +e.getMessage(), Toast.LENGTH_LONG).show();
+            preloaderLogo.dismiss();
         }
     }
 
     private double removeTheCharge(){
-        //get the double charge and multiply by the amount
-        double tCharge = 100 - Integer.parseInt(perCharge);     //eg, 100 - 98.5
-        double paidAmount = Double.parseDouble(paymentAmount);
-        return paidAmount - (paidAmount * (tCharge / 100));
+        // time for calculation
+        double paidAmount;
+        double tCharge = 0;//eg, 100 - 98.5
+        try {
+            if (HasPayAcct.equals("true")){
+                // they have the higher percentage, so subtract
+                //get the double charge and multiply by the amount
+                tCharge = 100 - Double.parseDouble(perCharge);
+                //Log.d("Charge", String.valueOf(tCharge));
+            }else {
+                // we have the lower percentage, no need to subtract
+                tCharge = Double.parseDouble(perCharge);
+                //Log.d("Charge", String.valueOf(tCharge));
+            }
+            paidAmount = Double.parseDouble(paymentAmount);
+            return paidAmount - (paidAmount * (tCharge / 100));
+            //Log.d("Payment Amount", String.valueOf(paidAmount));
+        } catch (NumberFormatException e) {
+            throw new RuntimeException("Invalid charge format");
+            //Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+        // Log.d("Return Payment Amount", String.valueOf(paidAmount - (paidAmount * (tCharge / 100))));
+        //return paidAmount - (paidAmount * (tCharge / 100));
     }
 
     // kelin
     private void genKelinLoginToken() {
-        //progressBar.setVisibility(View.VISIBLE);
         //call the login API
-        String apiURL = "http://192.168.246.60:3030/loginKelinToken";
+        String apiURL = baseUrl+"/g/kelin/login";
         try {
-            JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.POST, apiURL, null, response -> {
+            JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.GET, apiURL, null, response -> {
                 try {
                     //get the login token
                     String loginToken = response.getString("token");
                     kelly(loginToken);
                 } catch (JSONException e) {
-                    Toast.makeText(PaystackPayment.this, e.getMessage(), Toast.LENGTH_LONG).show();
-                    progressBar.setVisibility(View.GONE);
+                    Toast.makeText(PaystackPayment.this, "Error: " +e.getMessage(), Toast.LENGTH_LONG).show();
+                    preloaderLogo.dismiss();
                 }
             }, error -> {
                 Toast.makeText(PaystackPayment.this, "Couldn't connect to internet", Toast.LENGTH_SHORT).show();
-                progressBar.setVisibility(View.GONE);
+                preloaderLogo.dismiss();
             }){
                 @Override
                 public Map<String, String> getHeaders() {
@@ -318,7 +374,7 @@ public class PaystackPayment extends AppCompatActivity {
             VolleySingleton.getInstance(this).addToRequestQueue(jsonRequest);
         } catch (Exception e) {
             Toast.makeText(PaystackPayment.this, "An Error occurred", Toast.LENGTH_SHORT).show();
-            progressBar.setVisibility(View.GONE);
+            preloaderLogo.dismiss();
         }
     }
 
@@ -333,18 +389,22 @@ public class PaystackPayment extends AppCompatActivity {
         assert localDateTime != null;
         String theDate = localDateTime.toString();
         Log.d("Current Time", theDate);
-        String vendURL = "http://192.168.246.60:3030/vendKelinToken";
+        String vendURL = baseUrl+"/g/kelin/vend";
         JSONObject vendingObjects = new JSONObject();
         try {
             vendingObjects.put("token", logToken);
             vendingObjects.put("meterNo", meterID);
             vendingObjects.put("tariff", meterTariff);
             //i am meant to pass in the real amount to vend the token
-            vendingObjects.put("amount", removeTheCharge());   // amount with removed charge
+            vendingObjects.put("amount", TokenAmount);   // amount with removed charge
             vendingObjects.put("date", theDate);
             vendingObjects.put("vat", Double.parseDouble(vat));     // in percentage
+            // add the rules to first verify payment
+            vendingObjects.put("estateID", estateID);
+            vendingObjects.put("hasPayAcct", HasPayAcct);
+            vendingObjects.put("reference", refID);
         } catch (JSONException e) {
-            Toast.makeText(PaystackPayment.this, e.getMessage(), Toast.LENGTH_LONG).show();
+            Toast.makeText(PaystackPayment.this,"Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
         }
         new PaystackPayment.kellyTransactionDataTask(vendURL, vendingObjects).execute();
     }
@@ -390,7 +450,7 @@ public class PaystackPayment extends AppCompatActivity {
                 }
 
             } catch (Exception e){
-                Toast.makeText(PaystackPayment.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(PaystackPayment.this, "Error: " +e.getMessage(), Toast.LENGTH_LONG).show();
             }
             // Return null if there's an issue with the network or API call
             return null;
@@ -409,13 +469,13 @@ public class PaystackPayment extends AppCompatActivity {
                         saveToDatabase(kelinToken, kelinUnits);
 
                     } catch (JSONException e) {
-                        Toast.makeText(PaystackPayment.this, e.getMessage(), Toast.LENGTH_LONG).show();
-                        progressBar.setVisibility(View.GONE);
+                        Toast.makeText(PaystackPayment.this, "Kindly check your connection and click the button again", Toast.LENGTH_LONG).show();
+                        preloaderLogo.dismiss();
                         //throw new RuntimeException(e);
                     }
                 } catch (JSONException e) {
-                    Toast.makeText(PaystackPayment.this, "Could not get the data", Toast.LENGTH_SHORT).show();
-                    progressBar.setVisibility(View.GONE);
+                    Toast.makeText(PaystackPayment.this, "Kindly check your connection and click the button again", Toast.LENGTH_SHORT).show();
+                    preloaderLogo.dismiss();
                 }
             }
         }
@@ -424,12 +484,12 @@ public class PaystackPayment extends AppCompatActivity {
     // chint
     private void generateChintToken() {
         //chint tariff is preset in the system and the amount should not be minus
-        String ChintAmount = decimalFormat.format(removeTheCharge());
+        String ChintAmount = decimalFormat.format(TokenAmount);
         String customerID = theCustomerID;
         String pass = thePassword;
         String user = theUsername;
         double theVat= Double.parseDouble(vat);
-        String vendURL = "http://192.168.246.60:3030/chintVend";
+        String vendURL = baseUrl+"/g/chint/vend";
         try {
             //i need to pass in the, token, amount, meterNo, tariff, time
             JSONObject vendingObjects = new JSONObject();
@@ -439,44 +499,64 @@ public class PaystackPayment extends AppCompatActivity {
             vendingObjects.put("password", pass);
             vendingObjects.put("username", user);
             vendingObjects.put("vat", theVat);
+            // to first verify payment
+            vendingObjects.put("estateID", estateID);
+            vendingObjects.put("hasPayAcct", HasPayAcct);
+            vendingObjects.put("reference", refID);
             JsonObjectRequest vendTokenRequest = new JsonObjectRequest(Request.Method.POST, vendURL, vendingObjects, response -> {
                 try {
-                    JSONObject envelope = response.getJSONObject("soap:Envelope");
-                    JSONObject body= envelope.getJSONObject("soap:Body");
-                    JSONObject transRes = body.getJSONObject("TransactionResponse");
-                    JSONObject transResult = transRes.getJSONObject("TransactionResult");
-                    //to get the result
-                    JSONObject theResult = transResult.getJSONObject("Result");
-                    String ChintResult = theResult.getString("_text");
-
-                    //just in case the system starts misbehaving
-                    if (ChintResult.equals("false")) {
-                        retryCount++;
-                        Log.d("Recursive count", String.valueOf(retryCount));
-                        generateChintToken();
-//                        Toast.makeText(SuccessPage.this, "Please Click the button again", Toast.LENGTH_LONG).show();
-//                        progressBar.setVisibility(View.GONE);
-                    }else {
+                    String message = response.getString("message");
+                    if (message.equals("success")){
                         //to get the token
-                        JSONObject theRechargeToken = transResult.getJSONObject("RechargeToken");
-                        String ChintToken = theRechargeToken.getString("_text");
+                        String ChintToken = response.getString("token");
                         //to get the energy unit
-                        JSONObject theEnergy = transResult.getJSONObject("Energy");
-                        String ChintUnits = theEnergy.getString("_text");
+                        String ChintUnits = response.getString("units");
                         //for the change. Confirm from yogesh
-                        JSONObject theChangeAmount = transResult.getJSONObject("ChangeAmount");
-                        String ChangeAmount = theEnergy.getString("_text");
+//                        JSONObject theChangeAmount = transResult.getJSONObject("ChangeAmount");
+//                        String ChangeAmount = theEnergy.getString("_text");
 
                         saveToDatabase(ChintToken, ChintUnits);
-                        //after saving, print the pdf
+                    } else {
+                        Toast.makeText(PaystackPayment.this, "Kindly check your connection and click the button again", Toast.LENGTH_LONG).show();
+                        preloaderLogo.dismiss();
                     }
+
+//                    JSONObject envelope = response.getJSONObject("soap:Envelope");
+//                    JSONObject body= envelope.getJSONObject("soap:Body");
+//                    JSONObject transRes = body.getJSONObject("TransactionResponse");
+//                    JSONObject transResult = transRes.getJSONObject("TransactionResult");
+//                    //to get the result
+//                    JSONObject theResult = transResult.getJSONObject("Result");
+//                    String ChintResult = theResult.getString("_text");
+//
+//                    //just in case the system starts misbehaving
+//                    if (ChintResult.equals("false")) {
+//                        retryCount++;
+//                        Log.d("Recursive count", String.valueOf(retryCount));
+//                        generateChintToken();
+////                        Toast.makeText(SuccessPage.this, "Please Click the button again", Toast.LENGTH_LONG).show();
+////                        progressBar.setVisibility(View.GONE);
+//                    }else {
+//                        //to get the token
+//                        JSONObject theRechargeToken = transResult.getJSONObject("RechargeToken");
+//                        String ChintToken = theRechargeToken.getString("_text");
+//                        //to get the energy unit
+//                        JSONObject theEnergy = transResult.getJSONObject("Energy");
+//                        String ChintUnits = theEnergy.getString("_text");
+//                        //for the change. Confirm from yogesh
+//                        JSONObject theChangeAmount = transResult.getJSONObject("ChangeAmount");
+//                        String ChangeAmount = theEnergy.getString("_text");
+//
+//                        saveToDatabase(ChintToken, ChintUnits);
+//                        //after saving, print the pdf
+//                    }
                 } catch (JSONException e) {
-                    Toast.makeText(PaystackPayment.this, e.getMessage(), Toast.LENGTH_LONG).show();
-                    progressBar.setVisibility(View.GONE);
+                    Toast.makeText(PaystackPayment.this, "Kindly check your connection and click the button again", Toast.LENGTH_LONG).show();
+                    preloaderLogo.dismiss();
                 }
             }, error -> {
-                Toast.makeText(PaystackPayment.this, "Could not connect to vending application", Toast.LENGTH_SHORT).show();
-                progressBar.setVisibility(View.GONE);
+                Toast.makeText(PaystackPayment.this, "Kindly check your connection and click the button again", Toast.LENGTH_SHORT).show();
+                preloaderLogo.dismiss();
             }){
                 @Override
                 public Map<String, String> getHeaders() {
@@ -485,10 +565,14 @@ public class PaystackPayment extends AppCompatActivity {
                     return headers;
                 }
             };
+            // Set the RetryPolicy here
+            int socketTimeout = 30000;  // 30 seconds
+            RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+            vendTokenRequest.setRetryPolicy(policy);
             VolleySingleton.getInstance(this).addToRequestQueue(vendTokenRequest);
         } catch (Exception e) {
             Toast.makeText(PaystackPayment.this, "An Error occurred", Toast.LENGTH_SHORT).show();
-            progressBar.setVisibility(View.GONE);
+            preloaderLogo.dismiss();
         }
     }
 
@@ -497,21 +581,30 @@ public class PaystackPayment extends AppCompatActivity {
         //String HexingAmount = decimalFormat.format(PaidAmount);
         //electricity
         int service = 0;
-        double amount = removeTheCharge();
+        double amount = TokenAmount;
+        Log.d("Amount", String.valueOf(amount));
         double theVat = Double.parseDouble(vat);
         //the real figure is meant to be the one that i get after i divide the amount by the tariff and send to the system
         double tar = Double.parseDouble(meterTariff);
-        String vendURL = "http://192.168.246.60:3030/hexingVend";
+        String vendURL = baseUrl+"/g/hexing/vend";
         try {
             //i need to pass in the, token, amount, meterNo, tariff, time
             JSONObject vendingObjects = new JSONObject();
-            vendingObjects.put("meterID", meterID);
-            vendingObjects.put("transactionId", refID);
-            vendingObjects.put("service", service);
-            // i have to do the calculation on the backend
-            vendingObjects.put("amount", amount);
-            vendingObjects.put("tariff", tar);
-            vendingObjects.put("vat", theVat);
+            try {
+                vendingObjects.put("meterID", meterID);
+                vendingObjects.put("transactionId", refID);
+                vendingObjects.put("service", service);
+                // i have to do the calculation on the backend
+                vendingObjects.put("amount", amount);
+                vendingObjects.put("tariff", tar);
+                vendingObjects.put("vat", theVat);
+                // to first verify payment
+                vendingObjects.put("estateID", estateID);
+                vendingObjects.put("hasPayAcct", HasPayAcct);
+                vendingObjects.put("reference", refID);
+            } catch (JSONException e) {
+                Toast.makeText(PaystackPayment.this, e.getMessage(), Toast.LENGTH_LONG).show();
+            }
             //i am meant to pass in the real amount to vend the token
             //vendingObjects.put("value", valueToSend);
             JsonObjectRequest vendTokenRequest = new JsonObjectRequest(Request.Method.POST, vendURL, vendingObjects, response -> {
@@ -525,15 +618,15 @@ public class PaystackPayment extends AppCompatActivity {
                         saveToDatabase(tokenData, tokenUnit);
                     }else {
                         Toast.makeText(PaystackPayment.this, "Could not generate Token. Contact Admin", Toast.LENGTH_LONG).show();
-                        progressBar.setVisibility(View.GONE);
+                        preloaderLogo.dismiss();
                     }
                 } catch (JSONException e) {
-                    Toast.makeText(PaystackPayment.this, e.getMessage(), Toast.LENGTH_LONG).show();
-                    progressBar.setVisibility(View.GONE);
+                    Toast.makeText(PaystackPayment.this, "Wrong amount", Toast.LENGTH_LONG).show();
+                    preloaderLogo.dismiss();
                 }
             }, error -> {
                 Toast.makeText(PaystackPayment.this, "Could not connect to vending application", Toast.LENGTH_SHORT).show();
-                progressBar.setVisibility(View.GONE);
+                preloaderLogo.dismiss();
             }){
                 @Override
                 public Map<String, String> getHeaders() {
@@ -542,10 +635,13 @@ public class PaystackPayment extends AppCompatActivity {
                     return headers;
                 }
             };
+            int socketTimeout = 30000;  // 30 seconds
+            RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+            vendTokenRequest.setRetryPolicy(policy);
             VolleySingleton.getInstance(this).addToRequestQueue(vendTokenRequest);
         } catch (Exception e) {
             Toast.makeText(PaystackPayment.this, "An Error occurred", Toast.LENGTH_SHORT).show();
-            progressBar.setVisibility(View.GONE);
+            preloaderLogo.dismiss();
         }
     }
 
@@ -555,10 +651,20 @@ public class PaystackPayment extends AppCompatActivity {
         double realTariff = Double.parseDouble(meterTariff);
         double realUnits = Double.parseDouble(unit);
         //the charges from backend
-        double realCharge = 100 - Integer.parseInt(perCharge);
+        double realCharge ;
+        if (HasPayAcct.equals("true")){
+            // they have the higher percentage, so subtract
+            //get the double charge and multiply by the amount
+            realCharge = 100 - Double.parseDouble(perCharge);
+            //Log.d("Charge", String.valueOf(tCharge));
+        }else {
+            // we have the lower percentage, no need to subtract
+            realCharge = Double.parseDouble(perCharge);
+            //Log.d("Charge", String.valueOf(tCharge));
+        }
         //to get the chargeAmount we are taking
         double theRealChargeAmount = Double.parseDouble(paymentAmount) * ( realCharge / 100 );
-        String vendURL = "http://192.168.246.60:3030/transaction";
+        String vendURL = baseUrl+"/g/saveTrans";
         try {
             //i need to pass in the, token, amount, meterNo, tariff, time
             JSONObject databaseObjects = new JSONObject();
@@ -570,20 +676,26 @@ public class PaystackPayment extends AppCompatActivity {
             databaseObjects.put("vat",  vat);
             databaseObjects.put("token", Token);
             databaseObjects.put("chargePer", realCharge);       //this is meant to be the percentage of the money
-            databaseObjects.put("chargeAmount", theRealChargeAmount);            //this is meant to be the amount of the money
-            databaseObjects.put("vendedAmount", Amount);        //the amount vended
+            databaseObjects.put("chargeAmount", CWGChargeAmount);            //this is meant to be the amount of the money charge
+            databaseObjects.put("vendedAmount", TokenAmount);        //the amount vended
             databaseObjects.put("units", realUnits);
             databaseObjects.put("channel", "PayStack");
             databaseObjects.put("vendedBy", role);
             databaseObjects.put("email", theEmail);
+            // pass the customer name
+            databaseObjects.put("username", customerName);
+            databaseObjects.put("day", getCurrentDate());
+            databaseObjects.put("time", getCurrentTime());
 
             JsonObjectRequest saveDatabaseRequest = new JsonObjectRequest(Request.Method.POST, vendURL, databaseObjects, response -> {
                 try {
                     String message = response.getString("message");
                     if (message.equals("success")){
-                        JSONObject data = response.getJSONObject("data");
-                        String theDated = data.getString("date");
-                        String theTime = data.getString("time");
+                        //JSONObject data = response.getJSONObject("data");
+//                        String theDated = data.getString("date");
+//                        String theTime = data.getString("time");
+                        String time = response.getString("time");
+                        String date = response.getString("day");
 
                         // pass data to next page, to avoid constant going to database
                         Intent nextInt = new Intent(PaystackPayment.this, TheReceipt.class);
@@ -592,32 +704,32 @@ public class PaystackPayment extends AppCompatActivity {
                         nextInt.putExtra("repMeterID", meterID);
                         nextInt.putExtra("repToken", Token);
                         //this is the original amount that has not been touched, in case im ask not to deduct from client
-                        nextInt.putExtra("repAmount", paymentAmount);
-                        nextInt.putExtra("repCharge", theRealChargeAmount);
+                        nextInt.putExtra("repAmount",  String.valueOf(paymentAmount));
+                        nextInt.putExtra("repCharge", String.valueOf(CWGChargeAmount));
                         nextInt.putExtra("repVat", vat);
                         nextInt.putExtra("repTariff", String.valueOf(realTariff));
-                        nextInt.putExtra("redVendedAmount", Amount);
-                        nextInt.putExtra("repUnits", realTariff);
-                        nextInt.putExtra("repDate", theDated);
-                        nextInt.putExtra("repTime", theTime);
+                        nextInt.putExtra("redVendedAmount",  String.valueOf(TokenAmount));
+                        nextInt.putExtra("repUnits",  String.valueOf(realUnits));
+                        nextInt.putExtra("repDate", date);
+                        nextInt.putExtra("repTime", time);
                         startActivity(nextInt);
 
                         finish();
-                        progressBar.setVisibility(View.GONE);
+                        preloaderLogo.dismiss();
                         Toast.makeText(PaystackPayment.this, "Successful!!! ", Toast.LENGTH_SHORT).show();
                     }
                     else {
                         Toast.makeText(PaystackPayment.this, "Could not save to database", Toast.LENGTH_LONG).show();
-                        progressBar.setVisibility(View.GONE);
+                        preloaderLogo.dismiss();
                     }
 
                 } catch (JSONException e) {
-                    Toast.makeText(PaystackPayment.this, e.getMessage(), Toast.LENGTH_LONG).show();
-                    progressBar.setVisibility(View.GONE);
+                    Toast.makeText(PaystackPayment.this, "Error: " +e.getMessage(), Toast.LENGTH_LONG).show();
+                    preloaderLogo.dismiss();
                 }
             }, error -> {
                 Toast.makeText(PaystackPayment.this, "Could not save to database", Toast.LENGTH_LONG).show();
-                progressBar.setVisibility(View.GONE);
+                preloaderLogo.dismiss();
             }){
                 @Override
                 public Map<String, String> getHeaders() {
@@ -629,7 +741,19 @@ public class PaystackPayment extends AppCompatActivity {
             VolleySingleton.getInstance(this).addToRequestQueue(saveDatabaseRequest);
         } catch (Exception e) {
             Toast.makeText(PaystackPayment.this, "An Error occurred", Toast.LENGTH_SHORT).show();
-            progressBar.setVisibility(View.GONE);
+            preloaderLogo.dismiss();
         }
+    }
+
+    public String getCurrentDate() {
+        SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd"); // Only date
+        return dateFormatter.format(new Date());
+    }
+
+    public String getCurrentTime() {
+        SimpleDateFormat timeFormatter = new SimpleDateFormat("HH:mm:ss"); // Only time
+        // Set the timezone to GMT+1
+        timeFormatter.setTimeZone(TimeZone.getTimeZone("GMT+1"));
+        return timeFormatter.format(new Date());
     }
 }

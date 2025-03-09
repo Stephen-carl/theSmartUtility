@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="28" />
 
     <application
@@ -12,11 +13,77 @@
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:networkSecurityConfig="@xml/network_security_config"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.TheSmartUtility"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
+        <activity
+            android:name=".estateAdmin.EstateServiceFeeDetail"
+            android:exported="false" />
+        <activity
+            android:name=".estateAdmin.EstateService"
+            android:exported="false" />
+        <activity
+            android:name=".estateAdmin.UpdateService"
+            android:exported="false" />
+        <activity
+            android:name=".ServicePayment"
+            android:exported="false" />
+        <activity
+            android:name=".user.UserService"
+            android:exported="false" />
+        <activity
+            android:name=".auth.VerifyRegistration"
+            android:exported="false" />
+        <activity
+            android:name=".auth.ResetEmailPin"
+            android:exported="false" />
+        <activity
+            android:name=".estateAdmin.EstateProfile"
+            android:exported="false" />
+        <activity
+            android:name=".estateAdmin.EstateMeters"
+            android:exported="false" /> <!-- <activity -->
+        <!-- android:name=".EstateGenerateToken" -->
+        <!-- android:exported="false" /> -->
+        <activity
+            android:name=".estateAdmin.UpdateVAT"
+            android:exported="false" />
+        <activity
+            android:name=".estateAdmin.UpdateTariff"
+            android:exported="false" />
+        <activity
+            android:name=".HistoryItemDetails"
+            android:exported="false" />
+        <activity
+            android:name=".auth.UpdatePassword"
+            android:exported="false" />
+        <activity
+            android:name=".user.UserPurchase"
+            android:exported="false" />
+        <activity
+            android:name=".estateAdmin.EstatePurchase"
+            android:exported="true" /> <!-- <activity -->
+        <!-- android:name=".user.UserDashboard$UserPurchase" -->
+        <!-- android:exported="false" /> -->
+        <activity
+            android:name=".WalkThrough"
+            android:exported="false" />
+        <activity
+            android:name=".AppSplashScreen"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".SettingsProfile"
+            android:exported="false" />
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"
@@ -26,6 +93,7 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+
         <activity
             android:name=".TheReceipt"
             android:exported="false" />
@@ -49,7 +117,7 @@
             android:exported="false" />
         <activity
             android:name=".user.UserDashboard"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".auth.ChangePassword"
             android:exported="false" />
@@ -61,13 +129,7 @@
             android:exported="false" />
         <activity
             android:name=".auth.Login"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:exported="true" />
         <activity
             android:name=".auth.Register"
             android:exported="false" />

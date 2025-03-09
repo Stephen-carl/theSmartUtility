@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SettingsProfile">
+
+    <ImageView
+        android:id="@+id/profileBackImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/back_back"
+        android:contentDescription="@string/back_arrow"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="38dp"/>
+
+    <TextView
+        android:id="@+id/profileText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/profile"
+        android:textSize="20sp"
+        android:textColor="#232665"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginTop="38dp"
+        android:layout_centerHorizontal="true"
+        android:fontFamily="@font/bricolage_grotesque_semi_bold"/>
+
+    <RelativeLayout
+        android:id="@+id/profileNameRelative"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/setting_prof"
+        android:layout_marginHorizontal="20dp"
+        android:paddingHorizontal="10dp"
+        android:paddingVertical="8dp"
+        android:layout_below="@id/profileText"
+        android:layout_marginTop="32dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:textSize="15sp"
+            android:text="Full Name"
+            android:textColor="@color/primary"
+            android:layout_margin="10dp"
+            android:fontFamily="@font/bricolage_grotesque_semi_bold"/>
+
+        <TextView
+            android:id="@+id/profileNameText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:text="Toluwani Stephen"
+            android:textSize="15sp"
+            android:textColor="#667085"
+            android:layout_margin="10dp"
+            android:fontFamily="@font/bricolage_grotesque_regular"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/profileEmailRelative"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/setting_prof"
+        android:layout_marginHorizontal="20dp"
+        android:paddingHorizontal="10dp"
+        android:paddingVertical="8dp"
+        android:layout_below="@id/profileNameRelative"
+        android:layout_marginVertical="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:textSize="15sp"
+            android:text="Email"
+            android:textColor="@color/primary"
+            android:layout_margin="10dp"
+            android:fontFamily="@font/bricolage_grotesque_semi_bold"/>
+
+        <TextView
+            android:id="@+id/profileEmailText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:text="Toluwani Stephen"
+            android:textSize="15sp"
+            android:textColor="#667085"
+            android:layout_margin="10dp"
+            android:fontFamily="@font/bricolage_grotesque_regular"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/profilePhoneRelative"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/setting_prof"
+        android:layout_marginHorizontal="20dp"
+        android:paddingHorizontal="10dp"
+        android:paddingVertical="8dp"
+        android:layout_below="@id/profileEmailRelative"
+        android:layout_marginBottom="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:textSize="15sp"
+            android:text="Phone Number"
+            android:textColor="@color/primary"
+            android:layout_margin="10dp"
+            android:fontFamily="@font/bricolage_grotesque_semi_bold"/>
+
+        <TextView
+            android:id="@+id/profilePhoneText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:text="Toluwani Stephen"
+            android:textSize="15sp"
+            android:textColor="#667085"
+            android:layout_margin="10dp"
+            android:fontFamily="@font/bricolage_grotesque_regular"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/profileRoleRelative"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/setting_prof"
+        android:layout_marginHorizontal="20dp"
+        android:paddingHorizontal="10dp"
+        android:paddingVertical="8dp"
+        android:layout_marginBottom="10dp"
+        android:layout_below="@id/profilePhoneRelative">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:textSize="15sp"
+            android:text="Assigned Role"
+            android:textColor="@color/primary"
+            android:layout_margin="10dp"
+            android:fontFamily="@font/bricolage_grotesque_semi_bold"/>
+
+        <TextView
+            android:id="@+id/profileRoleText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:text="Toluwani Stephen"
+            android:textSize="15sp"
+            android:textColor="#1cc122"
+            android:layout_margin="10dp"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/profileJoinRelative"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/setting_prof"
+        android:layout_marginHorizontal="20dp"
+        android:paddingHorizontal="10dp"
+        android:paddingVertical="8dp"
+        android:layout_marginBottom="10dp"
+        android:layout_below="@id/profileRoleRelative">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:textSize="15sp"
+            android:text="Joined Date"
+            android:textColor="@color/primary"
+            android:layout_margin="10dp"
+            android:fontFamily="@font/bricolage_grotesque_semi_bold"/>
+
+        <TextView
+            android:id="@+id/profileJoinText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:text="Toluwani Stephen"
+            android:textSize="15sp"
+            android:textColor="#667085"
+            android:layout_margin="10dp"
+            android:fontFamily="@font/bricolage_grotesque_regular"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/profileLastRelative"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/setting_prof"
+        android:layout_marginHorizontal="20dp"
+        android:paddingHorizontal="10dp"
+        android:paddingVertical="8dp"
+        android:layout_marginBottom="10dp"
+        android:layout_below="@id/profileJoinRelative">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:textSize="15sp"
+            android:text="Last Login"
+            android:textColor="@color/primary"
+            android:layout_margin="10dp"
+            android:fontFamily="@font/bricolage_grotesque_semi_bold"/>
+
+        <TextView
+            android:id="@+id/profileLastText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:text="Toluwani Stephen"
+            android:textSize="15sp"
+            android:textColor="#667085"
+            android:layout_margin="10dp"
+            android:fontFamily="@font/bricolage_grotesque_regular"/>
+
+    </RelativeLayout>
+
+</RelativeLayout>

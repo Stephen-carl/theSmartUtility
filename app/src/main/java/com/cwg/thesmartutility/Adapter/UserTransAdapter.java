@@ -1,14 +1,17 @@
 package com.cwg.thesmartutility.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.cwg.thesmartutility.HistoryItemDetails;
 import com.cwg.thesmartutility.R;
 import com.cwg.thesmartutility.model.UserTransModel;
 
@@ -41,6 +44,11 @@ public class UserTransAdapter extends RecyclerView.Adapter<UserTransAdapter.Post
         holder.setUnit(userTranModel.getUnits());
         holder.setTokenID(userTranModel.getToken());
         holder.setDateID(userTranModel.getDate(), userTranModel.getTime());
+        holder.meterRelative.setOnClickListener(v -> {
+            Intent intent = new Intent(context, HistoryItemDetails.class);
+            intent.putExtra("itemTransRef", userTranModel.getTransID());
+            context.startActivity(intent);
+        });
 
     }
 
@@ -54,11 +62,13 @@ public class UserTransAdapter extends RecyclerView.Adapter<UserTransAdapter.Post
         //the textViews to use
         TextView mAmount, mToken, mDate, mUnits;
         View view;
+        RelativeLayout meterRelative;
 
         public PostHolder( View itemView) {
             super(itemView);
             //pass the view(context) to this one i defined
             view = itemView;
+            meterRelative = view.findViewById(R.id.transactionRelative);
         }
         //functions for setting the items and set the text
 

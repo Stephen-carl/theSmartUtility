@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -13,7 +14,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,12 +27,10 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.cwg.thesmartutility.Adapter.EstateMeterAdapter;
 import com.cwg.thesmartutility.R;
 import com.cwg.thesmartutility.VolleySingleton;
+import com.cwg.thesmartutility.auth.Login;
 import com.cwg.thesmartutility.model.EstateMeterModel;
-import com.cwg.thesmartutility.user.History;
-import com.cwg.thesmartutility.user.UserProfile;
+import com.cwg.thesmartutility.utils.PreloaderLogo;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -36,39 +39,51 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 public class EstateDashboard extends AppCompatActivity {
 
     RelativeLayout historyRelative;
     LinearLayout dashHistoryLinear;
     RecyclerView meterRecycler;
-    TextInputEditText tariffAmountInput;
-    TextInputLayout tariffLayout;
-    String TariffAmountText;
-    Button updateButton;
-    TextView estateName, tariffText;
+    RelativeLayout updateVATButton, updateTariffButton, updateServiceButton;
+    TextView estateName, tariffText, vatText;
     SharedPreferences validSharedPref;
     BottomNavigationView bottomNavigationView;
     ArrayList<EstateMeterModel> userList;
     EstateMeterAdapter meterNumAdapter;
+    private boolean isBackPressed = false;
+    int page = 1;
+    int pageSize = 10;
+    String baseUrl;
+    private PreloaderLogo preloaderLogo;
+    Button serviceTransButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.estate_dashboard);
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.estateMain), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(0, systemBars.top, 0, 0);
+            return insets;
+        });
 
+        baseUrl = this.getString(R.string.managementBaseURL);
         // ids
         estateName = findViewById(R.id.estateNameText);
-        tariffLayout = findViewById(R.id.estateUpdateLayout);
-        tariffAmountInput = findViewById(R.id.estateUpdateInput);
         tariffText = findViewById(R.id.tariffText);
-        updateButton = findViewById(R.id.estateUpdateButton);
+        updateVATButton = findViewById(R.id.VATButton);
+        updateTariffButton = findViewById(R.id.TariffButton);
+        updateServiceButton = findViewById(R.id.serviceButton);
+        serviceTransButton = findViewById(R.id.serviceTransButton);
         historyRelative = findViewById(R.id.estateTokenHistory);
         dashHistoryLinear = findViewById(R.id.estateHistoryLinear);
         meterRecycler = findViewById(R.id.estateMeterRecycler);
         bottomNavigationView = findViewById(R.id.estateDashNav);
+        vatText = findViewById(R.id.vatText);
+        preloaderLogo = new PreloaderLogo(this);
+
 
         // initialize the arrayList
         userList = new ArrayList<>();
@@ -77,109 +92,93 @@ public class EstateDashboard extends AppCompatActivity {
         meterRecycler.setLayoutManager(new LinearLayoutManager(EstateDashboard.this));
 
         // set estate name and current tariff
-        String theEstateName = validSharedPref.getString("estateName", null);
-        String currentTariff = validSharedPref.getString("tariff", null);
+        String theEstateName = validSharedPref.getString("estateName", "");
+        String currentTariff = validSharedPref.getString("tariff", "");
+        String vatAmount = validSharedPref.getString("vat", "");
+        String serviceStatus = validSharedPref.getString("service_status", "");
         estateName.setText(theEstateName);
         tariffText.setText("₦" + currentTariff);
+        vatText.setText(vatAmount + " %");
 
         // fetch the meters
         int EstateID = validSharedPref.getInt("estateID", 0);
         fetchMeters(EstateID);
 
-        // update Button
-        updateButton.setOnClickListener(v -> init());
-        // go to history
-        historyRelative.setOnClickListener(v -> startActivity(new Intent(this, History.class)));
+        // update Buttons
+        updateVATButton.setOnClickListener(v -> startActivity(new Intent(this, UpdateVAT.class)));
+        updateTariffButton.setOnClickListener(v -> startActivity(new Intent(this, UpdateTariff.class)));
+        // if serviceStatus is "true" then show the button. Else hide it
+        if (serviceStatus.equals("true")) {
+            updateServiceButton.setVisibility(View.VISIBLE);
+        } else {
+            updateServiceButton.setVisibility(View.GONE);
+        }
+
+        // service transaction history
+        serviceTransButton.setOnClickListener(v -> startActivity(new Intent(this, EstateService.class)));
+
+        // update service button
+        updateServiceButton.setOnClickListener(v -> startActivity(new Intent(this, UpdateService.class)));
+
+
+
+        // TODO: Work on this
+        historyRelative.setOnClickListener(v -> startActivity(new Intent(this, EstateMeters.class)));
 
         // bottom Nav
         bottomNavigationView = findViewById(R.id.estateDashNav);
-        bottomNavigationView.setSelectedItemId(R.id.homeIcon);
+        bottomNavigationView.setSelectedItemId(R.id.estateHomeMenu);
 
         bottomNavigationView.setOnItemSelectedListener(item -> {
             int itemID = item.getItemId();
 
-            if (itemID == R.id.homeIcon){
+            if (itemID == R.id.estateHomeMenu){
                 return true;
-            } else if (itemID == R.id.historyIcon) {
-                startActivity(new Intent(this, History.class));
+            } else if (itemID == R.id.estateHistoryMenu) {
+                startActivity(new Intent(this, EstateHistory.class));
                 overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-                finish();
                 return true;
-            } else if (itemID == R.id.profileIcon) {
-                startActivity(new Intent(this, UserProfile.class));
+            } else if (itemID == R.id.estateMeterMenu) {
+                startActivity(new Intent(this, EstateMeters.class));
                 overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-                finish();
+                return true;
+            } else if (itemID == R.id.estateProfileMenu) {
+                startActivity(new Intent(this, EstateProfile.class));
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                 return true;
             }
             return false;
         });
-    }
 
-    public void init() {
-        TariffAmountText = Objects.requireNonNull(tariffAmountInput.getText()).toString().trim();
-        //check if empty
-        if (TariffAmountText.isEmpty()) {
-            tariffLayout.setErrorEnabled(true);
-            tariffLayout.setError("Please enter the new tariff.");
-        } else {
-            int EstateID = validSharedPref.getInt("estateID", 0);
-            //pass in the estateID and the Updated Tariff text
-            updateTheTariff(EstateID, TariffAmountText);
-        }
-    }
+        // on back pressed
+        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                // Navigate to the login activity
+                if (isBackPressed) {
+                    // Navigate to the login activity only on second press
+                    Intent intent = new Intent(EstateDashboard.this, Login.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK); // Clears the back stack
+                    startActivity(intent);
+                    finish();
+                } else {
+                    // Set flag and show Toast on first press
+                    isBackPressed = true;
+                    Toast.makeText(EstateDashboard.this, "Press again to log out.", Toast.LENGTH_SHORT).show();
 
-    // update Tariff
-    private void updateTheTariff(int estateID, String newTariff) {
-        String apiUrl = "http://192.168.246.60:5050/estate/updateTariff";
-        String token =  validSharedPref.getString("token", null);
-        try {
-            JSONObject jsonRequest = new JSONObject();
-            try {
-                jsonRequest.put("estateID", estateID);
-                jsonRequest.put("tariff", newTariff);
-            } catch (JSONException e) {
-                Toast.makeText(EstateDashboard.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-            JsonObjectRequest request = new JsonObjectRequest(
-                    Request.Method.POST,
-                    apiUrl,
-                    jsonRequest,
-                    response -> {
-                        try {
-                            tariffAmountInput.setText("");
-                            String message = response.getString("message");
-                            if (message.equals("success")) {
-                                String theTariff = response.getString("tariff");
-                                tariffText.setText("₦" + theTariff);
-                            } else {
-                                Toast.makeText(this, "Could not update tariff", Toast.LENGTH_SHORT).show();
-                            }
-                        } catch (JSONException e) {
-                            Toast.makeText(EstateDashboard.this, "Error parsing JSON response", Toast.LENGTH_SHORT).show();
-                        }
-                    },
-                    error -> {
-                        Log.e("EstateHistory", "Error: " + error.toString());
-                        Toast.makeText(EstateDashboard.this, error.getMessage(), Toast.LENGTH_SHORT).show();
-                        // Handle error
-                    }){
-                @Override
-                public Map<String, String> getHeaders() {
-                    Map<String, String> headers = new HashMap<>();
-                    headers.put("Authorization", "Bearer " + token);  // Send JWT in Authorization header
-                    return headers;
+                    // Reset the flag after 2 seconds
+                    new Handler().postDelayed(() -> isBackPressed = false, 2000);
                 }
-            };
-            // Add the request to the RequestQueue
-            VolleySingleton.getInstance(this).addToRequestQueue(request);
-        }catch ( Exception e) {
-            Toast.makeText(EstateDashboard.this, "Pls connect to internet", Toast.LENGTH_SHORT).show();
+            }
+        };
+        getOnBackPressedDispatcher().addCallback(this,callback);
 
-        }
     }
 
     private void fetchMeters(int estateId) {
-        String apiUrl = "http://192.168.246.60:5050/estate/meters/"+estateId;
+        preloaderLogo.show();
+        String apiUrl = baseUrl+"/estate/meters/"+estateId+ "?page="  + page +"&pageSize=" + pageSize;
+        //String apiUrl = "http://41.78.157.215:4173/estate/meters/"+estateId+ "?page="  + page +"&pageSize=" + pageSize;
         String token =  validSharedPref.getString("token", null);
         try {
             JsonObjectRequest meterRequest = new JsonObjectRequest(
@@ -190,6 +189,9 @@ public class EstateDashboard extends AppCompatActivity {
                         try {
                             String message = response.getString("message");
                             if (message.equals("success")){
+                                preloaderLogo.dismiss();
+                                // clear list
+                                userList.clear();
                                 dashHistoryLinear.setVisibility(View.GONE);
                                 JSONArray jsonArray = response.getJSONArray("data");
                                 if (jsonArray.length() > 0) {
@@ -212,13 +214,17 @@ public class EstateDashboard extends AppCompatActivity {
                                         userList.add(meterNumModel);
                                     }
                                 } else {
+                                    meterRecycler.setVisibility(View.GONE);
+                                    dashHistoryLinear.setVisibility(View.VISIBLE);
                                     Toast.makeText(EstateDashboard.this, "No meters in this estate.", Toast.LENGTH_LONG).show();
                                 }
                             } else {
+                                preloaderLogo.dismiss();
                                 dashHistoryLinear.setVisibility(View.VISIBLE);
                             }
 
                         } catch (JSONException e) {
+                            preloaderLogo.dismiss();
                             Toast.makeText(EstateDashboard.this, "Error parsing JSON response", Toast.LENGTH_SHORT).show();
                         }
                         //set the adapter
@@ -227,8 +233,9 @@ public class EstateDashboard extends AppCompatActivity {
                         meterRecycler.setAdapter(meterNumAdapter);
                     },
                     error -> {
+                        preloaderLogo.dismiss();
                         Log.e("EstateHistory", "Error: " + error.toString());
-                        Toast.makeText(EstateDashboard.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(EstateDashboard.this, "Error: "  + error.getMessage(), Toast.LENGTH_SHORT).show();
                         // Handle error
                     }){
                 @Override
@@ -241,8 +248,10 @@ public class EstateDashboard extends AppCompatActivity {
             // Add the request to the RequestQueue
             VolleySingleton.getInstance(this).addToRequestQueue(meterRequest);
         }catch ( Exception e) {
+            preloaderLogo.dismiss();
             Toast.makeText(EstateDashboard.this, "Pls connect to internet", Toast.LENGTH_SHORT).show();
 
         }
     }
+
 }

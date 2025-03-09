@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginBottom="7dp"
+    android:background="@color/white">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/serviceCard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/gray_background"
+        app:cardCornerRadius="10dp"
+        android:elevation="2dp"
+        android:layout_margin="3dp">
+
+        <RelativeLayout
+            android:id="@+id/estateServiceRelative"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/estateServiceText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Reference Number"
+                android:textSize="12sp"
+                android:textColor="@color/welcomeName"
+                android:layout_alignParentStart="true"
+                android:textIsSelectable="true"
+                android:gravity="top"
+                android:fontFamily="@font/bricolage_grotesque_regular"/>
+
+            <TextView
+                android:id="@+id/estateServiceID"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1234 5678 9012 3456 7890"
+                android:textSize="14sp"
+                android:textColor="@color/welcomeHead"
+                android:layout_alignParentStart="true"
+                android:layout_below="@id/estateServiceText"
+                android:textIsSelectable="true"
+                android:gravity="top"
+                android:fontFamily="@font/bricolage_grotesque_semi_bold"/>
+
+            <TextView
+                android:id="@+id/transEnd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Expiry Date"
+                android:textSize="12sp"
+                android:textColor="@color/welcomeName"
+                android:layout_marginTop="10dp"
+                android:layout_below="@id/serviceAmount"
+                android:layout_alignParentEnd="true"
+                android:gravity="bottom"
+                android:fontFamily="@font/bricolage_grotesque_regular"/>
+
+            <TextView
+                android:id="@+id/serviceExpiryDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="date"
+                android:textSize="14sp"
+                android:textColor="@color/welcomeHead"
+                android:layout_below="@id/transEnd"
+                android:layout_alignParentEnd="true"
+                android:gravity="bottom"
+                android:fontFamily="@font/bricolage_grotesque_regular"/>
+
+            <TextView
+                android:id="@+id/transAmount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Amount"
+                android:textSize="12sp"
+                android:textColor="@color/welcomeName"
+                android:layout_alignParentEnd="true"
+                android:gravity="top"
+                android:fontFamily="@font/bricolage_grotesque_regular"/>
+
+            <TextView
+                android:id="@+id/serviceAmount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Amount"
+                android:textSize="14sp"
+                android:textColor="@color/welcomeHead"
+                android:layout_alignParentEnd="true"
+                android:layout_below="@id/transAmount"
+                android:gravity="top"
+                android:fontFamily="@font/bricolage_grotesque_semi_bold"/>
+
+            <TextView
+                android:id="@+id/transDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Payment Date"
+                android:textSize="12sp"
+                android:textColor="@color/welcomeName"
+                android:layout_marginTop="10dp"
+                android:layout_below="@id/estateServiceID"
+                android:layout_alignParentStart="true"
+                android:gravity="bottom"
+                android:fontFamily="@font/bricolage_grotesque_regular"/>
+
+            <TextView
+                android:id="@+id/servicePaymentDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Date"
+                android:textSize="14sp"
+                android:textColor="@color/welcomeHead"
+                android:layout_below="@id/transDate"
+                android:layout_alignParentStart="true"
+                android:gravity="bottom"
+                android:fontFamily="@font/bricolage_grotesque_regular"/>
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</RelativeLayout>

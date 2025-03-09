@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="24dp"
+    android:background="@color/white">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true">
+
+        <ImageView
+            android:id="@+id/onBoardOneimage"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_marginBottom="24dp"
+            android:background="@color/transparent"
+            android:layout_centerHorizontal="true"/>
+
+        <!-- Page Indicator -->
+        <LinearLayout
+            android:id="@+id/page_indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="35dp"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_below="@id/onBoardOneimage"
+            android:layout_centerHorizontal="true">
+
+            <!-- Add dots or dynamic indicators here -->
+        </LinearLayout>
+
+        <!-- Title Text -->
+        <TextView
+            android:id="@+id/title_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Manage Tariffs Seamlessly\n with Smart Utility"
+            android:textColor="@color/justThere"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/page_indicator"
+            android:fontFamily="@font/bricolage_grotesque_semi_bold"/>
+
+        <!-- Description Text -->
+        <TextView
+            android:id="@+id/description_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@string/welcome_two"
+            android:textColor="#323232"
+            android:textSize="14sp"
+            android:gravity="center"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/title_text"
+            android:fontFamily="@font/bricolage_grotesque_regular"/>
+
+        <Button
+            android:id="@+id/get_started_two"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/primary"
+            android:text="@string/get_started"
+            android:layout_below="@id/description_text"
+            android:textColor="@color/white"
+            android:layout_marginTop="61dp"
+            android:fontFamily="@font/bricolage_grotesque_semi_bold"/>
+
+    </RelativeLayout>
+
+</RelativeLayout>

@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/bottom_sheet_background"
+    android:elevation="5dp"
+    android:orientation="vertical"
+    android:id="@+id/estateServiceBS">
+
+    <RelativeLayout
+        android:id="@+id/filterHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:textColor="@color/black"
+            android:text="Service Fee History Filter"
+            android:textSize="18sp"
+            android:fontFamily="@font/bricolage_grotesque_semi_bold"/>
+        <TextView
+            android:id="@+id/dateResetAll"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:textColor="#a8a8a8"
+            android:text="Reset All"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:layout_centerVertical="true"
+            android:fontFamily="@font/bricolage_grotesque_regular"/>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/filterDateHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginHorizontal="20dp"
+        android:layout_below="@id/filterHeader">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Start Date"
+                android:textSize="14sp"
+                android:textColor="#303030"
+                android:fontFamily="@font/bricolage_grotesque_semi_bold"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="End Date"
+                android:textSize="14sp"
+                android:textColor="#303030"
+                android:layout_marginStart="10dp"
+                android:fontFamily="@font/bricolage_grotesque_semi_bold"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/filterStartLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:hintTextColor="@color/hintColor"
+                android:layout_weight="1"
+                android:layout_marginEnd="10dp"
+                app:hintEnabled="false"
+                android:focusable="false">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/filterStartDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Select Date"
+                    android:background="@drawable/gray_background"
+                    android:textColorHint="@color/hintColor"
+                    android:textColor="@color/black"
+                    android:drawableEnd="@drawable/date_icon"
+                    android:fontFamily="@font/bricolage_grotesque_regular"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/filterEndLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:hintTextColor="@color/hintColor"
+                app:hintEnabled="false"
+                android:layout_weight="1"
+                android:focusable="false">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/filterEndDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Select Date"
+                    android:background="@drawable/gray_background"
+                    android:textColorHint="@color/hintColor"
+                    android:inputType="number"
+                    android:textColor="@color/black"
+                    android:drawableEnd="@drawable/date_icon"
+                    android:fontFamily="@font/bricolage_grotesque_regular"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/filterDateButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="20dp"
+        android:layout_below="@id/filterDateHeader"
+        android:backgroundTint="@color/primary"
+        android:textColor="@color/white"
+        android:text="Apply"
+        android:paddingVertical="12dp"
+        android:fontFamily="@font/bricolage_grotesque_semi_bold"/>
+
+</RelativeLayout>

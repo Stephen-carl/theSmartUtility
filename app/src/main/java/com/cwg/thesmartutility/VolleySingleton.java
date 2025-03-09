@@ -36,7 +36,7 @@ public class VolleySingleton {
     public RequestQueue getRequestQueue() {
         if (requestQueue == null) {
             // Instantiate the request queue
-            requestQueue = Volley.newRequestQueue(ctx);
+            requestQueue = Volley.newRequestQueue(ctx.getApplicationContext());
         }
         return requestQueue;
     }

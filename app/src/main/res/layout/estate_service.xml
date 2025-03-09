@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".estateAdmin.EstateService"
+    android:background="@color/globalBackground"
+    android:fitsSystemWindows="true">
+
+    <ImageView
+        android:id="@+id/backImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/back_back"
+        android:layout_marginTop="25dp"
+        android:layout_marginStart="20dp"
+        android:contentDescription="@string/logo"/>
+
+    <TextView
+        android:id="@+id/historyText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Service Fee History"
+        android:textSize="18sp"
+        android:textColor="@color/primary"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="25dp"
+        android:fontFamily="@font/bricolage_grotesque_semi_bold"/>
+
+    <ImageView
+        android:id="@+id/estateFilterService"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/filter_icons"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="25dp"
+        android:layout_marginEnd="20dp"
+        android:contentDescription="filter" />
+
+    <TextView
+        android:id="@+id/nextServiceText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Next"
+        android:textSize="15sp"
+        android:background="@drawable/gray_background"
+        android:paddingVertical="8dp"
+        android:paddingHorizontal="14dp"
+        android:textColor="#344054"
+        android:layout_below="@id/estateFilterService"
+        android:layout_marginHorizontal="30dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="18dp"
+        />
+
+    <TextView
+        android:id="@+id/pagesServiceText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1 of 61 Pages"
+        android:textSize="14sp"
+        android:textColor="#344054"
+        android:paddingVertical="8dp"
+        android:layout_below="@id/estateFilterService"
+        android:layout_marginHorizontal="30dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="18dp" />
+
+    <TextView
+        android:id="@+id/previousServiceText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/previous"
+        android:textSize="15sp"
+        android:textColor="#344054"
+        android:background="@drawable/gray_background"
+        android:paddingVertical="8dp"
+        android:paddingHorizontal="10dp"
+        android:layout_below="@id/estateFilterService"
+        android:layout_marginHorizontal="20dp"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="18dp"
+        />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/estateServiceRecycler"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/nextServiceText"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="60dp"/>
+
+    <LinearLayout
+        android:id="@+id/serviceEmptyLinear"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:padding="20dp"
+        android:orientation="vertical"
+        android:layout_marginHorizontal="20dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/empty_state"
+            android:contentDescription="empty logo"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="7dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/no_history"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="7dp"
+            android:fontFamily="@font/bricolage_grotesque_semi_bold"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Your transaction details will appear once available"
+            android:textColor="@color/someText"
+            android:textSize="16sp"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal"
+            android:fontFamily="@font/bricolage_grotesque_regular"
+            />
+
+    </LinearLayout>
+
+</RelativeLayout>

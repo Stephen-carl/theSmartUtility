@@ -6,176 +6,287 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".estateAdmin.EstateDashboard"
-    android:background="@color/white"
-    android:fitsSystemWindows="true">
+    android:background="@color/globalBackground"
+    android:fitsSystemWindows="true"
+    android:id="@+id/estateMain">
+
+    <RelativeLayout
+        android:id="@+id/dashboardHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:paddingVertical="10dp"
+        android:layout_marginTop="20dp">
+        <ImageView
+            android:id="@+id/profileImage"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:background="@drawable/profile_image"
+            android:contentDescription="@string/logo"
+            android:layout_centerVertical="true"/>
+        <TextView
+            android:id="@+id/welcomeHead"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Welcome Back"
+            android:textSize="12sp"
+            android:textColor="@color/welcomeHead"
+            android:layout_toEndOf="@id/profileImage"
+            android:layout_marginStart="12dp"
+            android:fontFamily="@font/bricolage_grotesque_regular"/>
+        <TextView
+            android:id="@+id/estateNameText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="okafor stephen"
+            android:textSize="16sp"
+            android:textColor="@color/welcomeName"
+            android:layout_toEndOf="@id/profileImage"
+            android:layout_below="@id/welcomeHead"
+            android:layout_marginStart="12dp"
+            android:fontFamily="@font/bricolage_grotesque_semi_bold"/>
+    </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/headerBackground"
             android:layout_width="match_parent"
-            android:layout_height="250dp"
-            android:padding="20dp"
-            android:background="@drawable/userback">
-
-            <ImageView
-                android:id="@+id/imagelogo"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:background="@drawable/userback"
-                android:contentDescription="@string/logo"/>
+            android:layout_height="180dp"
+            android:background="@drawable/header_card_background"
+            android:layout_below="@id/dashboardHeader"
+            android:paddingVertical="20dp"
+            android:paddingHorizontal="30dp">
 
             <TextView
-                android:id="@+id/smart"
+                android:id="@+id/estateDashAmountText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="SMART \nUTILITY"
-                android:textSize="16sp"
-                android:textColor="@color/white"
-                android:textStyle="bold"
-                android:layout_toEndOf="@id/imagelogo"
-                android:layout_marginStart="5dp"
-                android:layout_alignTop="@id/imagelogo"
-                android:layout_alignBottom="@id/imagelogo"
-                android:gravity="center_vertical"/>
+                android:text="Current Tariff"
+                android:textColor="#080808"
+                android:textSize="14sp"
+                android:fontFamily="@font/bricolage_grotesque_regular"/>
 
             <TextView
-                android:id="@+id/meterText"
+                android:id="@+id/tariffText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Estate Name"
-                android:textSize="16sp"
-                android:textColor="@color/white"
-                android:textStyle="bold"
-                android:layout_below="@id/imagelogo"
-                android:layout_marginTop="16dp"/>
+                android:text="N 0.0"
+                android:textColor="@color/dashAmountColour"
+                android:textSize="28sp"
+                android:fontFamily="@font/bricolage_grotesque_semi_bold"
+                android:layout_below="@id/estateDashAmountText"/>
+
+            <TextView
+                android:id="@+id/vatTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Current VAT"
+                android:textSize="12sp"
+                android:textColor="@color/primary"
+                android:layout_below="@id/tariffText"
+                android:layout_marginTop="18dp"
+                android:layout_alignParentStart="true"
+                android:fontFamily="@font/bricolage_grotesque_regular"/>
 
             <RelativeLayout
-                android:id="@+id/copyRelative"
+                android:id="@+id/vatRelative"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/meterText"
+                android:layout_below="@id/vatTitle"
                 android:layout_marginTop="5dp"
                 android:paddingVertical="5dp"
                 android:paddingHorizontal="10dp"
-                android:background="@drawable/border_lining">
+                android:background="@drawable/border_lining"
+                android:layout_alignParentStart="true"
+                android:layout_marginBottom="7dp">
                 <TextView
-                    android:id="@+id/estateNameText"
+                    android:id="@+id/vatText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/text_example"
-                    android:textSize="15sp"
-                    android:textColor="@color/white"
-                    android:textIsSelectable="true" />
+                    android:text="5%"
+                    android:textSize="12sp"
+                    android:textColor="@color/primary"
+                    android:textIsSelectable="true"
+                    android:fontFamily="@font/bricolage_grotesque_regular"/>
             </RelativeLayout>
+
+            <Button
+                android:id="@+id/serviceTransButton"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginBottom="8dp"
+                android:backgroundTint="@color/primary"
+                android:textColor="@color/white"
+                android:textSize="12sp"
+                android:text="@string/service_fee_history"
+                android:fontFamily="@font/bricolage_grotesque_semi_bold"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"/>
 
         </RelativeLayout>
 
+    <RelativeLayout
+        android:id="@+id/actionsRelative"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/headerBackground">
+
+        <TextView
+            android:id="@+id/actionText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Actions"
+            android:textColor="@color/primary"
+            android:textSize="18sp"
+            android:fontFamily="@font/bricolage_grotesque_semi_bold"
+            android:layout_marginStart="20dp"/>
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/updateCard"
-            android:layout_width="match_parent"
+            android:id="@+id/updateVATCard"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="-90dp"
-            android:layout_below="@id/headerBackground"
-            android:background="@color/white"
-            android:layout_marginHorizontal="20dp"
-            app:cardCornerRadius="10dp">
+            android:layout_below="@id/actionText"
+            android:elevation="5dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="8dp"
+            app:cardCornerRadius="8dp"
+            android:background="@color/white">
 
             <RelativeLayout
-                android:id="@+id/tokenRelative"
-                android:layout_width="match_parent"
+                android:id="@+id/VATButton"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingHorizontal="15dp"
-                android:paddingVertical="10dp"
-                android:background="@color/white">
-                <RelativeLayout
-                    android:id="@+id/emailRelative"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                    <TextView
-                        android:id="@+id/tokenText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="New Tariff"
-                        android:textSize="15sp"
-                        android:textColor="@color/edit"
-                        android:textStyle="bold"/>
-                </RelativeLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/estateUpdateLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/emailRelative"
-                    app:hintTextColor="@color/hintColor"
-                    app:errorTextColor="@color/red"
-                    app:errorIconTint="@color/red"
-                    app:errorIconDrawable="@drawable/baseline_error_outline_24">
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/estateUpdateInput"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Enter new Tariff"
-                        android:background="@drawable/gray_background"
-                        android:textColorHint="@color/hintColor"
-                        android:inputType="number"
-                        android:textColor="@color/black"/>
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <TextView
-                    android:id="@+id/estateTariffText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Current Tariff: "
-                    android:textSize="15sp"
-                    android:textColor="@color/edit"
-                    android:textStyle="bold"
-                    android:layout_below="@id/estateUpdateLayout"
-                    android:layout_marginTop="5dp"/>
-
-                <TextView
-                    android:id="@+id/tariffText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="New Tariff"
-                    android:textSize="15sp"
-                    android:textColor="@color/edit"
-                    android:textStyle="bold"
-                    android:layout_below="@id/estateUpdateLayout"
-                    android:layout_toEndOf="@id/estateTariffText"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginStart="8dp"/>
-
-                <Button
-                    android:id="@+id/estateUpdateButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/estateTariffText"
-                    android:backgroundTint="@color/primary"
-                    android:text="Update"
-                    android:textColor="@color/white"
-                    android:layout_marginTop="15dp"/>
-
+                android:paddingHorizontal="25dp"
+                android:paddingVertical="22dp"
+                android:background="@color/white"
+                >
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:background="@drawable/vat_percent"
+                    android:backgroundTint="@color/primary"/>
             </RelativeLayout>
 
         </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/actionVAT"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Update VAT"
+            android:layout_below="@id/updateVATCard"
+            android:textSize="14sp"
+            android:textColor="@color/filterHeaders"
+            android:fontFamily="@font/bricolage_grotesque_regular"
+            android:layout_marginTop="4dp"
+            android:layout_marginStart="20dp"
+            android:textFontWeight="500"/>
+
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/updateTariffCard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/actionText"
+            android:elevation="5dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="8dp"
+            app:cardCornerRadius="8dp"
+            android:background="@color/white"
+            android:layout_toEndOf="@id/updateVATCard">
+
+            <RelativeLayout
+                android:id="@+id/TariffButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="25dp"
+                android:paddingVertical="22dp"
+                android:background="@color/white"
+                >
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:background="@drawable/tariff_percent"
+                    android:backgroundTint="@color/primary"/>
+            </RelativeLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/actionTariff"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Update Tariff"
+            android:layout_below="@id/updateTariffCard"
+            android:textSize="14sp"
+            android:textColor="@color/filterHeaders"
+            android:fontFamily="@font/bricolage_grotesque_regular"
+            android:layout_marginTop="4dp"
+            android:layout_marginStart="20dp"
+            android:textFontWeight="500"
+            android:layout_toEndOf="@id/actionVAT"/>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/updateServiceCard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/actionText"
+            android:elevation="5dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="8dp"
+            app:cardCornerRadius="8dp"
+            android:background="@color/white"
+            android:layout_toEndOf="@id/updateTariffCard">
+
+            <RelativeLayout
+                android:id="@+id/serviceButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="25dp"
+                android:paddingVertical="22dp"
+                android:background="@color/white"
+                >
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:background="@drawable/service_icon"
+                    android:backgroundTint="@color/primary"/>
+            </RelativeLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/actionService"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Update Service"
+            android:layout_below="@id/updateVATCard"
+            android:textSize="14sp"
+            android:textColor="@color/filterHeaders"
+            android:fontFamily="@font/bricolage_grotesque_regular"
+            android:layout_marginTop="4dp"
+            android:layout_marginStart="20dp"
+            android:textFontWeight="500"
+            android:layout_toEndOf="@id/actionTariff"/>
+
+    </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/estateTokenHistory"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:layout_below="@id/updateCard"
+            android:layout_below="@id/actionsRelative"
             android:layout_marginHorizontal="20dp"
-            android:layout_marginVertical="10dp">
+            android:layout_marginVertical="16dp">
 
             <TextView
                 android:id="@+id/estateHistory"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/history"
+                android:text="Meters"
                 android:textSize="15sp"
                 android:textColor="@color/primary"
-                android:textStyle="bold"/>
+                android:textStyle="bold"
+                android:fontFamily="@font/bricolage_grotesque_semi_bold"/>
 
             <TextView
                 android:id="@+id/estateViewHistory"
@@ -183,11 +294,12 @@
                 android:layout_height="wrap_content"
                 android:text="@string/view_all"
                 android:textSize="15sp"
-                android:textColor="@color/someText"
+                android:textColor="#323232"
                 android:textStyle="bold"
                 android:layout_toStartOf="@id/estateViewAll"
                 android:layout_centerVertical="true"
-                android:layout_marginEnd="8dp"/>
+                android:layout_marginEnd="8dp"
+                android:fontFamily="@font/bricolage_grotesque_regular"/>
 
             <ImageView
                 android:id="@+id/estateViewAll"
@@ -195,17 +307,17 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/arrow_forward"
                 android:contentDescription="arrowIcon"
-                android:layout_alignParentEnd="true"/>
+                android:layout_alignParentEnd="true"
+                android:backgroundTint="#323232"/>
 
         </RelativeLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/estateMeterRecycler"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_below="@id/estateTokenHistory"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginBottom="20dp"/>
+            android:layout_marginHorizontal="20dp"/>
 
         <LinearLayout
             android:id="@+id/estateHistoryLinear"
@@ -217,9 +329,9 @@
             android:orientation="vertical">
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/charging_meter"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:background="@drawable/empty_state"
                 android:contentDescription="empty logo"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="7dp"/>
@@ -232,6 +344,7 @@
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 android:layout_gravity="center_horizontal"
+                android:fontFamily="@font/bricolage_grotesque_semi_bold"
                 />
             <TextView
                 android:layout_width="wrap_content"
@@ -239,7 +352,9 @@
                 android:text="@string/check_back_later"
                 android:textColor="@color/someText"
                 android:textSize="16sp"
-                android:layout_gravity="center_horizontal" />
+                android:layout_gravity="center_horizontal"
+                android:padding="10dp"
+                android:fontFamily="@font/bricolage_grotesque_regular"/>
 
         </LinearLayout>
 
@@ -248,10 +363,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            app:menu="@menu/bottom_menu"
-            android:background="@color/white"
+            app:menu="@menu/estate_bottom_nav"
+            android:background="@color/navBar"
             android:elevation="2dp"
             app:itemIconTint="@drawable/item_selector"
+            app:itemTextColor="@drawable/item_selector"
+            app:labelVisibilityMode="labeled"
             style="@style/Widget.MaterialComponents.BottomNavigationView"/>
 
 </RelativeLayout>

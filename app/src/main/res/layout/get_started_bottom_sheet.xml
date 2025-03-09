@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:id="@+id/getStartedContainer"
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bottom_sheet_background"
+    android:elevation="5dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/bottomTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="25dp"
+        android:textColor="@color/black"
+        android:text="Welcome to Smart Utility"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:fontFamily="@font/bricolage_grotesque_semi_bold"/>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/signUpCard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/bottomTitle"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="30dp"
+        app:cardBackgroundColor="@color/white">
+        <RelativeLayout
+            android:id="@+id/signUpRelative"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
+            android:background="@color/white">
+
+            <ImageView
+                android:id="@+id/addUser"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/add_user"
+                android:backgroundTint="@color/black"
+                android:layout_centerVertical="true"
+                android:layout_alignParentStart="true"/>
+
+            <TextView
+                android:id="@+id/signUpHeader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:text="Sign Up"
+                android:fontFamily="@font/bricolage_grotesque_semi_bold"
+                android:layout_toEndOf="@id/addUser"
+                android:textSize="16sp"
+                android:textColor="@color/black"/>
+            <TextView
+                android:id="@+id/signUpText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:text="Create an account to manage your utilities and keep everything running smoothly"
+                android:fontFamily="@font/bricolage_grotesque_regular"
+                android:layout_toEndOf="@id/addUser"
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                android:layout_below="@id/signUpHeader"
+                android:layout_marginEnd="10dp"
+                android:layout_toStartOf="@id/signUpToggle"/>
+
+            <ImageView
+                android:id="@+id/signUpToggle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:background="@drawable/toggle_off"
+                android:layout_centerVertical="true"/>
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/loginCard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="20dp"
+        android:layout_below="@id/signUpCard"
+        android:layout_marginBottom="10dp"
+        app:cardBackgroundColor="@color/white">
+        <RelativeLayout
+            android:id="@+id/loginRelative"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
+            android:background="@color/white">
+
+            <ImageView
+                android:id="@+id/personUser"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/person_icon"
+                android:layout_centerVertical="true"
+                android:layout_alignParentStart="true"/>
+
+            <TextView
+                android:id="@+id/loginHeader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:text="Login"
+                android:fontFamily="@font/bricolage_grotesque_semi_bold"
+                android:layout_toEndOf="@id/personUser"
+                android:textSize="16sp"
+                android:textColor="@color/black"/>
+            <TextView
+                android:id="@+id/loginText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:text="Sign in to manage your utilities and keep everything running smoothly"
+                android:fontFamily="@font/bricolage_grotesque_regular"
+                android:layout_toEndOf="@id/personUser"
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                android:layout_below="@id/loginHeader"
+                android:layout_marginEnd="10dp"
+                android:layout_toStartOf="@id/loginToggle"/>
+
+            <ImageView
+                android:id="@+id/loginToggle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:background="@drawable/toggle_off"
+                android:layout_centerVertical="true"/>
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</RelativeLayout>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:enabled="true"
+        android:id="@+id/estateHomeMenu"
+        android:icon="@drawable/baseline_home_24"
+        android:title="@string/home"
+        />
+    <item
+        android:enabled="true"
+        android:id="@+id/estateHistoryMenu"
+        android:icon="@drawable/history_icon"
+        android:title="@string/history"
+        />
+
+    <item
+        android:enabled="true"
+        android:id="@+id/estateMeterMenu"
+        android:icon="@drawable/flash_icon"
+        android:title="Meters"
+        />
+
+    <item
+        android:enabled="true"
+        android:id="@+id/estateProfileMenu"
+        android:icon="@drawable/setting_icon"
+        android:title="@string/settings"
+        />
+
+</menu>

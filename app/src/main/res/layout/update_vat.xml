@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".estateAdmin.UpdateVAT"
+    android:background="@color/globalBackground">
+
+    <RelativeLayout
+        android:id="@+id/purhcaseHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="38dp"
+        android:layout_marginBottom="8dp">
+
+        <ImageView
+            android:id="@+id/updateVATBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/back_back"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Update VAT"
+            android:layout_centerInParent="true"
+            android:textSize="20sp"
+            android:fontFamily="@font/bricolage_grotesque_semi_bold"
+            android:textColor="#080808"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/purchaseAmountRelative"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/purhcaseHeader"
+        android:padding="20dp"
+        android:layout_marginHorizontal="20dp"
+        android:background="@drawable/purchase_border"
+        android:layout_marginTop="15dp">
+
+        <TextView
+            android:id="@+id/purchaseAmountText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="Enter New VAT (%): "
+            android:textSize="14sp"
+            android:textColor="@color/welcomeHead"
+            android:fontFamily="@font/bricolage_grotesque_regular"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/vatAmountLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:hintEnabled="false"
+            app:errorTextColor="@color/red"
+            app:errorIconTint="@color/red"
+            app:errorIconDrawable="@drawable/baseline_error_outline_24"
+            android:background="@drawable/purchase_border"
+            android:layout_below="@+id/purchaseAmountText"
+            android:layout_marginTop="6dp">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/vatAmountInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:hint="0"
+                android:fontFamily="@font/bricolage_grotesque_semi_bold"
+                android:textColor="#121212"
+                android:textColorHint="#909090"
+                android:gravity="center"
+                android:textSize="28sp"
+                android:inputType="number"
+                android:background="@drawable/purchase_border"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/vatUpdateButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/primary"
+        android:text="Continue"
+        android:layout_below="@id/purchaseAmountRelative"
+        android:layout_marginTop="64dp"
+        android:layout_marginHorizontal="20dp"
+        android:fontFamily="@font/bricolage_grotesque_semi_bold"
+        android:textColor="@color/white"
+        android:padding="12dp"/>
+
+</RelativeLayout>

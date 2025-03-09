@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginBottom="5dp">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/transactionCard"
@@ -10,7 +12,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/gray_background"
         app:cardCornerRadius="10dp"
-        android:elevation="2dp">
+        android:layout_margin="3dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -23,31 +25,63 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Meter Number"
-                android:textSize="15sp"
-                android:textColor="@color/black"/>
+                android:textSize="12sp"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:gravity="top"
+                android:fontFamily="@font/bricolage_grotesque_semi_bold"/>
             <TextView
                 android:id="@+id/meterNameText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Meter Name"
                 android:layout_below="@id/meterNumberText"
-                android:textSize="15sp"
+                android:textSize="12sp"
                 android:textColor="@color/someText"
-                android:layout_alignBottom="@id/viewButton"
-                android:gravity="bottom"/>
-            <Button
+                android:gravity="bottom"
+                android:fontFamily="@font/bricolage_grotesque_regular" />
+
+            <RelativeLayout
                 android:id="@+id/viewButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:backgroundTint="@color/meterBut"
-                android:drawableLeft="@drawable/eye_icon"
-                android:drawableTint="@color/primary"
-                android:text="View"
-                android:textSize="18sp"
-                android:textColor="@color/primary"
                 android:layout_centerVertical="true"
-                android:elevation="5dp" />
+                android:padding="10dp"
+                android:background="@drawable/view_button">
+
+                <ImageView
+                    android:id="@+id/relImage"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:background="@drawable/eye_icon"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="7dp"
+                    app:tint="@color/primary" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="View"
+                    android:layout_toEndOf="@id/relImage"
+                    android:textSize="10sp"
+                    android:layout_centerVertical="true"
+                    android:gravity="top"
+                    android:textColor="@color/primary"/>
+
+            </RelativeLayout>
+<!--            <Button-->
+<!--                android:id="@+id/viewButton"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_alignParentEnd="true"-->
+<!--                android:backgroundTint="@color/meterBut"-->
+<!--                android:drawableLeft="@drawable/eye_icon"-->
+<!--                android:drawableTint="@color/primary"-->
+<!--                android:text="View"-->
+<!--                android:textSize="18sp"-->
+<!--                android:textColor="@color/primary"-->
+<!--                android:layout_centerVertical="true"-->
+<!--                android:elevation="5dp" />-->
 
         </RelativeLayout>
 

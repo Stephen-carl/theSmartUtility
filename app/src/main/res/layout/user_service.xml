@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".user.UserService">
+
+    <RelativeLayout
+        android:id="@+id/purhcaseHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="8dp">
+
+        <ImageView
+            android:id="@+id/serviceBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/back_back"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Service Charge"
+            android:layout_centerInParent="true"
+            android:textSize="20sp"
+            android:fontFamily="@font/bricolage_grotesque_semi_bold"
+            android:textColor="#080808"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/purchaseAmountRelative"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/purhcaseHeader"
+        android:padding="20dp"
+        android:layout_marginHorizontal="20dp"
+        android:background="@drawable/purchase_border"
+        android:layout_marginTop="15dp">
+
+        <TextView
+            android:id="@+id/purchaseAmountText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="Pay Service Charge"
+            android:textSize="14sp"
+            android:textColor="@color/welcomeHead"
+            android:fontFamily="@font/bricolage_grotesque_regular"/>
+
+        <TextView
+            android:id="@+id/serviceAmountText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/purchaseAmountText"
+            android:fontFamily="@font/bricolage_grotesque_semi_bold"
+            android:text="N5000"
+            android:textColor="@color/primary"
+            android:layout_centerHorizontal="true"
+            android:textSize="28sp"
+            android:layout_marginTop="16dp"
+            android:padding="3dp"/>
+
+    </RelativeLayout>
+    <TextView
+        android:id="@+id/durationHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Duration"
+        android:textSize="14sp"
+        android:textColor="#707070"
+        android:fontFamily="@font/bricolage_grotesque_regular"
+        android:layout_below="@id/purchaseAmountRelative"
+        android:layout_marginTop="26dp"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="20dp"/>
+
+    <TextView
+        android:id="@+id/durationText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="6 Months"
+        android:textSize="14sp"
+        android:textColor="#121212"
+        android:fontFamily="@font/bricolage_grotesque_regular"
+        android:layout_below="@id/purchaseAmountRelative"
+        android:layout_marginTop="26dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="20dp"/>
+
+    <Button
+        android:id="@+id/servicePaymentButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/primary"
+        android:text="Proceed"
+        android:layout_below="@id/durationHeader"
+        android:layout_marginTop="36dp"
+        android:layout_marginHorizontal="20dp"
+        android:fontFamily="@font/bricolage_grotesque_semi_bold"
+        android:textColor="@color/white"
+        android:padding="12dp"/>
+
+</RelativeLayout>

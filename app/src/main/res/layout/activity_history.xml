@@ -10,93 +10,95 @@
     android:background="@color/white">
 
     <RelativeLayout
-        android:id="@+id/headerBackground"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:layout_alignParentTop="true">
-
-        <ImageView
-            android:id="@+id/imagelogo"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@drawable/userback"
-            android:contentDescription="@string/logo"/>
-
-        <TextView
-            android:id="@+id/smart"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Smart"
-            android:textSize="16sp"
-            android:textColor="@color/primary"
-            android:textStyle="bold"
-            android:layout_toEndOf="@id/imagelogo"
-            android:layout_marginStart="5dp"/>
-        <TextView
-            android:id="@+id/utility"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Utility"
-            android:textSize="16sp"
-            android:textColor="@color/primary"
-            android:layout_below="@id/smart"
-            android:layout_toEndOf="@id/imagelogo"
-            android:layout_marginStart="5dp"/>
-    </RelativeLayout>
-
-    <RelativeLayout
         android:id="@+id/historyRelative"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/headerBackground"
         android:layout_marginTop="20dp"
         android:layout_marginHorizontal="20dp">
+
+        <ImageView
+            android:id="@+id/userHistoryBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/back_back"/>
 
         <TextView
             android:id="@+id/historyText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="History"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:textColor="@color/primary"
             android:textStyle="bold"
-            android:layout_centerVertical="true"/>
+            android:layout_centerInParent="true"
+            android:fontFamily="@font/bricolage_grotesque_semi_bold"/>
 
-        <RelativeLayout
+        <ImageView
             android:id="@+id/filterRelative"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/filter_background"
             android:layout_alignParentEnd="true"
-            android:paddingVertical="8dp"
-            android:paddingHorizontal="10dp">
+            android:layout_centerVertical="true"
+            android:background="@drawable/filter_icons" />
 
-            <TextView
-                android:id="@+id/filterText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Filter"
-                android:textSize="16sp"
-                android:textColor="#333333"
-                android:layout_marginRight="5dp"
-                />
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/baseline_addchart_24"
-                android:layout_toEndOf="@id/filterText"/>
-        </RelativeLayout>
     </RelativeLayout>
 
+    <TextView
+        android:id="@+id/nextMeterText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Next"
+        android:textSize="15sp"
+        android:textColor="#344054"
+        android:layout_below="@id/historyRelative"
+        android:layout_marginHorizontal="20dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/gray_background"
+        android:paddingVertical="8dp"
+        android:paddingHorizontal="14dp"
+        android:fontFamily="@font/bricolage_grotesque_regular"
+        />
+
+    <TextView
+        android:id="@+id/pageText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1 of 61 Pages"
+        android:textSize="15sp"
+        android:textColor="#344054"
+        android:paddingVertical="8dp"
+        android:layout_below="@id/historyRelative"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:fontFamily="@font/bricolage_grotesque_regular"
+        />
+
+    <TextView
+        android:id="@+id/previousMeterText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/previous"
+        android:textSize="15sp"
+        android:textColor="#344054"
+        android:layout_below="@id/historyRelative"
+        android:layout_marginHorizontal="20dp"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/gray_background"
+        android:paddingVertical="8dp"
+        android:paddingHorizontal="10dp"
+        android:fontFamily="@font/bricolage_grotesque_regular"
+        />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/historyRecycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/historyRelative"
+        android:layout_below="@id/nextMeterText"
         android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="20dp" />
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="60dp"/>
 
     <LinearLayout
         android:id="@+id/emptyLinear"
@@ -110,7 +112,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/charging_meter"
+            android:background="@drawable/empty_state"
             android:contentDescription="empty logo"
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="7dp"/>
@@ -124,6 +126,7 @@
             android:textSize="16sp"
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="7dp"
+            android:fontFamily="@font/bricolage_grotesque_semi_bold"
             />
         <TextView
             android:layout_width="wrap_content"
@@ -133,6 +136,7 @@
             android:textSize="16sp"
             android:layout_gravity="center_horizontal"
             android:gravity="center_horizontal"
+            android:fontFamily="@font/bricolage_grotesque_regular"
             />
 
         <Button
@@ -142,7 +146,8 @@
             android:backgroundTint="@color/primary"
             android:text="Purchase"
             android:layout_marginTop="24dp"
-            android:textColor="@color/white"/>
+            android:textColor="@color/white"
+            android:fontFamily="@font/bricolage_grotesque_semi_bold"/>
 
     </LinearLayout>
 
@@ -155,9 +160,10 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentStart="true"
         app:menu="@menu/bottom_menu"
-        android:background="@color/white"
         android:elevation="2dp"
         app:itemIconTint="@drawable/item_selector"
+        app:itemTextColor="@drawable/item_selector"
+        android:background="@color/navBar"
         style="@style/Widget.MaterialComponents.BottomNavigationView"/>
 
 </RelativeLayout>

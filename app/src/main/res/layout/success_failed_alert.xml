@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="30dp"
+    android:background="@drawable/alert_dialog_background">
+
+    <!-- Status Icon -->
+    <ImageView
+        android:id="@+id/dialog_status_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:src="@drawable/success_circle"
+        android:layout_centerHorizontal="true"/>
+
+    <!-- Title -->
+    <TextView
+        android:id="@+id/dialog_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_gravity="center"
+        android:text="Tariff Update Successful!"
+        android:textColor="#181d27"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/dialog_status_icon"
+        android:fontFamily="@font/bricolage_grotesque_semi_bold"/>
+
+    <!-- Message -->
+    <TextView
+        android:id="@+id/dialog_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_gravity="center"
+        android:text="The new tariff has been applied across\n all associated meters."
+        android:textColor="#606060"
+        android:textSize="14sp"
+        android:fontFamily="@font/bricolage_grotesque_regular"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/dialog_title"
+        android:gravity="center"/>
+
+    <!-- Action Button -->
+    <Button
+        android:id="@+id/dialog_action_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:backgroundTint="@color/primary"
+        android:text="View Updated Tariff"
+        android:textColor="@color/white"
+        android:fontFamily="@font/bricolage_grotesque_semi_bold"
+        android:padding="12dp"
+        android:layout_below="@id/dialog_message"/>
+
+</RelativeLayout>

@@ -9,33 +9,21 @@
     tools:context=".auth.ValidateMeter"
     android:background="@color/white">
 
-    <RelativeLayout
-        android:id="@+id/backRelative"
-        android:layout_width="match_parent"
+    <ImageView
+        android:id="@+id/backImage"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp">
-
-        <ImageView
-            android:id="@+id/backImage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/_arrow_left_24"
-            android:contentDescription="@string/back_arrow" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/back"
-            android:textAppearance="@style/back"
-            android:layout_toEndOf="@id/backImage"
-            android:layout_centerVertical="true"/>
-    </RelativeLayout>
+        android:background="@drawable/arrow_pointing_left"
+        android:contentDescription="@string/back_arrow"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="20dp"/>
 
     <RelativeLayout
         android:id="@+id/verifyRelative"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/backRelative"
-        android:layout_marginTop="30dp"
+        android:layout_below="@id/backImage"
+        android:layout_marginTop="62dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_marginHorizontal="20dp">
@@ -47,7 +35,8 @@
             android:text="@string/verify_your"
             android:textStyle="bold"
             android:textSize="22sp"
-            android:textColor="@color/black"/>
+            android:textColor="@color/black"
+            android:fontFamily="@font/bricolage_grotesque_semi_bold"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -57,7 +46,8 @@
             android:textSize="15sp"
             android:textColor="@color/someText"
             android:translationY="-2.53sp"
-            android:layout_marginTop="5dp"/>
+            android:layout_marginTop="5dp"
+            android:fontFamily="@font/bricolage_grotesque_regular"/>
 
     </RelativeLayout>
 
@@ -71,13 +61,15 @@
         android:textColor="@color/edit"
         android:layout_marginTop="28sp"
         android:textStyle="bold"
-        android:layout_marginHorizontal="20dp"/>
+        android:layout_marginHorizontal="20dp"
+        android:fontFamily="@font/bricolage_grotesque_semi_bold"/>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/inputLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/meterText"
+        app:hintEnabled="false"
         app:errorTextColor="@color/red"
         app:errorIconTint="@color/red"
         app:errorIconDrawable="@drawable/baseline_error_outline_24"
@@ -89,7 +81,9 @@
             android:hint="@string/enter_your_meter_number"
             android:background="@drawable/gray_background"
             android:inputType="number"
-            android:textColor="@color/black"/>
+            android:textColor="@color/black"
+            android:fontFamily="@font/bricolage_grotesque_regular"
+            android:textColorHint="@color/hintColor"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
@@ -101,6 +95,7 @@
         android:text="@string/submit"
         android:textColor="@color/white"
         android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="24dp"/>
+        android:layout_marginTop="24dp"
+        android:fontFamily="@font/bricolage_grotesque_semi_bold"/>
 
 </RelativeLayout>

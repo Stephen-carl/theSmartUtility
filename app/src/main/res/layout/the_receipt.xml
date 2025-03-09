@@ -52,10 +52,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:text="Payment Success!"
+                    android:text="Payment Successful!"
                     android:textColor="@color/someText"
-                    android:textSize="17sp"
-                    android:layout_marginBottom="5dp"/>
+                    android:textSize="16sp"
+                    android:layout_marginBottom="5dp"
+                    android:fontFamily="@font/bricolage_grotesque_regular"/>
 
                 <TextView
                     android:id="@+id/receiptAmountText"
@@ -65,7 +66,8 @@
                     android:text="NGN 10,000"
                     android:textColor="@color/black"
                     android:textStyle="bold"
-                    android:textSize="20sp"/>
+                    android:textSize="24sp"
+                    android:fontFamily="@font/bricolage_grotesque_semi_bold"/>
 
             </LinearLayout>
 
@@ -89,7 +91,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
-                    android:background="@drawable/view_details_background">
+                    android:background="@drawable/view_details_background"
+                    android:layout_marginBottom="10dp">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -98,7 +101,8 @@
                         android:layout_centerHorizontal="true"
                         android:textStyle="bold"
                         android:textColor="@color/primary"
-                        android:textSize="18sp"/>
+                        android:textSize="16sp"
+                        android:fontFamily="@font/bricolage_grotesque_semi_bold"/>
 
                 </RelativeLayout>
 
@@ -107,19 +111,20 @@
                     android:layout_height="wrap_content"
                     android:text="Trans ID"
                     android:layout_below="@id/detailsHeader"
-                    android:layout_marginTop="8dp"
-                    android:textSize="15sp"
-                    android:textColor="@color/someText"
-                    />
+                    android:layout_marginTop="15dp"
+                    android:textColor="@color/receiptHeads"
+                    android:fontFamily="@font/bricolage_grotesque_regular"
+                    android:textSize="13sp"/>
                 <TextView
                     android:id="@+id/receiptTransID"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="123456789012345678901234"
                     android:layout_below="@id/detailsHeader"
-                    android:layout_marginTop="8dp"
-                    android:textSize="15sp"
-                    android:textColor="@color/black"
+                    android:layout_marginTop="15dp"
+                    android:textColor="@color/receiptItems"
+                    android:fontFamily="@font/bricolage_grotesque_regular"
+                    android:textSize="13sp"
                     android:layout_alignParentEnd="true"/>
 
                 <TextView
@@ -127,19 +132,20 @@
                     android:layout_height="wrap_content"
                     android:text="Meter Number"
                     android:layout_below="@id/receiptTransID"
-                    android:layout_marginTop="8dp"
-                    android:textSize="15sp"
-                    android:textColor="@color/someText"
-                    />
+                    android:layout_marginTop="15dp"
+                    android:textColor="@color/receiptHeads"
+                    android:fontFamily="@font/bricolage_grotesque_regular"
+                    android:textSize="13sp" />
                 <TextView
                     android:id="@+id/receiptMeterNum"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="123456789012345"
                     android:layout_below="@id/receiptTransID"
-                    android:layout_marginTop="8dp"
-                    android:textSize="15sp"
-                    android:textColor="@color/black"
+                    android:layout_marginTop="15dp"
+                    android:textColor="@color/receiptItems"
+                    android:fontFamily="@font/bricolage_grotesque_regular"
+                    android:textSize="13sp"
                     android:layout_alignParentEnd="true"/>
 
                 <TextView
@@ -147,9 +153,10 @@
                     android:layout_height="wrap_content"
                     android:text="Token"
                     android:layout_below="@id/receiptMeterNum"
-                    android:layout_marginTop="8dp"
-                    android:textSize="15sp"
-                    android:textColor="@color/someText"
+                    android:textSize="13sp"
+                    android:layout_marginTop="15dp"
+                    android:textColor="@color/receiptHeads"
+                    android:fontFamily="@font/bricolage_grotesque_regular"
                     />
 
                 <RelativeLayout
@@ -157,7 +164,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/receiptMeterNum"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="15dp"
                     android:layout_alignParentEnd="true">
 
                     <TextView
@@ -165,9 +172,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="1234 5678 9012 3456 7890"
-                        android:textSize="15sp"
+                        android:textSize="13sp"
                         android:textColor="@color/primary"
-                        android:layout_toStartOf="@id/receiptCopy"/>
+                        android:layout_toStartOf="@id/receiptCopy"
+                        android:fontFamily="@font/bricolage_grotesque_regular"/>
 
                     <ImageView
                         android:id="@+id/receiptCopy"
@@ -187,9 +195,10 @@
                     android:layout_height="wrap_content"
                     android:text="Amount"
                     android:layout_below="@id/receiptTokenRelative"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="13dp"
+                    android:textColor="@color/receiptHeads"
+                    android:fontFamily="@font/bricolage_grotesque_regular"
                     android:textSize="15sp"
-                    android:textColor="@color/someText"
                     />
                 <TextView
                     android:id="@+id/receiptAmount"
@@ -197,19 +206,21 @@
                     android:layout_height="wrap_content"
                     android:text="@string/mount"
                     android:layout_below="@id/receiptTokenRelative"
-                    android:layout_marginTop="8dp"
-                    android:textSize="15sp"
-                    android:textColor="@color/black"
-                    android:layout_alignParentEnd="true"/>
+                    android:layout_marginTop="15dp"
+                    android:textColor="@color/receiptItems"
+                    android:fontFamily="@font/bricolage_grotesque_regular"
+                    android:textSize="13sp"
+                    android:layout_alignParentEnd="true" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Transaction Charge"
                     android:layout_below="@id/receiptAmount"
-                    android:layout_marginTop="8dp"
-                    android:textSize="15sp"
-                    android:textColor="@color/someText"
+                    android:layout_marginTop="15dp"
+                    android:textColor="@color/receiptHeads"
+                    android:fontFamily="@font/bricolage_grotesque_regular"
+                    android:textSize="13sp"
                     />
                 <TextView
                     android:id="@+id/receiptTransCharge"
@@ -217,9 +228,10 @@
                     android:layout_height="wrap_content"
                     android:text="@string/mount"
                     android:layout_below="@id/receiptAmount"
-                    android:layout_marginTop="8dp"
-                    android:textSize="15sp"
-                    android:textColor="@color/black"
+                    android:layout_marginTop="15dp"
+                    android:textColor="@color/receiptItems"
+                    android:fontFamily="@font/bricolage_grotesque_regular"
+                    android:textSize="13sp"
                     android:layout_alignParentEnd="true"/>
 
                 <TextView
@@ -227,9 +239,10 @@
                     android:layout_height="wrap_content"
                     android:text="VAT"
                     android:layout_below="@id/receiptTransCharge"
-                    android:layout_marginTop="8dp"
-                    android:textSize="15sp"
-                    android:textColor="@color/someText"
+                    android:layout_marginTop="15dp"
+                    android:textColor="@color/receiptHeads"
+                    android:fontFamily="@font/bricolage_grotesque_regular"
+                    android:textSize="13sp"
                     />
                 <TextView
                     android:id="@+id/receiptVat"
@@ -237,9 +250,10 @@
                     android:layout_height="wrap_content"
                     android:text="@string/mount"
                     android:layout_below="@id/receiptTransCharge"
-                    android:layout_marginTop="8dp"
-                    android:textSize="15sp"
-                    android:textColor="@color/black"
+                    android:layout_marginTop="15dp"
+                    android:textColor="@color/receiptItems"
+                    android:fontFamily="@font/bricolage_grotesque_regular"
+                    android:textSize="13sp"
                     android:layout_alignParentEnd="true"/>
 
                 <TextView
@@ -247,9 +261,10 @@
                     android:layout_height="wrap_content"
                     android:text="Tariff"
                     android:layout_below="@id/receiptVat"
-                    android:layout_marginTop="8dp"
-                    android:textSize="15sp"
-                    android:textColor="@color/someText"
+                    android:layout_marginTop="15dp"
+                    android:textColor="@color/receiptHeads"
+                    android:fontFamily="@font/bricolage_grotesque_regular"
+                    android:textSize="13sp"
                     />
                 <TextView
                     android:id="@+id/receiptTariff"
@@ -257,9 +272,10 @@
                     android:layout_height="wrap_content"
                     android:text="@string/mount"
                     android:layout_below="@id/receiptVat"
-                    android:layout_marginTop="8dp"
-                    android:textSize="15sp"
-                    android:textColor="@color/black"
+                    android:layout_marginTop="15dp"
+                    android:textColor="@color/receiptItems"
+                    android:fontFamily="@font/bricolage_grotesque_regular"
+                    android:textSize="13sp"
                     android:layout_alignParentEnd="true"/>
 
                 <TextView
@@ -267,9 +283,10 @@
                     android:layout_height="wrap_content"
                     android:text="Token Value"
                     android:layout_below="@id/receiptTariff"
-                    android:layout_marginTop="8dp"
-                    android:textSize="15sp"
-                    android:textColor="@color/someText"
+                    android:layout_marginTop="15dp"
+                    android:textColor="@color/receiptHeads"
+                    android:fontFamily="@font/bricolage_grotesque_regular"
+                    android:textSize="13sp"
                     />
                 <TextView
                     android:id="@+id/receiptTokenValue"
@@ -277,9 +294,10 @@
                     android:layout_height="wrap_content"
                     android:text="@string/mount"
                     android:layout_below="@id/receiptTariff"
-                    android:layout_marginTop="8dp"
-                    android:textSize="15sp"
-                    android:textColor="@color/black"
+                    android:layout_marginTop="15dp"
+                    android:textColor="@color/receiptItems"
+                    android:fontFamily="@font/bricolage_grotesque_regular"
+                    android:textSize="13sp"
                     android:layout_alignParentEnd="true"/>
 
                 <View
@@ -287,7 +305,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="5dp"
                     android:layout_below="@id/receiptTokenValue"
-                    android:layout_marginVertical="10dp"
+                    android:layout_marginTop="10dp"
                     android:background="@drawable/dash_line" />
 
                 <TextView
@@ -295,8 +313,10 @@
                     android:layout_height="wrap_content"
                     android:text="Units"
                     android:layout_below="@id/secondDashedLine"
-                    android:textSize="15sp"
-                    android:textColor="@color/someText"
+                    android:textSize="13sp"
+                    android:layout_marginTop="15dp"
+                    android:textColor="@color/receiptHeads"
+                    android:fontFamily="@font/bricolage_grotesque_regular"
                     />
                 <TextView
                     android:id="@+id/receiptUnit"
@@ -304,18 +324,21 @@
                     android:layout_height="wrap_content"
                     android:text="100.00 kWh"
                     android:layout_below="@id/secondDashedLine"
-                    android:textSize="15sp"
-                    android:textColor="@color/black"
-                    android:layout_alignParentEnd="true"/>
+                    android:textSize="13sp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="15dp"
+                    android:textColor="@color/receiptItems"
+                    android:fontFamily="@font/bricolage_grotesque_regular"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/date_time"
                     android:layout_below="@id/receiptUnit"
-                    android:layout_marginTop="8dp"
-                    android:textSize="15sp"
-                    android:textColor="@color/someText"
+                    android:layout_marginTop="15dp"
+                    android:textColor="@color/receiptHeads"
+                    android:fontFamily="@font/bricolage_grotesque_regular"
+                    android:textSize="13sp"
                     />
                 <TextView
                     android:id="@+id/receiptDate"
@@ -323,9 +346,10 @@
                     android:layout_height="wrap_content"
                     android:text="@string/dateTime"
                     android:layout_below="@id/receiptUnit"
-                    android:layout_marginTop="8dp"
-                    android:textSize="15sp"
-                    android:textColor="@color/black"
+                    android:layout_marginTop="15dp"
+                    android:textColor="@color/receiptItems"
+                    android:fontFamily="@font/bricolage_grotesque_regular"
+                    android:textSize="13sp"
                     android:layout_alignParentEnd="true"/>
 
             </RelativeLayout>

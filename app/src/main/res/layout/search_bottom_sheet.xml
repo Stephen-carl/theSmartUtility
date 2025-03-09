@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/bottom_sheet_background"
+    android:elevation="5dp"
+    android:id="@+id/searchMain">
+
+    <TextView
+        android:id="@+id/theHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:textColor="#4b4b4b"
+        android:text="@string/meter_number"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp"
+        android:fontFamily="@font/bricolage_grotesque_semi_bold"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/searchMeterLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:hintTextColor="@color/hintColor"
+        app:hintEnabled="false"
+        android:layout_below="@id/theHeader">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/searchMeterInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Search for MeterNo, BlockNo. or FlatNo."
+            android:background="@color/white"
+            android:textColorHint="@color/hintColor"
+            android:textColor="@color/black"
+            android:drawableStart="@drawable/search_icon"
+            android:drawablePadding="8dp"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/searchRecycler"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/searchMeterLayout"
+        android:layout_marginHorizontal="20dp"/>
+
+</RelativeLayout>

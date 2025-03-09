@@ -41,4 +41,8 @@
         <!-- Button background color -->
         <item name="android:background">@color/primary</item> <!-- Custom background color -->
     </style>
+
+    <style name="CustomNavItemText" parent="TextAppearance.AppCompat.Body1">
+        <item name="fontFamily">@font/bricolage_grotesque_semi_bold</item> <!-- Use your font -->
+    </style>
 </resources>

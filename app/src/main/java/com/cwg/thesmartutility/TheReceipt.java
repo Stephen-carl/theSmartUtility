@@ -34,8 +34,11 @@ import com.cwg.thesmartutility.user.UserDashboard;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -47,6 +50,8 @@ public class TheReceipt extends AppCompatActivity {
     RelativeLayout copyRelative;
     SharedPreferences validPref;
     List<ReceiptItems> repItems;
+    DecimalFormat decimalFormat = new DecimalFormat("#.00");
+    Double charges, vended;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,6 +96,14 @@ public class TheReceipt extends AppCompatActivity {
         DateText = intent.getStringExtra("repDate");
         TimeText = intent.getStringExtra("repTime");
 
+        // make the ChargeText to be in .00 decimal format
+        charges = Double.parseDouble(ChargeText);
+        ChargeText = decimalFormat.format(charges);
+        vended = Double.parseDouble(VendedText);
+        VendedText = decimalFormat.format(vended);
+
+        Log.d("my log", "ChargeText: " + ChargeText);
+
         // PUT INTO IN THE TEXT VIEWS ACCORDINGLY
         transText.setText(TransText);
         meterText.setText(MeterText);
@@ -101,7 +114,7 @@ public class TheReceipt extends AppCompatActivity {
         tariffText.setText(String.format("₦ %s", TariffText));
         vendedText.setText(String.format("₦ %s", VendedText));
         unitText.setText(String.format("%s kWh", UnitText));
-        dateText.setText(String.format("%s, %s", DateText, TimeText));
+        dateText.setText(getCurrentTimeInDefaultTimeZone());
         receiptAmount.setText(String.format("NGN %s", AmountText));
 
         // make the copyRelative copy the text in its textview
@@ -117,9 +130,6 @@ public class TheReceipt extends AppCompatActivity {
 
         // WHEN THEN SHARE BUTTON IS CLICKED, CREATE  A PDF AND CALL THE ANDROID MODULE TO BRING UP THE SHARE DIALOG
         shareImage.setOnClickListener(v -> {
-            ReceiptItems receiptItems = new ReceiptItems(TransText, MeterText, TokenText, AmountText, ChargeText, VatText, TariffText, UnitText, VendedText, DateText, TimeText);
-            //add to array list
-            repItems.add(receiptItems);
             createPDF();
         });
 
@@ -143,11 +153,17 @@ public class TheReceipt extends AppCompatActivity {
         getOnBackPressedDispatcher().addCallback(this,callback);
     }
 
+    public String getCurrentTimeInDefaultTimeZone() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        // Automatically uses the system's default timezone
+        return sdf.format(new Date());
+    }
+
     // create pdf
     private void createPDF() {
         // Create a new PdfDocument instance
         PdfDocument document = new PdfDocument();
-        for (ReceiptItems receiptItems : repItems) {
+
             View view = getLayoutInflater().inflate(R.layout.receipt_layout, null);
             DisplayMetrics displayMetrics = new DisplayMetrics();
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
@@ -168,17 +184,17 @@ public class TheReceipt extends AppCompatActivity {
             receiptAmountText = view.findViewById(R.id.shareAmountText);
 
 
-            refItem.setText(receiptItems.getrTrans());
-            meterItem.setText(receiptItems.getrMeter());
-            tokenItem.setText(receiptItems.getrToken());
-            amountItem.setText(String.format("₦ %s", receiptItems.getrAmount()));
-            tariffItem.setText(String.format("₦ %s", receiptItems.getrTariff()));
-            unitItem.setText(String.format("%s kWh", receiptItems.getrUnits()));
-            dateItem.setText(String.format("%s, %s", receiptItems.getrDate(), receiptItems.getrTime()));
-            chargeItem.setText(String.format("₦ %s", receiptItems.getrCharge()));
-            vendItem.setText(String.format("₦ %s", receiptItems.getrVendedAmount()));
-            vatItem.setText(String.format("%s %%", receiptItems.getrVat()));
-            receiptAmountText.setText(String.format("NGN %s", receiptItems.getrAmount()));
+            refItem.setText(TransText);
+            meterItem.setText(MeterText);
+            tokenItem.setText(TokenText);
+            amountItem.setText(String.format("₦ %s", AmountText));
+            tariffItem.setText(String.format("₦ %s", TariffText));
+            unitItem.setText(String.format("%s kWh", UnitText));
+            dateItem.setText(getCurrentTimeInDefaultTimeZone());
+            chargeItem.setText(String.format("₦ %s", ChargeText));
+            vendItem.setText(String.format("₦ %s",VendedText));
+            vatItem.setText(String.format("%s %%", VatText));
+            receiptAmountText.setText(String.format("NGN %s", AmountText));
 
             //this helps  to get the phone's width and height, instead of defining it
             view .measure(View.MeasureSpec.makeMeasureSpec(displayMetrics.widthPixels, View.MeasureSpec.EXACTLY),
@@ -206,7 +222,7 @@ public class TheReceipt extends AppCompatActivity {
             view.draw(canvas);
             // Finish the page
             document.finishPage(page);
-        }
+
         // Specify the path and filename of the output PDF file
         String receiptFile = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS).getPath() + "/TransactionReports/";
         File directory = new File(receiptFile);
@@ -232,6 +248,8 @@ public class TheReceipt extends AppCompatActivity {
 
                 // now share the receipt
                 sharePDF(filePath);
+                // go back to the respective dashboard
+
             } catch (IOException e) {
                 Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
             }

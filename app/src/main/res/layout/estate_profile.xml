@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".estateAdmin.EstateProfile"
+    android:background="@color/globalBackground">
+
+    <ImageView
+        android:id="@+id/settingsBack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/back_back"
+        android:contentDescription="@string/logo"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="25dp"/>
+
+    <TextView
+        android:id="@+id/settingText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/settings"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="#232665"
+        android:layout_marginTop="25dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginBottom="16dp"
+        android:layout_centerHorizontal="true"
+        android:fontFamily="@font/bricolage_grotesque_semi_bold"/>
+
+    <RelativeLayout
+        android:id="@+id/detailsHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="18dp"
+        android:background="@drawable/view_details_background"
+        android:layout_marginTop="40dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_below="@id/settingText">
+
+        <ImageView
+            android:id="@+id/settingImage"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:background="@drawable/profile_image"
+            android:layout_alignParentStart="true"
+            />
+
+        <TextView
+            android:id="@+id/settingsNameText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Toluwani Stephen"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:layout_marginBottom="2dp"
+            android:layout_marginStart="11dp"
+            android:layout_toEndOf="@id/settingImage"
+            android:fontFamily="@font/bricolage_grotesque_semi_bold"/>
+
+        <TextView
+            android:id="@+id/settingsEmailText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Toluwani Stephen"
+            android:textColor="@color/primary"
+            android:textSize="14sp"
+            android:layout_below="@id/settingsNameText"
+            android:layout_marginStart="11dp"
+            android:layout_toEndOf="@id/settingImage"
+            android:fontFamily="@font/bricolage_grotesque_regular"/>
+
+    </RelativeLayout>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/profileCard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="10dp"
+        android:layout_below="@id/detailsHeader"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginVertical="20dp"
+        >
+
+        <RelativeLayout
+            android:id="@+id/estateProfileRelative"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
+            android:background="@color/settingCard">
+
+            <ImageView
+                android:id="@+id/profileImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/customer_icon"
+                android:backgroundTint="@color/primary"
+                android:layout_centerVertical="true"/>
+
+            <TextView
+                android:id="@+id/profileText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/profileImage"
+                android:text="Profile"
+                android:textSize="15sp"
+                android:layout_marginStart="20dp"
+                android:layout_centerVertical="true"
+                android:layout_marginBottom="3dp"
+                android:textColor="@color/primary"
+                android:fontFamily="@font/bricolage_grotesque_regular"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:background="@drawable/right_arrow"
+                android:backgroundTint="#252525"
+                android:layout_centerVertical="true"/>
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/passwordCard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="10dp"
+        android:layout_below="@id/profileCard"
+        android:layout_marginHorizontal="20dp"
+        >
+
+        <RelativeLayout
+            android:id="@+id/estatePasswordRelative"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
+            android:background="@color/settingCard">
+
+            <ImageView
+                android:id="@+id/passwordImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/password_icon"
+                android:backgroundTint="@color/primary"
+                android:layout_centerVertical="true"/>
+
+            <TextView
+                android:id="@+id/passwordText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/passwordImage"
+                android:text="@string/password"
+                android:textSize="15sp"
+                android:layout_marginStart="20dp"
+                android:gravity="center"
+                android:layout_marginBottom="3dp"
+                android:textColor="@color/primary"
+                android:layout_centerVertical="true"
+                android:fontFamily="@font/bricolage_grotesque_regular"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:background="@drawable/right_arrow"
+                android:layout_centerVertical="true"/>
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/logoutCard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="10dp"
+        android:layout_below="@id/passwordCard"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginVertical="20dp"
+        >
+
+        <RelativeLayout
+            android:id="@+id/estateLogoutRelative"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
+            android:background="@color/settingCard">
+
+            <ImageView
+                android:id="@+id/logoutImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/logout_icon"
+                android:backgroundTint="@color/red"
+                android:layout_centerVertical="true" />
+
+            <TextView
+                android:id="@+id/logoutText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/logoutImage"
+                android:text="Log Out"
+                android:textSize="15sp"
+                android:layout_marginStart="20dp"
+                android:layout_centerVertical="true"
+                android:layout_marginBottom="3dp"
+                android:textColor="@color/red"
+                android:fontFamily="@font/bricolage_grotesque_regular"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:background="@drawable/right_arrow"
+                android:layout_centerVertical="true"
+                android:backgroundTint="@color/red"/>
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/estateProfileNav"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        app:menu="@menu/estate_bottom_nav"
+        android:elevation="2dp"
+        app:itemIconTint="@drawable/item_selector"
+        app:itemTextColor="@drawable/item_selector"
+        android:background="@color/navBar"
+        app:labelVisibilityMode="labeled"
+        style="@style/Widget.MaterialComponents.BottomNavigationView"/>
+
+
+</RelativeLayout>

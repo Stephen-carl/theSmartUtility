@@ -1,14 +1,17 @@
 package com.cwg.thesmartutility.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.cwg.thesmartutility.HistoryItemDetails;
 import com.cwg.thesmartutility.R;
 import com.cwg.thesmartutility.model.UserTransModel;
 
@@ -36,10 +39,15 @@ public class EstateTransAdapter extends RecyclerView.Adapter<EstateTransAdapter.
     @Override
     public void onBindViewHolder(@NonNull EstateTransAdapter.PostHolder holder, int position) {
         UserTransModel userTranModel = userTransList.get(position);
-        holder.setAmountID(userTranModel.getAmount());
-        holder.setUnit(userTranModel.getUnits());
+        holder.setAmountID("₦" + userTranModel.getAmount());
+        holder.setUnit(userTranModel.getUnits() + "KwH");
         holder.setMeterID(userTranModel.getMeterID());
         holder.setDateID(userTranModel.getDate(), userTranModel.getTime());
+        holder.estateRelative.setOnClickListener(v -> {
+            Intent intent = new Intent(context, HistoryItemDetails.class);
+            intent.putExtra("itemTransRef", userTranModel.getTransID());
+            context.startActivity(intent);
+        });
     }
 
     @Override
@@ -52,11 +60,13 @@ public class EstateTransAdapter extends RecyclerView.Adapter<EstateTransAdapter.
         //the textViews to use
         TextView mAmount, mDate, mUnits, mMeter;
         View view;
+        RelativeLayout estateRelative;
 
         public PostHolder( View itemView) {
             super(itemView);
             //pass the view(context) to this one i defined
             view = itemView;
+            estateRelative = view.findViewById(R.id.estateTransactionRelative);
         }
         //functions for setting the items and set the text
 
