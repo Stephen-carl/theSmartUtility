@@ -1,23 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".estateAdmin.EstateServiceFeeDetail"
-    android:background="@color/white">
-
-    <ImageView
-        android:id="@+id/backIcon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/back_back"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="40dp"
-        android:contentDescription="share icon" />
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
+    android:id="@+id/receiptService">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -59,7 +47,7 @@
                     android:fontFamily="@font/bricolage_grotesque_regular"/>
 
                 <TextView
-                    android:id="@+id/serviceAmountText"
+                    android:id="@+id/shareAmountText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
@@ -116,7 +104,7 @@
                     android:fontFamily="@font/bricolage_grotesque_regular"
                     android:textSize="13sp"/>
                 <TextView
-                    android:id="@+id/serviceTransID"
+                    android:id="@+id/shareTransID"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="123456789012345678901234"
@@ -131,17 +119,17 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Meter Number"
-                    android:layout_below="@id/serviceTransID"
+                    android:layout_below="@id/shareTransID"
                     android:layout_marginTop="15dp"
                     android:textColor="@color/receiptHeads"
                     android:fontFamily="@font/bricolage_grotesque_regular"
                     android:textSize="13sp" />
                 <TextView
-                    android:id="@+id/serviceMeterNum"
+                    android:id="@+id/shareMeterNum"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="123456789012345"
-                    android:layout_below="@id/serviceTransID"
+                    android:layout_below="@id/shareTransID"
                     android:layout_marginTop="15dp"
                     android:textColor="@color/receiptItems"
                     android:fontFamily="@font/bricolage_grotesque_regular"
@@ -152,18 +140,18 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Amount"
-                    android:layout_below="@id/serviceMeterNum"
+                    android:layout_below="@id/shareMeterNum"
                     android:layout_marginTop="13dp"
                     android:textColor="@color/receiptHeads"
                     android:fontFamily="@font/bricolage_grotesque_regular"
                     android:textSize="15sp"
                     />
                 <TextView
-                    android:id="@+id/serviceAmount"
+                    android:id="@+id/shareAmount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/mount"
-                    android:layout_below="@id/serviceMeterNum"
+                    android:layout_below="@id/shareMeterNum"
                     android:layout_marginTop="15dp"
                     android:textColor="@color/receiptItems"
                     android:fontFamily="@font/bricolage_grotesque_regular"
@@ -174,7 +162,7 @@
                     android:id="@+id/secondDashedLine"
                     android:layout_width="match_parent"
                     android:layout_height="5dp"
-                    android:layout_below="@id/serviceAmount"
+                    android:layout_below="@id/shareAmount"
                     android:layout_marginTop="10dp"
                     android:background="@drawable/dash_line" />
 
@@ -189,7 +177,7 @@
                     android:fontFamily="@font/bricolage_grotesque_regular"
                     />
                 <TextView
-                    android:id="@+id/servicePayDate"
+                    android:id="@+id/sharePayDate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="100.00 kWh"
@@ -204,18 +192,18 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Expiry Date"
-                    android:layout_below="@id/servicePayDate"
+                    android:layout_below="@id/sharePayDate"
                     android:layout_marginTop="15dp"
                     android:textColor="@color/receiptHeads"
                     android:fontFamily="@font/bricolage_grotesque_regular"
                     android:textSize="13sp"
                     />
                 <TextView
-                    android:id="@+id/serviceExpiryDate"
+                    android:id="@+id/shareExpiryDate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/dateTime"
-                    android:layout_below="@id/servicePayDate"
+                    android:layout_below="@id/sharePayDate"
                     android:layout_marginTop="15dp"
                     android:textColor="@color/receiptItems"
                     android:fontFamily="@font/bricolage_grotesque_regular"

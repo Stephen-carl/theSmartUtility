@@ -465,8 +465,15 @@ public class EstatePurchase extends AppCompatActivity {
                     preloaderLogo.dismiss();
                 }
             }, error -> {
-                Toast.makeText(EstatePurchase.this, "Could not connect: Please click the button again" , Toast.LENGTH_LONG).show();
+                // Display an AlertDialog with the error message
+                new androidx.appcompat.app.AlertDialog.Builder(EstatePurchase.this)
+                        .setTitle("Try Again!!!")
+                        .setMessage("Kindly check your connection")
+                        .setPositiveButton("OK", (dialog, which) -> dialog.dismiss())
+                        .show();
+//                Toast.makeText(PaystackPayment.this, "Kindly check your connection and click the button again", Toast.LENGTH_LONG).show();
                 preloaderLogo.dismiss();
+
             }){
                 @Override
                 public Map<String, String> getHeaders() {
@@ -476,7 +483,7 @@ public class EstatePurchase extends AppCompatActivity {
                 }
             };
             // Set the RetryPolicy here
-            int socketTimeout = 100000;  // 30 seconds
+            int socketTimeout = 100000;  // 100 seconds
             RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
             vendTokenRequest.setRetryPolicy(policy);
             VolleySingleton.getInstance(this).addToRequestQueue(vendTokenRequest);

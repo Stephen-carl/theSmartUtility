@@ -193,6 +193,12 @@ public class History extends AppCompatActivity {
                         // get the total count
                         int totalCount = response.getInt("totalCount");
                         int totalPages = (totalCount + PAGE_SIZE - 1)/PAGE_SIZE;
+                        if (totalPages == CURRENT_PAGE) {
+                            // make next button invisible
+                            nextTextButton.setVisibility(View.INVISIBLE);
+                        } else {
+                            nextTextButton.setVisibility(View.VISIBLE);
+                        }
                         historyLinear.setVisibility(View.GONE);
                         historyRecycle.setVisibility(View.VISIBLE);
                         JSONArray jsonArray = response.getJSONArray("data");
@@ -333,6 +339,12 @@ public class History extends AppCompatActivity {
                         // get the total count
                         int totalCount = response.getInt("totalCount");
                         int totalPages = (totalCount + PAGE_SIZE - 1)/PAGE_SIZE;
+                        if (totalPages == CURRENT_PAGE) {
+                            // make next button invisible
+                            nextTextButton.setVisibility(View.INVISIBLE);
+                        } else {
+                            nextTextButton.setVisibility(View.VISIBLE);
+                        }
                         JSONArray jsonArray = response.getJSONArray("data");
                         if (jsonArray.length() > 0) {
                             userList.clear();

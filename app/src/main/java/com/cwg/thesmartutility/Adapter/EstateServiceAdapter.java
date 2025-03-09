@@ -15,9 +15,12 @@ import com.cwg.thesmartutility.R;
 import com.cwg.thesmartutility.estateAdmin.EstateServiceFeeDetail;
 import com.cwg.thesmartutility.model.EstateServiceModel;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Locale;
+import java.util.TimeZone;
 
 public class EstateServiceAdapter extends RecyclerView.Adapter<EstateServiceAdapter.PostHolder>{
     Context context;
@@ -39,13 +42,14 @@ public class EstateServiceAdapter extends RecyclerView.Adapter<EstateServiceAdap
     @Override
     public void onBindViewHolder(@NonNull PostHolder holder, int position) {
         EstateServiceModel estateServiceModel = estateServiceList.get(position);
-        holder.setRef(estateServiceModel.getServiceID());
+        // i changed to meterID instead of the ref as it plays no significance
+        holder.setRef(estateServiceModel.getServiceMeter());
         holder.setServiceAmount("₦" + estateServiceModel.getServiceAmount());
         holder.setServiceDate(estateServiceModel.getServicePaymentDate());
         holder.setServiceExpiry(estateServiceModel.getServiceExpiryDate());
         holder.serviceRelative.setOnClickListener(v -> {
              Intent intent = new Intent(context, EstateServiceFeeDetail.class);
-             intent.putExtra("serviceRef", estateServiceModel.getServiceID());
+             intent.putExtra("serviceRefID", estateServiceModel.getServiceID());
              context.startActivity(intent);
         });
     }
@@ -76,11 +80,9 @@ public class EstateServiceAdapter extends RecyclerView.Adapter<EstateServiceAdap
             mAmount.setText(Amount);
         }
 
-        public void setServiceDate(String Date) {
+        public void setServiceDate(String dateStr) {
             mDate = view.findViewById(R.id.servicePaymentDate);
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-            String formattedDate = dateFormat.format(Date);
-            mDate.setText(formattedDate);
+            mDate.setText(dateStr);
         }
 
         public void setServiceExpiry(String Expiry) {

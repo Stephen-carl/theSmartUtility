@@ -44,7 +44,6 @@
 
 
     <string name="managementBaseURL">https://smartmetering.kuleanpay.com</string>
-<!--    <string name="managementBaseURL">http://192.168.39.161:5050</string>-->
     <string name="payBaskURL">https://smartmetering.kuleanpay.com</string>
     <string name="service_fee_history">Service Fee History</string>
 

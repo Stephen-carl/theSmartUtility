@@ -20,6 +20,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".user.ServiceReceipt"
+            android:exported="false" />
+        <activity
             android:name=".estateAdmin.EstateServiceFeeDetail"
             android:exported="false" />
         <activity

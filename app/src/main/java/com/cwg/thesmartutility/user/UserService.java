@@ -36,7 +36,7 @@ public class UserService extends AppCompatActivity {
     TextView serviceAmountText, serviceDurationText;
     Button serviceButton;
     SharedPreferences validSharedPref;
-    String baseUrl, ServiceText, DurationText;
+    String baseUrl, ServiceText, DurationText, token;
     ImageView serviceBack;
 
     @Override
@@ -60,6 +60,7 @@ public class UserService extends AppCompatActivity {
 
         // declare pref
         validSharedPref = getSharedPreferences("UtilityPref", Context.MODE_PRIVATE);
+        token = validSharedPref.getString("token", "");
 
         // base url
         baseUrl = this.getString(R.string.managementBaseURL);
@@ -202,7 +203,14 @@ public class UserService extends AppCompatActivity {
             }, error -> {
                 preloaderLogo.dismiss();
                 Toast.makeText(UserService.this, "Could not connect to network", Toast.LENGTH_LONG).show();
-            });
+            }){
+                @Override
+                public Map<String, String> getHeaders() {
+                    Map<String, String> headers = new HashMap<>();
+                    headers.put("Authorization", "Bearer " + token);
+                    return headers;
+                }
+            };
             int socketTimeout = 30000;  // 30 seconds
             RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
             jsonObjectRequest.setRetryPolicy(policy);

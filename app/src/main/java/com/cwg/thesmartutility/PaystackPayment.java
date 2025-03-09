@@ -2,6 +2,7 @@ package com.cwg.thesmartutility;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -24,6 +25,7 @@ import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RetryPolicy;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.cwg.thesmartutility.user.UserPurchase;
 import com.cwg.thesmartutility.utils.PreloaderLogo;
 import com.google.android.material.button.MaterialButton;
 
@@ -555,7 +557,13 @@ public class PaystackPayment extends AppCompatActivity {
                     preloaderLogo.dismiss();
                 }
             }, error -> {
-                Toast.makeText(PaystackPayment.this, "Kindly check your connection and click the button again", Toast.LENGTH_SHORT).show();
+                // Display an AlertDialog with the error message
+                new androidx.appcompat.app.AlertDialog.Builder(PaystackPayment.this)
+                        .setTitle("Try Again!!!")
+                        .setMessage("Kindly check your connection")
+                        .setPositiveButton("OK", (dialog, which) -> dialog.dismiss())
+                        .show();
+//                Toast.makeText(PaystackPayment.this, "Kindly check your connection and click the button again", Toast.LENGTH_LONG).show();
                 preloaderLogo.dismiss();
             }){
                 @Override
@@ -566,7 +574,7 @@ public class PaystackPayment extends AppCompatActivity {
                 }
             };
             // Set the RetryPolicy here
-            int socketTimeout = 30000;  // 30 seconds
+            int socketTimeout = 100000;  // 100 seconds
             RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
             vendTokenRequest.setRetryPolicy(policy);
             VolleySingleton.getInstance(this).addToRequestQueue(vendTokenRequest);

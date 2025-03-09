@@ -23,6 +23,7 @@ import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RetryPolicy;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.cwg.thesmartutility.user.ServiceReceipt;
 import com.cwg.thesmartutility.utils.PreloaderLogo;
 
 import org.json.JSONException;
@@ -206,14 +207,14 @@ public class ServicePayment extends AppCompatActivity {
                     String message = response.getString("message");
                     if (message.equals("success")){
                         JSONObject dataObject = response.getJSONObject("data");
-                        String PaymentDate = dataObject.getString("time");
-                        String ExpiryDate = dataObject.getString("day");
+                        String PaymentDate = dataObject.getString("payment_date");
+                        String ExpiryDate = dataObject.getString("expiry_date");
                         String payAmount = dataObject.getString("sub_amount");
 
                         // pass data to next page, to avoid constant going to database
-                        Intent nextInt = new Intent(ServicePayment.this, TheReceipt.class);
+                        Intent nextInt = new Intent(ServicePayment.this, ServiceReceipt.class);
                         //ref, meterNo, token, amount, tariff, unit, date
-                        nextInt.putExtra("payTransID", refID);
+                        nextInt.putExtra("serviceRefID", refID);
                         //this is the original amount that has not been touched, in case im ask not to deduct from client
                         nextInt.putExtra("payAmount",  payAmount);
                         nextInt.putExtra("payDate", PaymentDate);

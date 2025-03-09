@@ -41,6 +41,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 
 public class EstateService extends AppCompatActivity {
 
@@ -143,8 +144,18 @@ public class EstateService extends AppCompatActivity {
                 try {
                     String message = response.getString("message");
                     if (message.equals("success")) {
+                        // show recycler and hide linear
+                        serviceRecycler.setVisibility(View.VISIBLE);
+                        serviceLinear.setVisibility(View.GONE);
+                        // get the total count
                         int totalCount = response.getInt("totalCount");
                         int totalPages = (totalCount + PAGE_SIZE - 1)/PAGE_SIZE;
+                        if (totalPages == CURRENT_PAGE){
+                            // make next button invisible
+                            nextTextButton.setVisibility(View.INVISIBLE);
+                        } else {
+                            nextTextButton.setVisibility(View.VISIBLE);
+                        }
                         JSONArray data = response.getJSONArray("data");
                         if (data.length() == 0) {
                             pagesText.setText("--0--");
@@ -228,14 +239,23 @@ public class EstateService extends AppCompatActivity {
 
         // apply button
         applyButton.setOnClickListener(v -> {
-            StartDate = (startInput.getText() != null && !startInput.getText().toString().isEmpty())
-                    ? startInput.getText().toString()
-                    : "";
-            EndDate = (endInput.getText() != null && !endInput.getText().toString().isEmpty())
-                    ? endInput.getText().toString()
-                    : "";
+            StartDate = Objects.requireNonNull(startInput.getText()).toString();
+            EndDate = Objects.requireNonNull(endInput.getText()).toString();
             CURRENT_PAGE = 1;
-            filteredService(StartDate, EndDate, CURRENT_PAGE);
+
+            // Dismiss the bottom sheet if it's showing
+            if (bottomSheetDialog != null && bottomSheetDialog.isShowing()) {
+                bottomSheetDialog.dismiss();
+            }
+
+            // Check if both dates are empty, then call getService() for unfiltered data
+            if (StartDate.isEmpty() && EndDate.isEmpty()){
+                isFiltered = false;
+                getService();
+            } else {
+                filteredService(StartDate, EndDate, CURRENT_PAGE);
+            }
+            //filteredService(StartDate, EndDate, CURRENT_PAGE);
         });
 
         bottomSheetDialog.setContentView(bottomSheetView);
@@ -253,8 +273,18 @@ public class EstateService extends AppCompatActivity {
                 try {
                     String message = response.getString("message");
                     if (message.equals("success")) {
+                        // show recycler and hide linear
+                        serviceRecycler.setVisibility(View.VISIBLE);
+                        serviceLinear.setVisibility(View.GONE);
+                        // get the total count
                         int totalCount = response.getInt("totalCount");
                         int totalPages = (totalCount + PAGE_SIZE - 1) / PAGE_SIZE;
+                        if (totalPages == CURRENT_PAGE) {
+                            // make next button invisible
+                            nextTextButton.setVisibility(View.INVISIBLE);
+                        } else {
+                            nextTextButton.setVisibility(View.VISIBLE);
+                        }
                         JSONArray data = response.getJSONArray("data");
                         if (data.length() == 0) {
                             pagesText.setText("--0--");
@@ -296,8 +326,9 @@ public class EstateService extends AppCompatActivity {
                     Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }, error -> {
-//                preloaderLogo.dismiss();
-//                bottomSheetDialog.dismiss();
+                preloaderLogo.dismiss();
+                bottomSheetDialog.dismiss();
+                pagesText.setText("--0--");
                 serviceLinear.setVisibility(View.VISIBLE);
                 serviceRecycler.setVisibility(View.GONE);
                 Toast.makeText(this, "No transactions found", Toast.LENGTH_SHORT).show();
