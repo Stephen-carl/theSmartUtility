@@ -317,7 +317,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/estateTokenHistory"
-            android:layout_marginHorizontal="20dp"/>
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginBottom="30dp"/>
 
         <LinearLayout
             android:id="@+id/estateHistoryLinear"

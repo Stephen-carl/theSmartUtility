@@ -25,6 +25,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.cwg.thesmartutility.PaystackPayment;
 import com.cwg.thesmartutility.R;
 import com.cwg.thesmartutility.VolleySingleton;
+import com.cwg.thesmartutility.auth.Login;
 import com.cwg.thesmartutility.utils.PreloaderLogo;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -78,6 +79,12 @@ public class UserPurchase extends AppCompatActivity {
         preloaderLogo = new PreloaderLogo(this);
 
         validSharedPref = getSharedPreferences("UtilityPref", Context.MODE_PRIVATE);
+        // Log the brand
+        String brand = validSharedPref.getString("brand", null);
+        String customerID = validSharedPref.getString("customerID", "");
+        assert brand != null;
+        Log.d("Brand: ", brand);
+        Log.d("The CustomerID: ", customerID);
         Token = validSharedPref.getString("token", null);
         vendStatus =  validSharedPref.getString("vendStatus", null);
         HasPayAcct = validSharedPref.getString("hasPayAcct", null);

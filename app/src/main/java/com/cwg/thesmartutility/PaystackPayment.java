@@ -2,7 +2,6 @@ package com.cwg.thesmartutility;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -25,7 +24,6 @@ import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RetryPolicy;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.cwg.thesmartutility.user.UserPurchase;
 import com.cwg.thesmartutility.utils.PreloaderLogo;
 import com.google.android.material.button.MaterialButton;
 
@@ -502,9 +500,9 @@ public class PaystackPayment extends AppCompatActivity {
             vendingObjects.put("username", user);
             vendingObjects.put("vat", theVat);
             // to first verify payment
-            vendingObjects.put("estateID", estateID);
-            vendingObjects.put("hasPayAcct", HasPayAcct);
-            vendingObjects.put("reference", refID);
+//            vendingObjects.put("estateID", estateID);
+//            vendingObjects.put("hasPayAcct", HasPayAcct);
+//            vendingObjects.put("reference", refID);
             JsonObjectRequest vendTokenRequest = new JsonObjectRequest(Request.Method.POST, vendURL, vendingObjects, response -> {
                 try {
                     String message = response.getString("message");
@@ -553,7 +551,7 @@ public class PaystackPayment extends AppCompatActivity {
 //                        //after saving, print the pdf
 //                    }
                 } catch (JSONException e) {
-                    Toast.makeText(PaystackPayment.this, "Kindly check your connection and click the button again", Toast.LENGTH_LONG).show();
+                    Toast.makeText(PaystackPayment.this, "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
                     preloaderLogo.dismiss();
                 }
             }, error -> {

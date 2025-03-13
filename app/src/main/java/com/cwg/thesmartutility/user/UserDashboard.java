@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -91,6 +92,9 @@ public class UserDashboard extends AppCompatActivity {
 
         // declare pref
         validSharedPref = getSharedPreferences("UtilityPref", Context.MODE_PRIVATE);
+        String brand = validSharedPref.getString("brand", null);
+        assert brand != null;
+        Log.d("Brand: ", brand);
 
         // load the meter number
         String meter = validSharedPref.getString("meterID", null);
@@ -241,6 +245,9 @@ public class UserDashboard extends AppCompatActivity {
                             dashHistoryLinear.setVisibility(View.VISIBLE);
                             Toast.makeText(this, "No transactions yet.", Toast.LENGTH_LONG).show();
                         }
+                        // get brand
+                        getBrand();
+
                     }
                     else {
                         preloaderLogo.dismiss();
@@ -274,4 +281,40 @@ public class UserDashboard extends AppCompatActivity {
             Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
+
+    // get brand
+    private void getBrand() {
+        String apiURL = baseUrl+"/user/getBrand";
+        String token =  validSharedPref.getString("token", "");
+        JsonObjectRequest brandRequest = new JsonObjectRequest(Request.Method.GET, apiURL, null, response -> {
+            try {
+                String message = response.getString("message");
+                if (message.equals("success")) {
+                    JSONObject brandData = response.getJSONObject("brand");
+                    String brand = brandData.getString("brand");
+                    String customerID = brandData.getString("customerID");
+                    // save the brand to Pref
+                    SharedPreferences.Editor editor = validSharedPref.edit();
+                    editor.putString("brand", brand);
+                    editor.putString("customerID", customerID);
+                    editor.apply();
+                } else {
+                    Toast.makeText(this, "Error: " + message, Toast.LENGTH_SHORT).show();
+                }
+            } catch (JSONException e) {
+                Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        }, error -> {
+            Toast.makeText(this, "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+        }){
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", "Bearer " + token);  // Send JWT in Authorization header
+                return headers;
+            }
+        };
+        VolleySingleton.getInstance(this).addToRequestQueue(brandRequest);
+    }
+
 }

@@ -46,7 +46,7 @@ public class EstateDashboard extends AppCompatActivity {
     LinearLayout dashHistoryLinear;
     RecyclerView meterRecycler;
     RelativeLayout updateVATButton, updateTariffButton, updateServiceButton;
-    TextView estateName, tariffText, vatText;
+    TextView estateName, tariffText, vatText, actionService;
     SharedPreferences validSharedPref;
     BottomNavigationView bottomNavigationView;
     ArrayList<EstateMeterModel> userList;
@@ -73,6 +73,7 @@ public class EstateDashboard extends AppCompatActivity {
         // ids
         estateName = findViewById(R.id.estateNameText);
         tariffText = findViewById(R.id.tariffText);
+        actionService = findViewById(R.id.actionService);
         updateVATButton = findViewById(R.id.VATButton);
         updateTariffButton = findViewById(R.id.TariffButton);
         updateServiceButton = findViewById(R.id.serviceButton);
@@ -110,8 +111,12 @@ public class EstateDashboard extends AppCompatActivity {
         // if serviceStatus is "true" then show the button. Else hide it
         if (serviceStatus.equals("true")) {
             updateServiceButton.setVisibility(View.VISIBLE);
+            serviceTransButton.setVisibility(View.VISIBLE);
+            actionService.setVisibility(View.VISIBLE);
         } else {
             updateServiceButton.setVisibility(View.GONE);
+            serviceTransButton.setVisibility(View.GONE);
+            actionService.setVisibility(View.GONE);
         }
 
         // service transaction history
