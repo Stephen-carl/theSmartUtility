@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:id="@+id/editMetCard"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:layout_marginHorizontal="30dp">
+
+    <TextView
+        android:id="@+id/textOne"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:layout_marginVertical="10dp"
+        android:textSize="15sp"
+        android:textColor="@color/someText"
+        android:fontFamily="@font/bricolage_grotesque_regular"
+        android:layout_marginStart="10dp"
+        android:layout_alignParentStart="true"/>
+    <TextView
+        android:id="@+id/textTwo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:layout_marginTop="10dp"
+        android:textSize="15sp"
+        android:textColor="@color/black"
+        android:layout_alignParentEnd="true"
+        android:fontFamily="@font/bricolage_grotesque_regular"
+        android:layout_marginEnd="10dp"/>
+
+</RelativeLayout>

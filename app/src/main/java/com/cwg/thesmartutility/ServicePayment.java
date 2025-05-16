@@ -135,7 +135,6 @@ public class ServicePayment extends AppCompatActivity {
             requestData.put("hasPayAcct", HasPayAcct);
             requestData.put("reference", refID);
             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, apiURL, requestData, response -> {
-                //get the authorization_URL and point to the checkoutPage
                 try {
                     //get the status of the result
                     JSONObject theData = response.getJSONObject("theData");
@@ -163,7 +162,7 @@ public class ServicePayment extends AppCompatActivity {
                         saveToDatabase();
 
                     } else  {
-                        Toast.makeText(ServicePayment.this, "Purchase failed", Toast.LENGTH_LONG).show();
+                        Toast.makeText(ServicePayment.this, "Payment failed", Toast.LENGTH_LONG).show();
                         // check for role before send the user
                         finish();
                         preloaderLogo.dismiss();
@@ -175,7 +174,7 @@ public class ServicePayment extends AppCompatActivity {
                     preloaderLogo.dismiss();
                 }
             }, error -> {
-                Toast.makeText(ServicePayment.this, "Please Try Again", Toast.LENGTH_LONG).show();
+                Toast.makeText(ServicePayment.this, "Error: " + error.getMessage(), Toast.LENGTH_LONG).show();
                 finish();
                 preloaderLogo.dismiss();
             });

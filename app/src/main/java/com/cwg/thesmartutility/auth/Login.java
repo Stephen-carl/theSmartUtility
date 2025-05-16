@@ -3,6 +3,9 @@ package com.cwg.thesmartutility.auth;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -19,8 +22,11 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
+import com.android.volley.RetryPolicy;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.chaos.view.BuildConfig;
 import com.cwg.thesmartutility.R;
 import com.cwg.thesmartutility.VolleySingleton;
 import com.cwg.thesmartutility.estateAdmin.EstateDashboard;
@@ -36,7 +42,7 @@ import java.util.Objects;
 
 public class Login extends AppCompatActivity {
 
-    TextView forgotPassword, signUpText;
+    TextView forgotPassword, signUpText, resendVerification;
     Button loginButton;
     TextInputEditText emailPhoneInput, passwordInputText;
     TextInputLayout emailPhoneLayout, passwordLayout;
@@ -61,6 +67,7 @@ public class Login extends AppCompatActivity {
 
         // ids
         forgotPassword = findViewById(R.id.forgotText);
+//        resendVerification = findViewById(R.id.resendText);
         signUpText = findViewById(R.id.createAccount);
         loginButton = findViewById(R.id.loginButton);
         emailPhoneInput = findViewById(R.id.loginEmailInput);
@@ -76,6 +83,12 @@ public class Login extends AppCompatActivity {
         // declare editor to edit
         prefEditor = validSharedPref.edit();
 
+        // resend verification
+//        resendVerification.setOnClickListener(v -> {
+//            Intent intent = new Intent(this, ResendVerificationLink.class);
+//            startActivity(intent);
+//        });
+
         forgotPassword.setOnClickListener(v -> {
             Intent intent = new Intent(this, ForgotPassword.class);
             startActivity(intent);
@@ -86,6 +99,9 @@ public class Login extends AppCompatActivity {
             intent.putExtra("walkThroughLogin", "fromLogin");
             startActivity(intent);
         });
+
+        // check for updates
+        checkUpdate();
 
         // login
         loginButton.setOnClickListener(v -> init());
@@ -156,6 +172,7 @@ public class Login extends AppCompatActivity {
                         String dateCreated = userObject.getString("dateCreated");
                         String hasPayAcct = userObject.getString("hasPayAcct");
                         String service_status = userObject.getString("service_status");
+                        String min_amount = userObject.getString("min_amount");
 
                         //write to pref
                         prefEditor.putString("token", token);
@@ -180,6 +197,7 @@ public class Login extends AppCompatActivity {
                         prefEditor.putString("dateCreated", dateCreated);
                         prefEditor.putString("hasPayAcct", hasPayAcct);
                         prefEditor.putString("service_status", service_status);
+                        prefEditor.putString("min_amount", min_amount);
 
 
                         // to know if the user is signed in already
@@ -224,13 +242,16 @@ public class Login extends AppCompatActivity {
                     passwordLayout.setErrorEnabled(true);
                     passwordLayout.setError("Check your password");
                 } else if (error.networkResponse != null && error.networkResponse.statusCode == 400) {
-                    showAlertDialog(false);
+                    showAlertDialog(false, "Verification Failed", "Kindly check your email and click the verification link.\n If you didn't get a link, kindly click the button.", "Resend", null);
+                }else {
+                    emailPhoneLayout.setErrorEnabled(true);
+                    emailPhoneLayout.setError("Email not found.");
                 }
-//                Toast.makeText(this, "Invalid Email or Password", Toast.LENGTH_SHORT).show();
-                emailPhoneLayout.setErrorEnabled(true);
-                emailPhoneLayout.setError("Email not found.");
             });
             Log.d("the request" , "came to the queue");
+            int socketTimeout = 20000;  // 20 seconds
+            RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+            loginRequest.setRetryPolicy(policy);
             VolleySingleton.getInstance(this).addToRequestQueue(loginRequest);
         } catch (Exception e) {
             preloaderLogo.dismiss();
@@ -250,10 +271,11 @@ public class Login extends AppCompatActivity {
         }
     }
 
-    public void showAlertDialog(boolean isSuccess) {
+    public void showAlertDialog(boolean isSuccess, String theTitle, String theMessage, String theButton, String theUrl) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         View dialogView = getLayoutInflater().inflate(R.layout.success_failed_alert, null);
         builder.setView(dialogView);
+
 
         // Get the Ids of the components
         ImageView statusIcon = dialogView.findViewById(R.id.dialog_status_icon);
@@ -263,10 +285,20 @@ public class Login extends AppCompatActivity {
 
         // set the dialog properties based on success or failed
         if (!isSuccess) {
+            builder.setCancelable(true);
             statusIcon.setImageResource(R.drawable.failed_icon);
-            title.setText("Verification Failed");
-            message.setText("Kindly check your email and click the verification link");
-            actionButton.setText("OK");
+            title.setText(theTitle);
+            message.setText(theMessage);
+            actionButton.setText(theButton);
+            actionButton.setTextColor(getResources().getColor(R.color.white));
+
+            actionButton.setBackgroundColor(getResources().getColor(R.color.primary));
+        } else {
+            builder.setCancelable(false);
+            statusIcon.setImageResource(R.drawable.warning_icon);
+            title.setText(theTitle);
+            message.setText(theMessage);
+            actionButton.setText(theButton);
             actionButton.setTextColor(getResources().getColor(R.color.white));
 
             actionButton.setBackgroundColor(getResources().getColor(R.color.primary));
@@ -276,14 +308,52 @@ public class Login extends AppCompatActivity {
         AlertDialog dialog = builder.create();
         actionButton.setOnClickListener(v -> {
             if (isSuccess) {
-                dialog.dismiss();
-                // go to the estateDashboard
-                //startActivity(new Intent(Login.this, EstateDashboard.class));
+                //dialog.dismiss();
+                // go download the update with the url
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(theUrl)));
             } else {
                 dialog.dismiss();
+                // send the verification link
+                startActivity(new Intent(Login.this, ResendVerificationLink.class));
             }
         });
 
         dialog.show();
     }
+
+    // check for Update
+    private void checkUpdate(){
+        String checkUrl = baseUrl+"/g/getVersion";
+        JsonObjectRequest checkRequest = new JsonObjectRequest(Request.Method.GET, checkUrl, null, response -> {
+            try {
+                String message = response.getString("message");
+                if (message.equals("success")){
+                    JSONObject data = response.getJSONObject("data");
+                    String latestVersion = data.getString("version_name");
+                    String latestURL = data.getString("update_url");
+                    String text = data.getString("text");
+                    String currentVersion = "";
+                    // log the version code
+                    // Log.d("Version Code", "Version Code: " + BuildConfig.VERSION_NAME);
+                    try {
+                        PackageInfo packageInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+                        currentVersion = packageInfo.versionName;
+                        Log.d("Version Code", "Version Code: " + currentVersion);
+                    } catch (PackageManager.NameNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                    if (!currentVersion.equals(latestVersion)){
+                        // update
+                        showAlertDialog(true, "Update Available", text, "Update Now", latestURL);
+                    }
+                }
+            } catch (JSONException e) {
+                Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        }, error -> {
+            // Toast.makeText(this, "No updates" , Toast.LENGTH_SHORT).show();
+        });
+        VolleySingleton.getInstance(this).addToRequestQueue(checkRequest);
+    }
+
 }

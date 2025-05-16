@@ -1,24 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".estateAdmin.UpdateVAT"
-    android:background="@color/globalBackground">
+    tools:context=".estateAdmin.UpdateMinMax"
+    android:background="@color/white">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
 
     <RelativeLayout
         android:id="@+id/purhcaseHeader"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="38dp"
+        android:layout_marginTop="35dp"
         android:layout_marginBottom="8dp">
 
         <ImageView
-            android:id="@+id/updateVATBack"
+            android:id="@+id/updateVendBack"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/back_back"/>
@@ -26,7 +31,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Update VAT"
+            android:text="Update Limits"
             android:layout_centerInParent="true"
             android:textSize="20sp"
             android:fontFamily="@font/bricolage_grotesque_semi_bold"
@@ -34,7 +39,7 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/purchaseAmountRelative"
+        android:id="@+id/purchaseMinRelative"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/purhcaseHeader"
@@ -44,17 +49,17 @@
         android:layout_marginTop="15dp">
 
         <TextView
-            android:id="@+id/purchaseAmountText"
+            android:id="@+id/purchaseMinText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:text="Enter New VAT (%): "
+            android:text="Enter Minimum Purchase Amount: "
             android:textSize="14sp"
             android:textColor="@color/welcomeHead"
             android:fontFamily="@font/bricolage_grotesque_regular"/>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/vatAmountLayout"
+            android:id="@+id/minAmountLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:hintEnabled="false"
@@ -62,10 +67,58 @@
             app:errorIconTint="@color/red"
             app:errorIconDrawable="@drawable/baseline_error_outline_24"
             android:background="@drawable/purchase_border"
-            android:layout_below="@+id/purchaseAmountText"
+            android:layout_below="@+id/purchaseMinText"
             android:layout_marginTop="6dp">
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/vatAmountInput"
+                android:id="@+id/minAmountInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:hint="0"
+                android:fontFamily="@font/bricolage_grotesque_semi_bold"
+                android:textColor="#121212"
+                android:textColorHint="#909090"
+                android:gravity="center"
+                android:textSize="28sp"
+                android:inputType="numberDecimal"
+                android:background="@drawable/purchase_border"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/purchaseMaxRelative"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/purchaseMinRelative"
+        android:padding="20dp"
+        android:layout_marginHorizontal="20dp"
+        android:background="@drawable/purchase_border"
+        android:layout_marginTop="15dp">
+
+        <TextView
+            android:id="@+id/purchaseMaxText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="Enter Maximum Purchase Amount: "
+            android:textSize="14sp"
+            android:textColor="@color/welcomeHead"
+            android:fontFamily="@font/bricolage_grotesque_regular"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/maxAmountLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:hintEnabled="false"
+            app:errorTextColor="@color/red"
+            app:errorIconTint="@color/red"
+            app:errorIconDrawable="@drawable/baseline_error_outline_24"
+            android:background="@drawable/purchase_border"
+            android:layout_below="@+id/purchaseMaxText"
+            android:layout_marginTop="6dp">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/maxAmountInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
@@ -82,16 +135,16 @@
     </RelativeLayout>
 
     <Button
-        android:id="@+id/vatUpdateButton"
+        android:id="@+id/updatePurchaseButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/primary"
-        android:text="Continue"
-        android:layout_below="@id/purchaseAmountRelative"
-        android:layout_marginTop="64dp"
+        android:text="Update"
+        android:layout_below="@id/purchaseMaxRelative"
+        android:layout_marginTop="80dp"
         android:layout_marginHorizontal="20dp"
         android:fontFamily="@font/bricolage_grotesque_semi_bold"
         android:textColor="@color/white"
         android:padding="12dp"/>
-
-</RelativeLayout>
+    </RelativeLayout>
+</ScrollView>

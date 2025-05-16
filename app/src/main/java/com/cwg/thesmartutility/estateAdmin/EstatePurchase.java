@@ -1,6 +1,7 @@
 package com.cwg.thesmartutility.estateAdmin;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -27,6 +29,7 @@ import com.cwg.thesmartutility.PaystackPayment;
 import com.cwg.thesmartutility.R;
 import com.cwg.thesmartutility.TheReceipt;
 import com.cwg.thesmartutility.VolleySingleton;
+import com.cwg.thesmartutility.user.UserPurchase;
 import com.cwg.thesmartutility.utils.PreloaderLogo;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -49,11 +52,10 @@ import java.util.Objects;
 import java.util.TimeZone;
 
 public class EstatePurchase extends AppCompatActivity {
-    private final int minMoneyLength = 3;
-    private final int maxAmount = 100000;
+    double minAmount , maxAmount;
     DecimalFormat decimalFormat = new DecimalFormat("#.0000");
     private int retryCount = 0;
-    String theMeterName, theMeterNum, theMeterEmail, token, PurchaseAmount, vat, meRef, meterTariff, HasPayAcct, payBaseUrl, baseUrl;
+    String theMeterName, theMeterNum, theMeterEmail, token, PurchaseAmount, vat, meRef, meterTariff, HasPayAcct, payBaseUrl, baseUrl, MinAmount, MaxAmount;
     TextView estatePur1000, estatePur2000, estatePur5000, estatePur10000, estatePur20000, estatePur30000, estatePur50000, estatePur100000;
     SharedPreferences validSharedPref, utilityPref;
     SharedPreferences.Editor prefEditor;
@@ -124,6 +126,9 @@ public class EstatePurchase extends AppCompatActivity {
         estatePur50000.setOnClickListener(v -> purchaseAmountInput.setText("50000"));
         estatePur100000.setOnClickListener(v -> purchaseAmountInput.setText("100000"));
 
+        // get the min and max
+        getMinMax();
+
         // when the back image is pressed
         purchaseBack.setOnClickListener(v -> finish());
 
@@ -132,21 +137,59 @@ public class EstatePurchase extends AppCompatActivity {
 
     }
 
+    private void getMinMax() {
+        preloaderLogo.show();
+        String getURl = baseUrl+"/estate/getMinMax";
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, getURl, null, response -> {
+            try {
+                preloaderLogo.dismiss();
+                String message = response.getString("message");
+                if (message.equals("success")){
+                    MinAmount = response.getString("min_amount");
+                    MaxAmount = response.getString("max_amount");
+                    minAmount = Double.parseDouble(MinAmount);
+                    maxAmount = Double.parseDouble(MaxAmount);
+                    Log.d("Min", MinAmount);
+                    Log.d("Max", MaxAmount);
+                }
+            } catch (JSONException e) {
+                preloaderLogo.dismiss();
+                //Toast.makeText(this, "Could not get the ", Toast.LENGTH_SHORT).show();
+            }
+        }, error -> {
+            preloaderLogo.dismiss();
+            // Toast.makeText(UserPurchase.this, "Error: " +error.getMessage(), Toast.LENGTH_LONG).show();
+        }){
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", "Bearer " + token);  // Send JWT in Authorization header
+                return headers;
+            }
+        };
+        // Set the RetryPolicy here
+        int socketTimeout = 10000;  // 30 seconds
+        RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+        jsonObjectRequest.setRetryPolicy(policy);
+        VolleySingleton.getInstance(this).addToRequestQueue(jsonObjectRequest);
+    }
+
     private void init() {
         PurchaseAmount = Objects.requireNonNull(purchaseAmountInput.getText()).toString().trim();
+        double thePrice = Double.parseDouble(PurchaseAmount);
         if (PurchaseAmount.isEmpty()){
             purchaseAmountLayout.setErrorEnabled(true);
             purchaseAmountLayout.setError("Input a number");
             Toast.makeText(EstatePurchase.this, "Input a number", Toast.LENGTH_SHORT).show();
-        } else if(PurchaseAmount.length() < minMoneyLength ){ // run the checks
-            purchaseAmountLayout.setError("Amount must be more than ₦1000");
+        } else if (thePrice < minAmount) {
+            // set error
             purchaseAmountLayout.setErrorEnabled(true);
-            Toast.makeText(EstatePurchase.this, "Amount must be more than ₦1000", Toast.LENGTH_SHORT).show();
-        } else if(Integer.parseInt(PurchaseAmount) > maxAmount) {
-            purchaseAmountLayout.setError("Max Amount is ₦100,000");
+            purchaseAmountLayout.setError("Amount must be more than ₦"+MinAmount);
+        } else if (maxAmount > 0 && thePrice > maxAmount) {
+            // set error
             purchaseAmountLayout.setErrorEnabled(true);
-            Toast.makeText(EstatePurchase.this, "Max Amount is ₦100,000", Toast.LENGTH_SHORT).show();
-        }else{
+            purchaseAmountLayout.setError("Max Amount is ₦"+MaxAmount);
+        } else{
 
             // check if the admin has the access to use vend and use the gateway
             String gatewayStatus = validSharedPref.getString("estateGatewayStatus", null);
@@ -221,6 +264,7 @@ public class EstatePurchase extends AppCompatActivity {
         //get amount in int
         int Amount = Integer.parseInt(PurchaseAmount);
         int meterEstateID = utilityPref.getInt("estateID", 0);
+        String token = utilityPref.getString("token", "");
         Log.d("Estate ID", String.valueOf(meterEstateID));
         //String apiURL = "http://192.168.61.64:3030/generateCheckoutSession";
         String apiURL = payBaseUrl+"/g/genPaystack";
@@ -232,7 +276,7 @@ public class EstatePurchase extends AppCompatActivity {
             requestData.put("amount", Amount);
             requestData.put("reference", meRef);
             requestData.put("email", theMeterEmail);
-            requestData.put("meter", theMeterNum);
+            requestData.put("meterID", theMeterNum);
             requestData.put("hasPayAcct", HasPayAcct);
 
             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, apiURL, requestData, response -> {
@@ -267,9 +311,44 @@ public class EstatePurchase extends AppCompatActivity {
                     //throw new RuntimeException(e);
                 }
             }, error -> {
+//                preloaderLogo.dismiss();
+//                Toast.makeText(EstatePurchase.this, "Could not connect to network", Toast.LENGTH_LONG).show();
                 preloaderLogo.dismiss();
-                Toast.makeText(EstatePurchase.this, "Could not connect to network", Toast.LENGTH_LONG).show();
-            });
+                if (error.networkResponse != null && error.networkResponse.statusCode == 401 || Objects.requireNonNull(error.networkResponse).statusCode == 500 || Objects.requireNonNull(error.networkResponse).statusCode == 400) {
+                    String errorMessage = "Unknown error";
+                    try {
+                        // Convert the error response to a string
+                        String json = new String(error.networkResponse.data, "UTF-8");
+                        JSONObject errorObj = new JSONObject(json);
+                        errorMessage = errorObj.getString("message");
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                    // Display an AlertDialog with the error message
+                    new AlertDialog.Builder(EstatePurchase.this)
+                            .setTitle("Error")
+                            .setMessage(errorMessage)
+                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            })
+                            .show();
+                } else {
+                    // Handle other error cases if needed.
+                    preloaderLogo.dismiss();
+                    Toast.makeText(EstatePurchase.this, "Please Try Again", Toast.LENGTH_LONG).show();
+                }
+            }){
+                @Override
+                public Map<String, String> getHeaders() {
+                    Map<String, String> headers = new HashMap<>();
+                    headers.put("Authorization", "Bearer " + token);  // Send JWT in Authorization header
+                    return headers;
+                }
+            };
             int socketTimeout = 30000;  // 30 seconds
             RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
             jsonObjectRequest.setRetryPolicy(policy);

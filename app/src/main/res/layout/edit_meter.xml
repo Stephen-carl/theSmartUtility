@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".estateAdmin.EditMeter"
+    android:background="@color/white">
+
+    <RelativeLayout
+        android:id="@+id/editHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="38dp"
+        android:layout_marginBottom="8dp">
+
+        <ImageView
+            android:id="@+id/editBack"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:background="@drawable/back_back"
+            android:layout_centerVertical="true"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Edit Meter Details"
+            android:layout_centerInParent="true"
+            android:textSize="20sp"
+            android:fontFamily="@font/bricolage_grotesque_semi_bold"
+            android:textColor="#080808"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/blockRelative"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/editHeader"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="30dp">
+        <TextView
+            android:id="@+id/blockNoText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Block Number"
+            android:textSize="15sp"
+            android:textColor="@color/edit"
+            android:textStyle="bold"
+            android:fontFamily="@font/bricolage_grotesque_semi_bold"/>
+    </RelativeLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/blockNoLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:hintEnabled="false"
+        app:errorTextColor="@color/red"
+        android:layout_below="@id/blockRelative"
+        android:layout_marginHorizontal="20dp">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/blockNoInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Block No."
+            android:background="@drawable/gray_background"
+            android:inputType="text"
+            android:textColorHint="@color/hintColor"
+            android:textColor="@color/black"
+            android:fontFamily="@font/bricolage_grotesque_regular"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/flatNoText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Flat Number"
+        android:textSize="15sp"
+        android:textColor="@color/edit"
+        android:textStyle="bold"
+        android:fontFamily="@font/bricolage_grotesque_semi_bold"
+        android:layout_below="@id/blockNoLayout"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="10dp"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/flatNoLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:hintEnabled="false"
+        app:errorTextColor="@color/red"
+        android:layout_below="@id/flatNoText"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="5dp">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/flatNoInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Flat No."
+            android:background="@drawable/gray_background"
+            android:inputType="text"
+            android:textColorHint="@color/hintColor"
+            android:textColor="@color/black"
+            android:fontFamily="@font/bricolage_grotesque_regular"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/apartText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Apartment Type"
+        android:textSize="15sp"
+        android:textColor="@color/edit"
+        android:textStyle="bold"
+        android:fontFamily="@font/bricolage_grotesque_semi_bold"
+        android:layout_below="@id/flatNoLayout"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="10dp"/>
+
+    <Spinner
+        android:id="@+id/apartSpinner"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_below="@id/apartText"
+        android:layout_marginTop="5dp"
+        android:layout_marginHorizontal="20dp"
+        android:fontFamily="@font/bricolage_grotesque_regular"
+        android:background="@drawable/gray_background"/>
+
+    <Button
+        android:id="@+id/editButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="50dp"
+        android:layout_below="@id/apartSpinner"
+        android:backgroundTint="@color/primary"
+        android:textColor="@color/white"
+        android:text="Done"
+        android:fontFamily="@font/bricolage_grotesque_semi_bold"/>
+
+</RelativeLayout>

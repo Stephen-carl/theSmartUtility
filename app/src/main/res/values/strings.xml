@@ -45,6 +45,8 @@
 
     <string name="managementBaseURL">https://smartmetering.kuleanpay.com</string>
     <string name="payBaskURL">https://smartmetering.kuleanpay.com</string>
+<!--        <string name="managementBaseURL">https://563d-102-89-23-154.ngrok-free.app</string>-->
+<!--        <string name="payBaskURL">https://563d-102-89-23-154.ngrok-free.app </string>-->
     <string name="service_fee_history">Service Fee History</string>
 
 </resources>

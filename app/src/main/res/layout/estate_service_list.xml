@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".estateAdmin.EstateServiceList"
+    android:background="@color/white">
+
+    <RelativeLayout
+        android:id="@+id/feeHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="38dp">
+
+        <ImageView
+            android:id="@+id/feeBack"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:background="@drawable/back_back"
+            android:layout_centerVertical="true"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Service Fees"
+            android:layout_centerInParent="true"
+            android:textSize="20sp"
+            android:fontFamily="@font/bricolage_grotesque_semi_bold"
+            android:textColor="#080808"/>
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/addFeeButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/feeHeader"
+        android:backgroundTint="@color/primary"
+        android:textColor="@color/white"
+        android:text="Add"
+        android:fontFamily="@font/bricolage_grotesque_semi_bold"
+        android:layout_alignParentEnd="true"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/feeRecycler"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/addFeeButton"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="5dp"/>
+
+</RelativeLayout>

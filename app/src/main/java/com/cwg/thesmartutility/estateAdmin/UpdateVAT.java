@@ -172,7 +172,7 @@ public class UpdateVAT extends AppCompatActivity {
             statusIcon.setImageResource(R.drawable.failed_icon);
             title.setText("VAT Update Failed");
             message.setText("We couldn’t update the VAT rate.\n Verify the information and your network, then try again.");
-            actionButton.setText("Return Update");
+            actionButton.setText("OK");
             actionButton.setTextColor(getResources().getColor(R.color.white));
             actionButton.setBackgroundColor(getResources().getColor(R.color.red));
         }

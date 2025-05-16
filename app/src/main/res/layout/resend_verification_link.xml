@@ -6,7 +6,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".auth.Login"
+    tools:context=".auth.ResendVerificationLink"
     android:background="@color/white">
 
     <RelativeLayout
@@ -22,7 +22,7 @@
             android:id="@+id/getStarted"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/welcome_back"
+            android:text="Resend Verification"
             android:textSize="22sp"
             android:textColor="@color/black"
             android:textFontWeight="100"
@@ -31,7 +31,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Sign in to manage your utilities and keep everything running smoothly"
+            android:text="It looks like your account still needs to be verified. We’ve already sent a verification link to your email, but if you haven’t received it yet, tap the button below to request a new one"
             android:layout_below="@id/getStarted"
             android:textSize="15sp"
             android:textColor="@color/someText"
@@ -59,7 +59,7 @@
                 android:id="@+id/loginEmailText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Email/Phone Number"
+                android:text="Email"
                 android:textSize="15sp"
                 android:textColor="@color/edit"
                 android:textStyle="bold"
@@ -68,90 +68,31 @@
 
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/loginEmailInputLayout"
+            android:id="@+id/resendEmailLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:hintEnabled="false"
             app:errorTextColor="@color/red"
             android:layout_below="@id/emailRelative">
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/loginEmailInput"
+                android:id="@+id/resendEmailInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Email/Phone Number"
+                android:hint="Email"
                 android:background="@drawable/gray_background"
                 android:inputType="textEmailAddress"
                 android:textColorHint="@color/hintColor"
                 android:textColor="@color/black"
                 android:fontFamily="@font/bricolage_grotesque_regular"/>
         </com.google.android.material.textfield.TextInputLayout>
-
-        <TextView
-            android:id="@+id/loginPasswordText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/password"
-            android:textSize="15sp"
-            android:textColor="@color/edit"
-            android:textStyle="bold"
-            android:layout_below="@id/loginEmailInputLayout"
-            android:layout_marginTop="20dp"
-            android:fontFamily="@font/bricolage_grotesque_semi_bold"/>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/loginPasswordInputLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/loginPasswordText"
-            app:hintEnabled="false"
-            app:passwordToggleEnabled="true"
-            app:errorTextColor="@color/red"
-            app:passwordToggleTint="@color/passwordTint">
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/loginPasswordInput"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="password"
-                android:background="@drawable/gray_background"
-                android:textColorHint="@color/hintColor"
-                android:inputType="textPassword"
-                android:textColor="@color/black"
-                app:passwordToggleTint="@color/passwordTint"
-                android:fontFamily="@font/bricolage_grotesque_regular"/>
-        </com.google.android.material.textfield.TextInputLayout>
-        <TextView
-            android:id="@+id/forgotText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/forgot_password"
-            android:textSize="15sp"
-            android:textColor="@color/primary"
-            android:textStyle="bold"
-            android:layout_below="@id/loginPasswordInputLayout"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="20dp"
-            android:fontFamily="@font/bricolage_grotesque_semi_bold"/>
-
-<!--        <TextView-->
-<!--            android:id="@+id/resendText"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="Resend Verification"-->
-<!--            android:textSize="15sp"-->
-<!--            android:textColor="@color/primary"-->
-<!--            android:textStyle="bold"-->
-<!--            android:layout_below="@id/loginPasswordInputLayout"-->
-<!--            android:layout_alignParentStart="true"-->
-<!--            android:layout_marginTop="20dp"-->
-<!--            android:fontFamily="@font/bricolage_grotesque_semi_bold"/>-->
     </RelativeLayout>
 
     <Button
-        android:id="@+id/loginButton"
+        android:id="@+id/resendButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/primary"
-        android:text="@string/sign_in"
+        android:text="Resend"
         android:layout_below="@id/loginInputRelative"
         android:textColor="@color/white"
         android:layout_marginTop="25dp"
@@ -161,7 +102,7 @@
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/loginButton"
+        android:layout_below="@id/resendButton"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp">
 
@@ -169,22 +110,21 @@
             android:id="@+id/createAcc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/don_t_have_an_account"
+            android:text="Already Verified"
             android:textColor="@color/justThere"
             android:textSize="14sp"
             android:fontFamily="@font/bricolage_grotesque_regular"/>
 
         <TextView
-            android:id="@+id/createAccount"
+            android:id="@+id/loginAccount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toEndOf="@id/createAcc"
             android:layout_marginStart="3dp"
             android:textSize="14sp"
-            android:text="@string/create_account"
+            android:text="Login"
             android:textColor="@color/primary"
             android:fontFamily="@font/bricolage_grotesque_regular"/>
     </RelativeLayout>
-
 
 </RelativeLayout>

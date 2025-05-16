@@ -41,11 +41,10 @@ public class UserPurchase extends AppCompatActivity {
 
     TextInputEditText purchaseAmount;
     TextInputLayout purchaseAmountLayout;
-    String PurchaseAmount, Token, vendStatus, HasPayAcct, baseUrl, payBaseUrl;
+    String PurchaseAmount, Token, vendStatus, HasPayAcct, baseUrl, payBaseUrl, MinAmount, MaxAmount, token;
     TextView userPur1000, userPur2000, userPur5000, userPur10000, userPur20000, userPur30000, userPur50000, userPur100000;
     Button purchaseAmountButton;
-    private final int minMoneyLength = 3;
-    private final int maxAmount = 100000;
+    double minAmount , maxAmount;
     SharedPreferences validSharedPref;
     ImageView purchaseBack;
     private PreloaderLogo preloaderLogo;
@@ -82,6 +81,7 @@ public class UserPurchase extends AppCompatActivity {
         // Log the brand
         String brand = validSharedPref.getString("brand", null);
         String customerID = validSharedPref.getString("customerID", "");
+        token = validSharedPref.getString("token", "");
         assert brand != null;
         Log.d("Brand: ", brand);
         Log.d("The CustomerID: ", customerID);
@@ -100,6 +100,9 @@ public class UserPurchase extends AppCompatActivity {
         userPur50000.setOnClickListener(v -> purchaseAmount.setText("50000"));
         userPur100000.setOnClickListener(v -> purchaseAmount.setText("100000"));
 
+        // get the Min and Max
+        getMinMax();
+
         // once the button is clicked, init function
         purchaseAmountButton.setOnClickListener(v -> init());
 
@@ -107,27 +110,62 @@ public class UserPurchase extends AppCompatActivity {
 
     }
 
+    // get the min and max amount
+    private void getMinMax() {
+        preloaderLogo.show();
+        String getURl = baseUrl+"/estate/getMinMax";
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, getURl, null, response -> {
+            try {
+                preloaderLogo.dismiss();
+                String message = response.getString("message");
+                if (message.equals("success")){
+                    MinAmount = response.getString("min_amount");
+                    MaxAmount = response.getString("max_amount");
+                    minAmount = Double.parseDouble(MinAmount);
+                    maxAmount = Double.parseDouble(MaxAmount);
+                }
+            } catch (JSONException e) {
+                preloaderLogo.dismiss();
+                //Toast.makeText(this, "Could not get the ", Toast.LENGTH_SHORT).show();
+            }
+        }, error -> {
+            preloaderLogo.dismiss();
+            // Toast.makeText(UserPurchase.this, "Error: " +error.getMessage(), Toast.LENGTH_LONG).show();
+        }){
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", "Bearer " + token);  // Send JWT in Authorization header
+                return headers;
+            }
+        };
+        // Set the RetryPolicy here
+        int socketTimeout = 10000;  // 30 seconds
+        RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+        jsonObjectRequest.setRetryPolicy(policy);
+        VolleySingleton.getInstance(this).addToRequestQueue(jsonObjectRequest);
+    }
+
     public void init() {
         PurchaseAmount = Objects.requireNonNull(purchaseAmount.getText()).toString();
-        int thePrice = Integer.parseInt(PurchaseAmount);
+        double thePrice = Double.parseDouble(PurchaseAmount);
         // check if the amount is empty
         if (PurchaseAmount.isEmpty()) {
             // set the error
             purchaseAmountLayout.setErrorEnabled(true);
             purchaseAmountLayout.setError("Amount is required");
-        } else if (PurchaseAmount.length() < minMoneyLength) {
+        } else if (thePrice < minAmount) {
             // set error
             purchaseAmountLayout.setErrorEnabled(true);
-            purchaseAmountLayout.setError("Amount must be more than ₦ 1000");
-        } else if (thePrice > maxAmount) {
+            purchaseAmountLayout.setError("Amount must be more than ₦"+MinAmount);
+        } else if (maxAmount > 0 && thePrice > maxAmount) {
             // set error
             purchaseAmountLayout.setErrorEnabled(true);
-            purchaseAmountLayout.setError("Max Amount is ₦ 100,000");
+            purchaseAmountLayout.setError("Max Amount is ₦"+MaxAmount);
         } else {
             preloaderLogo.show();
             runChecks();
         }
-
     }
 
     private void runChecks() {
@@ -144,9 +182,8 @@ public class UserPurchase extends AppCompatActivity {
 
     public void initiate(String meRef) {
         String theMeterNum = validSharedPref.getString("meterID", null);
-        String theMeterEmail = validSharedPref.getString("email", null);
+        String theMeterEmail = validSharedPref.getString("email", "");
         int meterEstateID = validSharedPref.getInt("estateID", 0);
-        String token = validSharedPref.getString("token", "");
         //get amount in int
         int Amount = Integer.parseInt(PurchaseAmount);
         //String apiURL = "http://192.168.61.64:3030/generateCheckoutSession";
@@ -192,7 +229,7 @@ public class UserPurchase extends AppCompatActivity {
                 }
             }, error -> {
                 preloaderLogo.dismiss();
-                if (error.networkResponse != null && error.networkResponse.statusCode == 401 || Objects.requireNonNull(error.networkResponse).statusCode == 500) {
+                if (error.networkResponse != null && error.networkResponse.statusCode == 401 || Objects.requireNonNull(error.networkResponse).statusCode == 500 || Objects.requireNonNull(error.networkResponse).statusCode == 400) {
                     String errorMessage = "Unknown error";
                     try {
                         // Convert the error response to a string

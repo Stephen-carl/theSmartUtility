@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -27,6 +28,7 @@ import com.android.volley.Request;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.cwg.thesmartutility.Adapter.UserTransAdapter;
 import com.cwg.thesmartutility.R;
+import com.cwg.thesmartutility.UnverifiedPayment;
 import com.cwg.thesmartutility.VolleySingleton;
 import com.cwg.thesmartutility.auth.Login;
 import com.cwg.thesmartutility.model.UserTransModel;
@@ -44,7 +46,8 @@ import java.util.Map;
 
 public class UserDashboard extends AppCompatActivity {
 
-    RelativeLayout historyRelative, copyRelative, purchaseButton, serviceRelative;
+    RelativeLayout historyRelative , purchaseButton, serviceRelative, unverifiedButton;
+    ImageView copyRelative;
     LinearLayout dashHistoryLinear;
     RecyclerView historyRecycler;
     TextView meterText, usernameText, totalAmountText, amountYear;
@@ -81,6 +84,7 @@ public class UserDashboard extends AppCompatActivity {
         totalAmountText = findViewById(R.id.userDashAmount);
         amountYear = findViewById(R.id.userDashAmountYear);
         serviceRelative = findViewById(R.id.serviceRelative);
+        unverifiedButton = findViewById(R.id.unverifiedButton);
         preloaderLogo = new PreloaderLogo(this);
 
         // get the current and assign to amountYear
@@ -147,6 +151,11 @@ public class UserDashboard extends AppCompatActivity {
             startActivity(new Intent(this, UserPurchase.class));
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             finish();
+        });
+
+        unverifiedButton.setOnClickListener(v -> {
+            // GO TO USER PURCHASE ACTIVITY
+            startActivity(new Intent(this, UnverifiedPayment.class));
         });
 
         // bottom Nav
@@ -304,9 +313,7 @@ public class UserDashboard extends AppCompatActivity {
             } catch (JSONException e) {
                 Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
             }
-        }, error -> {
-            Toast.makeText(this, "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
-        }){
+        }, error -> Toast.makeText(this, "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show()){
             @Override
             public Map<String, String> getHeaders() {
                 Map<String, String> headers = new HashMap<>();

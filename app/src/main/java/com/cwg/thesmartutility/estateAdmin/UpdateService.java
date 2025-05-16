@@ -1,5 +1,6 @@
 package com.cwg.thesmartutility.estateAdmin;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.AutoCompleteTextView;
@@ -25,6 +26,7 @@ import com.cwg.thesmartutility.utils.PreloaderLogo;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -37,12 +39,13 @@ public class UpdateService extends AppCompatActivity {
     Button updateServiceButton;
     TextInputLayout serviceAmountLayout;
     TextInputEditText serviceAmountInput;
-    TextView duration6, duration12;
-    String serviceAmount, duration;
+    TextView duration6, duration12, duration1, duration3, apartment_type;
+    String serviceAmount, duration, typeID;
     SharedPreferences validSharedPref;
     PreloaderLogo preloaderLogo;
     String baseUrl;
     ImageView updateServiceBack;
+    int serviceID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +54,7 @@ public class UpdateService extends AppCompatActivity {
         setContentView(R.layout.update_service);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(0, 0, 0, systemBars.bottom);
+            v.setPadding(0, systemBars.top, 0, systemBars.bottom);
             return insets;
         });
 
@@ -61,26 +64,56 @@ public class UpdateService extends AppCompatActivity {
         serviceAmountInput = findViewById(R.id.serviceAmountInput);
         duration6 = findViewById(R.id.duration6);
         duration12 = findViewById(R.id.duration12);
+        duration1 = findViewById(R.id.duration1);
+        duration3 = findViewById(R.id.duration3);
+        apartment_type = findViewById(R.id.apartmentText);
 
         // declare pref, baseURL and preloader
         validSharedPref = getSharedPreferences("UtilityPref", MODE_PRIVATE);
         baseUrl = this.getString(R.string.managementBaseURL);
         preloaderLogo = new PreloaderLogo(this);
 
+        // get the serviceID and typeID, if not null call the get current service, else let the user make input and save
+        Intent intent = getIntent();
+        serviceID = intent.getIntExtra("serviceID", 0);
+        typeID = intent.getStringExtra("typeID");
+        int typeIDInt = Integer.parseInt(typeID);
+        if (serviceID != 0 && typeIDInt != 0){
+            getCurrentServiceCharge();
+        }
+
         // onclick listeners, when one of the textviews are clicked, the textview is highlighted with colour #cccde8, and duration string is set to the textview clicked
         duration6.setOnClickListener(v -> {
             duration6.setBackgroundColor(ContextCompat.getColor(this, R.color.lineEmpty));
+            duration1.setBackgroundResource(R.drawable.text_back);
+            duration3.setBackgroundResource(R.drawable.text_back);
             duration12.setBackgroundResource(R.drawable.text_back);
             duration = duration6.getText().toString();
         });
         duration12.setOnClickListener(v -> {
+            duration1.setBackgroundResource(R.drawable.text_back);
+            duration3.setBackgroundResource(R.drawable.text_back);
             duration6.setBackgroundResource(R.drawable.text_back);
             duration12.setBackgroundColor(ContextCompat.getColor(this, R.color.lineEmpty));
             duration = duration12.getText().toString();
         });
+        duration1.setOnClickListener(v -> {
+            duration1.setBackgroundColor(ContextCompat.getColor(this, R.color.lineEmpty));
+            duration3.setBackgroundResource(R.drawable.text_back);
+            duration6.setBackgroundResource(R.drawable.text_back);
+            duration12.setBackgroundResource(R.drawable.text_back);
+            duration = "1_months";
+        });
+        duration3.setOnClickListener(v -> {
+            duration3.setBackgroundColor(ContextCompat.getColor(this, R.color.lineEmpty));
+            duration1.setBackgroundResource(R.drawable.text_back);
+            duration6.setBackgroundResource(R.drawable.text_back);
+            duration12.setBackgroundResource(R.drawable.text_back);
+            duration = duration3.getText().toString();
+        });
 
         // get the current service charge
-        getCurrentServiceCharge();
+        //getCurrentServiceCharge();
 
         // update the service charge
         updateServiceButton.setOnClickListener(v -> updateServiceCharge());
@@ -94,21 +127,34 @@ public class UpdateService extends AppCompatActivity {
     private void getCurrentServiceCharge(){
         // call api to get the current charge and set the text
         preloaderLogo.show();
-        String apiUrl = baseUrl+"/user/getservicecharge";
+        String apiUrl = baseUrl+"/estate/getservices?service_id="+serviceID+"&type_id="+typeID;
         String token =  validSharedPref.getString("token", null);
 
         try {
             JsonObjectRequest meterRequest = new JsonObjectRequest(Request.Method.GET, apiUrl, null, response -> {
                 try {
                     String message = response.getString("message");
+                    String service_fee, service_duration;
                     if (message.equals("success")) {
                         preloaderLogo.dismiss();
 
-                        JSONObject data = response.getJSONObject("data");
-                        String service_fee = data.getString("service_fee");
-                        String service_duration = data.getString("service_duration");
+                        JSONArray data = response.getJSONArray("data");
+                        if (data.length() == 0){
+                            Toast.makeText(this, "No service charge", Toast.LENGTH_LONG).show();
+                            return;
+                        } else {
+                            JSONObject dataObject = data.getJSONObject(0);
+                            apartment_type.setText(dataObject.getString("type_name"));
+                            service_fee = dataObject.getString("service_amount");
+                            service_duration = dataObject.getString("duration");
+                        }
 
-                        serviceAmountInput.setText(service_fee);
+                        if (service_fee == null){
+                            service_fee = "0";
+                        } else {
+                            serviceAmountInput.setText(service_fee);
+                        }
+                        // serviceAmountInput.setText(service_fee);
                         serviceAmount = service_fee;
                         duration = service_duration;
 
@@ -116,10 +162,21 @@ public class UpdateService extends AppCompatActivity {
                         if (service_duration.equals("6_months")) {
                             duration6.setBackgroundColor(ContextCompat.getColor(this, R.color.lineEmpty));
                             duration12.setBackgroundResource(R.drawable.text_back);
+                            duration1.setBackgroundResource(R.drawable.text_back);
+                            duration3.setBackgroundResource(R.drawable.text_back);
                         } else if (service_duration.equals("12_months")) {
                             duration12.setBackgroundColor(ContextCompat.getColor(this, R.color.lineEmpty));
                             duration6.setBackgroundResource(R.drawable.text_back);
-                        } else {
+                            duration1.setBackgroundResource(R.drawable.text_back);
+                            duration3.setBackgroundResource(R.drawable.text_back);
+                        } else if (service_duration.equals("1_months")){
+                            duration1.setBackgroundColor(ContextCompat.getColor(this, R.color.lineEmpty));
+                            duration3.setBackgroundResource(R.drawable.text_back);
+                            duration6.setBackgroundResource(R.drawable.text_back);
+                            duration12.setBackgroundResource(R.drawable.text_back);
+                        } else if (service_duration.equals("3_months")){
+                            duration3.setBackgroundColor(ContextCompat.getColor(this, R.color.lineEmpty));
+                            duration1.setBackgroundResource(R.drawable.text_back);
                             duration6.setBackgroundResource(R.drawable.text_back);
                             duration12.setBackgroundResource(R.drawable.text_back);
                         }
@@ -155,7 +212,7 @@ public class UpdateService extends AppCompatActivity {
 
     private void updateServiceCharge(){
         preloaderLogo.show();
-        String apiUrl = baseUrl+"/estate/updateservicecharge";
+        String apiUrl = baseUrl+"/estate/addservice";
         String token =  validSharedPref.getString("token", null);
         int estateID = validSharedPref.getInt("estateID", 0);
         serviceAmount = Objects.requireNonNull(serviceAmountInput.getText()).toString();
@@ -168,9 +225,11 @@ public class UpdateService extends AppCompatActivity {
         JSONObject updateDetails = new JSONObject();
         try {
             updateDetails.put("estate", estateID);
-            updateDetails.put("serviceCharge", serviceAmount);
+            updateDetails.put("amount", serviceAmount);
             updateDetails.put("duration", duration);
+            updateDetails.put("type_id", typeID);
         } catch (JSONException e) {
+            preloaderLogo.dismiss();
             Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
         try {
@@ -181,6 +240,7 @@ public class UpdateService extends AppCompatActivity {
                         preloaderLogo.dismiss();
                         Toast.makeText(this, "Service charge updated", Toast.LENGTH_SHORT).show();
                         finish();
+                        startActivity(new Intent(this, EstateServiceList.class));
                     } else {
                         preloaderLogo.dismiss();
                         Toast.makeText(this, "Could not update service charge", Toast.LENGTH_SHORT).show();

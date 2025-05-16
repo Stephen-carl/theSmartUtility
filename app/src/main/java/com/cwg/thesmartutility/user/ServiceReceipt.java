@@ -52,7 +52,7 @@ public class ServiceReceipt extends AppCompatActivity {
 
     private TextView serviceTransID, serviceMeterNum, serviceAmount, servicePayDate, serviceExpiryDate, serviceHeadAmount;
     String serviceRefID, baseUrl, token;
-    private ImageView backIcon, shareIcon;
+    private ImageView shareIcon, emailIcon;
     SharedPreferences validPref;
     PreloaderLogo preloaderLogo;
     String TransText, MeterText, AmountText, PayDateText, ExpiryDateText;
@@ -64,7 +64,7 @@ public class ServiceReceipt extends AppCompatActivity {
         setContentView(R.layout.service_receipt);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, 0, systemBars.right, systemBars.bottom);
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
 
@@ -75,11 +75,8 @@ public class ServiceReceipt extends AppCompatActivity {
         servicePayDate = findViewById(R.id.servicePayDate);
         serviceExpiryDate = findViewById(R.id.serviceExpiryDate);
         serviceHeadAmount = findViewById(R.id.serviceAmountText);
-        backIcon = findViewById(R.id.backIcon);
         shareIcon = findViewById(R.id.shareIcon);
-
-        // back button
-        backIcon.setOnClickListener(v -> finish());
+        emailIcon = findViewById(R.id.emailIcon);
 
         // preloader
         preloaderLogo = new PreloaderLogo(this);
@@ -99,6 +96,11 @@ public class ServiceReceipt extends AppCompatActivity {
 
         // share button
         shareIcon.setOnClickListener(v -> createPDF());
+
+        // email icon
+        emailIcon.setOnClickListener(v -> {
+            sendMail();
+        });
 
         // fix the on back pressed
         OnBackPressedCallback callback = new OnBackPressedCallback(true) {
@@ -277,5 +279,41 @@ public class ServiceReceipt extends AppCompatActivity {
 
         // Launch the share intent
         startActivity(Intent.createChooser(shareIntent, "Share PDF via"));
+    }
+
+    private void sendMail() {
+        preloaderLogo.show();
+        String mailURL = baseUrl + "/g/sendTransMail/?serviceID="+TransText;
+        String token = validPref.getString("token", "");
+        JsonObjectRequest mailRequest = new JsonObjectRequest(Request.Method.GET, mailURL, null, response -> {
+            try {
+                preloaderLogo.dismiss();
+                String message = response.getString("message");
+                if (message.equals("success")) {
+                    Toast.makeText(this, "Sent Successfully", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    Toast.makeText(this, "Couldn't send to email", Toast.LENGTH_SHORT).show();
+                }
+            } catch (JSONException e) {
+                preloaderLogo.dismiss();
+                Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        }, error -> {
+            preloaderLogo.dismiss();
+            Toast.makeText(this, "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+        }){
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", "Bearer " + token);  // Send JWT in Authorization header
+                return headers;
+            }
+        };
+        // Set the RetryPolicy here
+        int socketTimeout = 10000;  // 10 seconds
+        RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+        mailRequest.setRetryPolicy(policy);
+        VolleySingleton.getInstance(this).addToRequestQueue(mailRequest);
     }
 }

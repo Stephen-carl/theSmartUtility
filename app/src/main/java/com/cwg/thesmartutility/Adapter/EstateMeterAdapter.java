@@ -124,6 +124,7 @@ public class EstateMeterAdapter extends RecyclerView.Adapter<EstateMeterAdapter.
                             String phone = dataObject.getString("phone");
                             String blockNo = dataObject.getString("blockNo");
                             String flatNo = dataObject.getString("flatNo");
+                            String type_id = dataObject.getString("type_id");
                             // FOR USER
                             String vendStatus = dataObject.getString("vendStatus");
                             String tariff = dataObject.getString("tariff");
@@ -154,6 +155,7 @@ public class EstateMeterAdapter extends RecyclerView.Adapter<EstateMeterAdapter.
                             prefEditor.putString("blockNo", blockNo);
                             prefEditor.putString("flatNo", flatNo);
                             prefEditor.putString("hasPayAcct", hasPayAcct);
+                            prefEditor.putString("typeID", type_id);
 
                             prefEditor.apply();
 

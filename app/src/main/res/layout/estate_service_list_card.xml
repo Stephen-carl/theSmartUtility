@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
+    android:id="@+id/estateListCard">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/transactionCard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/gray_background"
+        app:cardCornerRadius="10dp"
+        android:layout_margin="3dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/gray_background"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/feeText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="200"
+                android:textSize="12sp"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:gravity="top"
+                android:fontFamily="@font/bricolage_grotesque_semi_bold"/>
+            <TextView
+                android:id="@+id/apartmentText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="duplex"
+                android:layout_below="@id/feeText"
+                android:textSize="12sp"
+                android:textColor="@color/someText"
+                android:gravity="bottom"
+                android:layout_alignTop="@id/deleteImage"
+                android:fontFamily="@font/bricolage_grotesque_regular" />
+
+            <ImageView
+                android:id="@+id/editImage"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@drawable/edit_icon"
+                android:layout_marginEnd="7dp"
+                android:layout_alignParentEnd="true"/>
+            <ImageView
+                android:id="@+id/deleteImage"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@drawable/delete_icon"
+                android:layout_marginEnd="7dp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="10dp"
+                android:layout_below="@id/editImage"/>
+
+<!--            <RelativeLayout-->
+<!--                android:id="@+id/viewButton"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_alignParentEnd="true"-->
+<!--                android:layout_centerVertical="true"-->
+<!--                android:padding="10dp"-->
+<!--                android:background="@drawable/view_button">-->
+
+<!--                <ImageView-->
+<!--                    android:id="@+id/relImage"-->
+<!--                    android:layout_width="15dp"-->
+<!--                    android:layout_height="15dp"-->
+<!--                    android:background="@drawable/eye_icon"-->
+<!--                    android:layout_centerVertical="true"-->
+<!--                    android:layout_marginEnd="7dp"-->
+<!--                    app:tint="@color/primary" />-->
+<!--                <TextView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="View"-->
+<!--                    android:layout_toEndOf="@id/relImage"-->
+<!--                    android:textSize="10sp"-->
+<!--                    android:layout_centerVertical="true"-->
+<!--                    android:gravity="top"-->
+<!--                    android:textColor="@color/primary"/>-->
+
+<!--            </RelativeLayout>-->
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</RelativeLayout>

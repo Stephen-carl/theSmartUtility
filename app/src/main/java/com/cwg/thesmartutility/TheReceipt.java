@@ -28,8 +28,15 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Request;
+import com.android.volley.RetryPolicy;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.cwg.thesmartutility.estateAdmin.EstateDashboard;
 import com.cwg.thesmartutility.user.UserDashboard;
+import com.cwg.thesmartutility.utils.PreloaderLogo;
+
+import org.json.JSONException;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -39,19 +46,23 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 public class TheReceipt extends AppCompatActivity {
 
     TextView transText, meterText, tokenText, amountText, chargeText, vatText, tariffText, vendedText, unitText, dateText, receiptAmount;
     String TransText, MeterText, TokenText, AmountText, ChargeText, VatText, TariffText, VendedText, UnitText, DateText, TimeText;
-    ImageView shareImage;
+    ImageView shareImage, emailImage;
     RelativeLayout copyRelative;
     SharedPreferences validPref;
     List<ReceiptItems> repItems;
     DecimalFormat decimalFormat = new DecimalFormat("#.00");
     Double charges, vended;
+    PreloaderLogo preloaderLogo;
+    String baseUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +77,8 @@ public class TheReceipt extends AppCompatActivity {
 
         // shared pref
         validPref = getSharedPreferences("UtilityPref", MODE_PRIVATE);
+        baseUrl = this.getString(R.string.managementBaseURL);
+        preloaderLogo = new PreloaderLogo(this);
 
         // ids
         transText = findViewById(R.id.receiptTransID);
@@ -79,6 +92,7 @@ public class TheReceipt extends AppCompatActivity {
         unitText = findViewById(R.id.receiptUnit);
         dateText = findViewById(R.id.receiptDate);
         shareImage = findViewById(R.id.shareIcon);
+        emailImage = findViewById(R.id.emailIcon);
         copyRelative = findViewById(R.id.receiptTokenRelative);
         receiptAmount = findViewById(R.id.receiptAmountText);
 
@@ -131,6 +145,11 @@ public class TheReceipt extends AppCompatActivity {
         // WHEN THEN SHARE BUTTON IS CLICKED, CREATE  A PDF AND CALL THE ANDROID MODULE TO BRING UP THE SHARE DIALOG
         shareImage.setOnClickListener(v -> {
             createPDF();
+        });
+
+        // to send the mail
+        emailImage.setOnClickListener(v -> {
+            sendMail();
         });
 
         // fix the on back pressed
@@ -275,5 +294,41 @@ public class TheReceipt extends AppCompatActivity {
 
         // Launch the share intent
         startActivity(Intent.createChooser(shareIntent, "Share PDF via"));
+    }
+
+    private void sendMail() {
+        preloaderLogo.show();
+        String mailURL = baseUrl + "/g/sendTransMail/?refID="+TransText;
+        String token = validPref.getString("token", "");
+        JsonObjectRequest mailRequest = new JsonObjectRequest(Request.Method.GET, mailURL, null, response -> {
+            try {
+                preloaderLogo.dismiss();
+                String message = response.getString("message");
+                if (message.equals("success")) {
+                    Toast.makeText(this, "Sent Successfully", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    Toast.makeText(this, "Couldn't send to email", Toast.LENGTH_SHORT).show();
+                }
+            } catch (JSONException e) {
+                preloaderLogo.dismiss();
+                Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        }, error -> {
+            preloaderLogo.dismiss();
+            Toast.makeText(this, "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+        }){
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", "Bearer " + token);  // Send JWT in Authorization header
+                return headers;
+            }
+        };
+        // Set the RetryPolicy here
+        int socketTimeout = 10000;  // 10 seconds
+        RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+        mailRequest.setRetryPolicy(policy);
+        VolleySingleton.getInstance(this).addToRequestQueue(mailRequest);
     }
 }

@@ -1,6 +1,7 @@
 package com.cwg.thesmartutility.user;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -30,6 +32,7 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class UserService extends AppCompatActivity {
     private PreloaderLogo preloaderLogo;
@@ -89,8 +92,8 @@ public class UserService extends AppCompatActivity {
                         preloaderLogo.dismiss();
 
                         JSONObject data = response.getJSONObject("data");
-                        String service_fee = data.getString("service_fee");
-                        String service_duration = data.getString("service_duration");
+                        String service_fee = data.getString("service_amount");
+                        String service_duration = data.getString("duration");
 
                         serviceAmountText.setText(service_fee);
                         serviceDurationText.setText(service_duration);
@@ -106,7 +109,32 @@ public class UserService extends AppCompatActivity {
                 }
             }, error -> {
                 preloaderLogo.dismiss();
-                Toast.makeText(this, "Error" + error.getMessage(), Toast.LENGTH_SHORT).show();
+                if (error.networkResponse != null && error.networkResponse.statusCode == 401 || Objects.requireNonNull(error.networkResponse).statusCode == 500) {
+                    String errorMessage = "Unknown error";
+                    try {
+                        // Convert the error response to a string
+                        String json = new String(error.networkResponse.data, "UTF-8");
+                        JSONObject errorObj = new JSONObject(json);
+                        errorMessage = errorObj.getString("message");
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                    // Display an AlertDialog with the error message
+                    new AlertDialog.Builder(UserService.this)
+                            .setTitle("Error")
+                            .setMessage("No Service Charge Found")
+                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                    finish();
+                                }
+                            })
+                            .show();
+                } else {
+                    // Handle other error cases if needed.
+                }
             }){
                 @Override
                 public Map<String, String> getHeaders() {
@@ -138,7 +166,7 @@ public class UserService extends AppCompatActivity {
         // Calculate the elapsed time in seconds
         long elapsedTimeSeconds = currentTimeInSeconds - startTimeInSeconds;
 
-        Log.d("Ref", "CWG" + meter + elapsedTimeSeconds);
+        Log.d("Ref", "S_Fee" + meter + elapsedTimeSeconds);
         return "S_Fee" + meter + elapsedTimeSeconds;
 
     }
@@ -167,6 +195,7 @@ public class UserService extends AppCompatActivity {
             requestData.put("reference", theRef);
             requestData.put("email", theMeterEmail);
             requestData.put("hasPayAcct", hasPayAcct);
+            requestData.put("duration",DurationText);
 
             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, apiURL, requestData, response -> {
                 //get the authorization_URL and point to the checkoutPage

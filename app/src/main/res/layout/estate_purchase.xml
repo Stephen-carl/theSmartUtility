@@ -75,7 +75,7 @@
                 android:textColorHint="#909090"
                 android:gravity="center"
                 android:textSize="28sp"
-                android:inputType="number"
+                android:inputType="numberDecimal"
                 android:background="@drawable/purchase_border" />
         </com.google.android.material.textfield.TextInputLayout>
 

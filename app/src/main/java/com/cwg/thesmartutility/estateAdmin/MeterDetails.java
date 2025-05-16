@@ -31,7 +31,7 @@ import java.util.Map;
 
 public class MeterDetails extends AppCompatActivity {
 
-    TextView meterNum, meterName, meterEmail, meterDate, meterUnits, meterAmount, meterStatus, meterPhone, meterBlockNo, meterFlatNo;
+    TextView meterNum, meterName, meterEmail, meterDate, meterUnits, meterAmount, meterStatus, meterPhone, meterBlockNo, meterFlatNo, updateMet;
     SwitchCompat theSwitch;
     Button generateButton;
     String PhoneText, vat;
@@ -68,10 +68,13 @@ public class MeterDetails extends AppCompatActivity {
         meterPhone = findViewById(R.id.detailsMeterPhone);
         meterBlockNo = findViewById(R.id.detailsMeterBlockNo);
         meterFlatNo = findViewById(R.id.detailsMeterFlatNo);
+        updateMet = findViewById(R.id.updateMet);
+
         preloaderLogo = new PreloaderLogo(this);
 
         // implementation of the back button
         backRelative.setOnClickListener(v -> finish());
+        updateMet.setOnClickListener(v -> startActivity(new Intent(MeterDetails.this, EditMeter.class)));
 
         // the sharedPref for token
         validSharedPref = getSharedPreferences("estateVendPref", Context.MODE_PRIVATE);

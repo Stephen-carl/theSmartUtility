@@ -45,7 +45,7 @@ public class EstateDashboard extends AppCompatActivity {
     RelativeLayout historyRelative;
     LinearLayout dashHistoryLinear;
     RecyclerView meterRecycler;
-    RelativeLayout updateVATButton, updateTariffButton, updateServiceButton;
+    RelativeLayout updateVATButton, updateTariffButton, updateServiceButton, updateVendCard;
     TextView estateName, tariffText, vatText, actionService;
     SharedPreferences validSharedPref;
     BottomNavigationView bottomNavigationView;
@@ -83,6 +83,8 @@ public class EstateDashboard extends AppCompatActivity {
         meterRecycler = findViewById(R.id.estateMeterRecycler);
         bottomNavigationView = findViewById(R.id.estateDashNav);
         vatText = findViewById(R.id.vatText);
+        updateVendCard = findViewById(R.id.vendButton);
+
         preloaderLogo = new PreloaderLogo(this);
 
 
@@ -108,6 +110,9 @@ public class EstateDashboard extends AppCompatActivity {
         // update Buttons
         updateVATButton.setOnClickListener(v -> startActivity(new Intent(this, UpdateVAT.class)));
         updateTariffButton.setOnClickListener(v -> startActivity(new Intent(this, UpdateTariff.class)));
+        updateVendCard.setOnClickListener(v -> startActivity(new Intent(this, UpdateMinMax.class)));
+        updateServiceButton.setOnClickListener(v -> startActivity(new Intent(this, EstateServiceList.class)));
+
         // if serviceStatus is "true" then show the button. Else hide it
         if (serviceStatus.equals("true")) {
             updateServiceButton.setVisibility(View.VISIBLE);
@@ -121,11 +126,6 @@ public class EstateDashboard extends AppCompatActivity {
 
         // service transaction history
         serviceTransButton.setOnClickListener(v -> startActivity(new Intent(this, EstateService.class)));
-
-        // update service button
-        updateServiceButton.setOnClickListener(v -> startActivity(new Intent(this, UpdateService.class)));
-
-
 
         // TODO: Work on this
         historyRelative.setOnClickListener(v -> startActivity(new Intent(this, EstateMeters.class)));

@@ -20,6 +20,27 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".estateAdmin.UpdateMinMax"
+            android:exported="false" />
+        <activity
+            android:name=".auth.ResendVerificationLink"
+            android:exported="false" />
+        <activity
+            android:name=".user.VerifyingPay"
+            android:exported="false" />
+        <activity
+            android:name=".UnverifiedPayment"
+            android:exported="false" />
+        <activity
+            android:name=".estateAdmin.EditService"
+            android:exported="false" />
+        <activity
+            android:name=".estateAdmin.EstateServiceList"
+            android:exported="false" />
+        <activity
+            android:name=".estateAdmin.EditMeter"
+            android:exported="false" />
+        <activity
             android:name=".user.ServiceReceipt"
             android:exported="false" />
         <activity

@@ -86,28 +86,45 @@
                 android:layout_marginTop="18dp"
                 android:layout_alignParentStart="true"
                 android:fontFamily="@font/bricolage_grotesque_regular"/>
-
-            <RelativeLayout
-                android:id="@+id/vatRelative"
+            <TextView
+                android:id="@+id/vatText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="5%"
+                android:textSize="12sp"
+                android:textColor="@color/primary"
+                android:textIsSelectable="true"
+                android:background="@drawable/border_lining"
+                android:fontFamily="@font/bricolage_grotesque_regular"
                 android:layout_below="@id/vatTitle"
+                android:layout_alignParentStart="true"
+                android:layout_marginBottom="7dp"
                 android:layout_marginTop="5dp"
                 android:paddingVertical="5dp"
-                android:paddingHorizontal="10dp"
-                android:background="@drawable/border_lining"
-                android:layout_alignParentStart="true"
-                android:layout_marginBottom="7dp">
-                <TextView
-                    android:id="@+id/vatText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="5%"
-                    android:textSize="12sp"
-                    android:textColor="@color/primary"
-                    android:textIsSelectable="true"
-                    android:fontFamily="@font/bricolage_grotesque_regular"/>
-            </RelativeLayout>
+                android:paddingHorizontal="10dp"/>
+
+<!--            <RelativeLayout-->
+<!--                android:id="@+id/vatRelative"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_below="@id/vatTitle"-->
+<!--                android:layout_marginTop="5dp"-->
+<!--                android:paddingVertical="5dp"-->
+<!--                android:paddingHorizontal="10dp"-->
+<!--                android:background="@drawable/border_lining"-->
+<!--                android:layout_alignParentStart="true"-->
+<!--                android:layout_marginBottom="7dp">-->
+<!--                <TextView-->
+<!--                    android:id="@+id/vatText"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="5%"-->
+<!--                    android:textSize="12sp"-->
+<!--                    android:textColor="@color/primary"-->
+<!--                    android:textIsSelectable="true"-->
+<!--                    android:background="@drawable/border_lining"-->
+<!--                    android:fontFamily="@font/bricolage_grotesque_regular"/>-->
+<!--            </RelativeLayout>-->
 
             <Button
                 android:id="@+id/serviceTransButton"
@@ -124,11 +141,16 @@
 
         </RelativeLayout>
 
-    <RelativeLayout
+    <HorizontalScrollView
         android:id="@+id/actionsRelative"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/headerBackground">
+        android:layout_below="@id/headerBackground"
+        android:scrollbars="none">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
         <TextView
             android:id="@+id/actionText"
@@ -155,8 +177,8 @@
                 android:id="@+id/VATButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingHorizontal="25dp"
-                android:paddingVertical="22dp"
+                android:paddingHorizontal="15dp"
+                android:paddingVertical="12dp"
                 android:background="@color/white"
                 >
                 <ImageView
@@ -172,14 +194,16 @@
             android:id="@+id/actionVAT"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Update VAT"
+            android:text="Update \nVAT"
             android:layout_below="@id/updateVATCard"
-            android:textSize="14sp"
+            android:textSize="12sp"
             android:textColor="@color/filterHeaders"
             android:fontFamily="@font/bricolage_grotesque_regular"
             android:layout_marginTop="4dp"
-            android:layout_marginStart="20dp"
-            android:textFontWeight="500"/>
+            android:textFontWeight="500"
+            android:gravity="center"
+            android:layout_alignEnd="@id/updateVATCard"
+            android:layout_alignStart="@id/updateVATCard"/>
 
 
         <androidx.cardview.widget.CardView
@@ -188,7 +212,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/actionText"
             android:elevation="5dp"
-            android:layout_marginStart="30dp"
+            android:layout_marginStart="20dp"
             android:layout_marginTop="8dp"
             app:cardCornerRadius="8dp"
             android:background="@color/white"
@@ -198,8 +222,8 @@
                 android:id="@+id/TariffButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingHorizontal="25dp"
-                android:paddingVertical="22dp"
+                android:paddingHorizontal="15dp"
+                android:paddingVertical="12dp"
                 android:background="@color/white"
                 >
                 <ImageView
@@ -215,15 +239,17 @@
             android:id="@+id/actionTariff"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Update Tariff"
+            android:text="Update \nTariff"
             android:layout_below="@id/updateTariffCard"
-            android:textSize="14sp"
+            android:textSize="12sp"
             android:textColor="@color/filterHeaders"
             android:fontFamily="@font/bricolage_grotesque_regular"
             android:layout_marginTop="4dp"
-            android:layout_marginStart="20dp"
             android:textFontWeight="500"
-            android:layout_toEndOf="@id/actionVAT"/>
+            android:layout_toEndOf="@id/actionVAT"
+            android:gravity="center"
+            android:layout_alignEnd="@id/updateTariffCard"
+            android:layout_alignStart="@id/updateTariffCard"/>
 
         <androidx.cardview.widget.CardView
             android:id="@+id/updateServiceCard"
@@ -231,7 +257,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/actionText"
             android:elevation="5dp"
-            android:layout_marginStart="30dp"
+            android:layout_marginStart="20dp"
             android:layout_marginTop="8dp"
             app:cardCornerRadius="8dp"
             android:background="@color/white"
@@ -241,8 +267,8 @@
                 android:id="@+id/serviceButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingHorizontal="25dp"
-                android:paddingVertical="22dp"
+                android:paddingHorizontal="15dp"
+                android:paddingVertical="12dp"
                 android:background="@color/white"
                 >
                 <ImageView
@@ -258,17 +284,66 @@
             android:id="@+id/actionService"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Update Service"
+            android:text="Update \nService"
             android:layout_below="@id/updateVATCard"
-            android:textSize="14sp"
+            android:textSize="12sp"
             android:textColor="@color/filterHeaders"
             android:fontFamily="@font/bricolage_grotesque_regular"
             android:layout_marginTop="4dp"
-            android:layout_marginStart="20dp"
             android:textFontWeight="500"
-            android:layout_toEndOf="@id/actionTariff"/>
+            android:layout_toEndOf="@id/actionTariff"
+            android:gravity="center"
+            android:layout_alignEnd="@id/updateServiceCard"
+            android:layout_alignStart="@id/updateServiceCard"/>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/updateVendCard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/actionText"
+            android:elevation="5dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="8dp"
+            app:cardCornerRadius="8dp"
+            android:background="@color/white"
+            android:layout_toEndOf="@id/updateServiceCard">
+
+            <RelativeLayout
+                android:id="@+id/vendButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="15dp"
+                android:paddingVertical="12dp"
+                android:background="@color/white"
+                >
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:background="@drawable/limit_icon"
+                    android:backgroundTint="@color/primary"/>
+            </RelativeLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/actionUpdateVendAmount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Update  \nLimit"
+            android:layout_below="@id/updateVATCard"
+            android:textSize="12sp"
+            android:textColor="@color/filterHeaders"
+            android:fontFamily="@font/bricolage_grotesque_regular"
+            android:layout_marginTop="4dp"
+            android:textFontWeight="500"
+            android:layout_toEndOf="@id/actionService"
+            android:gravity="center"
+            android:layout_alignEnd="@id/updateVendCard"
+            android:layout_alignStart="@id/updateVendCard"/>
 
     </RelativeLayout>
+
+    </HorizontalScrollView>
 
         <RelativeLayout
             android:id="@+id/estateTokenHistory"

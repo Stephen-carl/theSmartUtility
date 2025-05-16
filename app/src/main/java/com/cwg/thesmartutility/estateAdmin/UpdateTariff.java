@@ -164,17 +164,17 @@ public class UpdateTariff extends AppCompatActivity {
         // set the dialog properties based on success or failed
         if (isSuccess) {
             statusIcon.setImageResource(R.drawable.success_circle);
-            title.setText("VAT Updated Successfully");
-            message.setText("The updated VAT rate has been applied\n to all transactions and will reflect in future calculations.");
+            title.setText("Tariff Updated Successfully");
+            message.setText("The updated tariff rate has been applied\n to all transactions and will reflect in future calculations.");
             actionButton.setText("View Updated Tariff");
             actionButton.setTextColor(getResources().getColor(R.color.white));
 
             actionButton.setBackgroundColor(getResources().getColor(R.color.primary));
         } else {
             statusIcon.setImageResource(R.drawable.failed_icon);
-            title.setText("VAT Update Failed");
-            message.setText("We couldn’t update the VAT rate.\n Verify the information and your network, then try again.");
-            actionButton.setText("Return Update");
+            title.setText("Tariff Update Failed");
+            message.setText("We couldn’t update the tariff rate.\n Verify the information and your network, then try again.");
+            actionButton.setText("OK");
             actionButton.setTextColor(getResources().getColor(R.color.white));
 
             actionButton.setBackgroundColor(getResources().getColor(R.color.red));
